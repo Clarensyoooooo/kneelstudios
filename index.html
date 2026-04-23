@@ -1,0 +1,1504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kneel Studios — Your Wedding, Beautifully Online</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@200;300;400;500&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+  <style>
+
+    /* ── CUSTOM HERO DARK MODE ── */
+    .ov-vignette {
+      /* Darker in the middle behind text, fading out at the edges */
+      --ov: radial-gradient(circle at center, rgba(28, 25, 23, 0.75) 0%, rgba(28, 25, 23, 0.35) 100%);
+    }
+    
+    .hero-dark .hero-hl { color: var(--white); }
+    .hero-dark .hero-sub { color: rgba(255, 255, 255, 0.75); }
+    
+    /* Make the solid button pop with Gold */
+    .hero-dark .btn-solid { 
+      background: var(--gold); 
+      color: var(--white); 
+    }
+    .hero-dark .btn-solid:hover { 
+      background: var(--white); 
+      color: var(--ink); 
+    }
+    
+    /* Make the ghost button visible against the dark background */
+    .hero-dark .btn-ghost {
+      color: var(--white);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+    .hero-dark .btn-ghost:hover {
+      border-color: var(--gold);
+      background: rgba(200, 168, 107, 0.15);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --white:   #ffffff;
+      --off:     #f8f6f3;
+      --smoke:   #efe9e2;
+      --stone:   #c4bdb3;
+      --mist:    #8a847c;
+      --ink:     #1c1917;
+      --dark:    #0e0d0c;
+      --gold:    #c8a86b;
+      --gold-lt: #e2cfaa;
+      --rose:    #d4a5a0;
+      --ease:    cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    html { scroll-behavior: auto; overflow-x: hidden; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300; background: var(--white);
+      color: var(--ink); cursor: none; overflow-x: hidden;
+    }
+    ::selection { background: var(--gold); color: var(--white); }
+
+    /* ── CURSOR ── */
+    #cursor {
+      position: fixed; top: 0; left: 0; width: 10px; height: 10px;
+      background: var(--ink); border-radius: 50%;
+      pointer-events: none; z-index: 9999;
+      transform: translate(-50%,-50%);
+      transition: width .25s var(--ease), height .25s var(--ease), background .25s;
+      mix-blend-mode: multiply;
+    }
+    #cursor-f {
+      position: fixed; top: 0; left: 0; width: 36px; height: 36px;
+      border: 1px solid rgba(28,25,23,.2); border-radius: 50%;
+      pointer-events: none; z-index: 9998;
+      transform: translate(-50%,-50%);
+      transition: width .3s, height .3s, border-color .3s;
+    }
+    body.hov #cursor { width: 6px; height: 6px; background: var(--gold); }
+    body.hov #cursor-f { width: 52px; height: 52px; border-color: var(--gold); }
+
+    /* ── SECTION BG SYSTEM ──
+       On any section, set style="--bg: url('photo.jpg')"
+       then uncomment the <div class="sec-bg ov-warm"> inside it.
+    */
+    .sec-bg {
+      position: absolute; inset: 0; z-index: 0;
+      background-image: var(--bg, none);
+      background-size: cover; background-position: center;
+    }
+    .sec-bg::after {
+      content: ''; position: absolute; inset: 0;
+      background: var(--ov, transparent);
+    }
+    .ov-dark  { --ov: rgba(14,13,12,.58); }
+    .ov-warm  { --ov: rgba(14,13,12,.38); }
+    .ov-light { --ov: rgba(255,255,255,.55); }
+
+    section { position: relative; }
+    section > *:not(.sec-bg) { position: relative; z-index: 1; }
+
+    /* shared typography */
+    .lbl {
+      font-size: .63rem; font-weight: 400; letter-spacing: .38em;
+      text-transform: uppercase; color: var(--gold);
+      margin-bottom: 16px; display: block;
+    }
+    .hdg {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300; font-size: clamp(2.4rem, 4.5vw, 4.8rem);
+      line-height: 1.08; color: var(--ink);
+    }
+    .hdg em { font-style: italic; color: var(--gold); }
+
+    /* ── MOBILE MENU ── */
+.burger {
+  display: none;
+  background: none; border: none; cursor: none;
+  width: 36px; height: 24px; position: relative; z-index: 901;
+}
+.burger-line {
+  position: absolute; left: 0; right: 0; height: 1px;
+  background: var(--ink); 
+  transition: transform 0.4s var(--ease), top 0.4s var(--ease), background 0.4s;
+}
+.burger-line:nth-child(1) { top: 7px; }
+.burger-line:nth-child(2) { top: 16px; }
+
+/* Morph into an X */
+.burger.open .burger-line:nth-child(1) { top: 11px; transform: rotate(45deg); }
+.burger.open .burger-line:nth-child(2) { top: 11px; transform: rotate(-45deg); }
+
+.menu-overlay {
+  position: fixed; inset: 0; z-index: 890;
+  background: var(--off);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; visibility: hidden; pointer-events: none;
+}
+.menu-inner { display: flex; flex-direction: column; align-items: center; gap: 24px; }
+.menu-link {
+  font-family: 'Cormorant Garamond', serif; 
+  font-size: clamp(2.5rem, 8vw, 4rem); font-weight: 300;
+  color: var(--ink); text-decoration: none; text-transform: lowercase;
+  opacity: 0; transform: translateY(40px); cursor: none;
+}
+.menu-link em { font-style: italic; color: var(--gold); }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 900;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 28px 60px; transition: background .5s, padding .4s;
+    }
+    nav.scrolled {
+      background: rgba(255,255,255,.84);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      padding: 16px 60px;
+      border-bottom: 1px solid rgba(200,168,107,.14);
+    }
+    .logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300; font-size: 1.3rem;
+      letter-spacing: .2em; text-transform: lowercase;
+      color: var(--ink); text-decoration: none;
+    }
+    .logo span { color: var(--gold); }
+    .nav-links { display: flex; gap: 38px; list-style: none; }
+    .nav-links a {
+      font-size: .68rem; font-weight: 400; letter-spacing: .2em;
+      text-transform: uppercase; text-decoration: none;
+      color: var(--mist); position: relative; transition: color .3s;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: -4px; left: 0;
+      width: 0; height: 1px; background: var(--gold);
+      transition: width .4s var(--ease);
+    }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-cta {
+      font-size: .68rem; font-weight: 400; letter-spacing: .2em;
+      text-transform: uppercase; text-decoration: none;
+      color: var(--white); background: var(--ink);
+      padding: 11px 26px; border-radius: 60px; transition: background .3s;
+    }
+    .nav-cta:hover { background: var(--gold); }
+
+    /* ── HERO ── */
+    .hero-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+  width: 100%; /* Ensures it centers its children properly */
+}
+
+    #hero {
+  /* The Magic Formula:
+    1. 600px: Absolute minimum height (protects your buttons from overlapping).
+    2. 90vh: Preferred height. Leaves 10% of the screen so users can peek at the next section.
+    3. 850px: Maximum height. Stops it from stretching out on large monitors.
+  */
+  height: clamp(600px, 90vh, 850px);
+  padding-top: 80px; /* Accounts for your fixed navigation bar */
+  padding-bottom: 80px;
+  overflow: hidden;
+  display: flex; 
+  flex-direction: column;
+  align-items: center; 
+  justify-content: center;
+  background: var(--off);
+}
+    .hero-ring {
+      position: absolute; border-radius: 50%;
+      border: 1px solid rgba(200,168,107,.13);
+      pointer-events: none; top: 50%; left: 50%;
+      transform: translate(-50%,-50%) scale(0);
+    }
+    .hero-ring:nth-child(1) { width: 480px;  height: 480px; }
+    .hero-ring:nth-child(2) { width: 780px;  height: 780px; }
+    .hero-ring:nth-child(3) { width: 1080px; height: 1080px; }
+
+    .hero-eyebrow {
+      font-size: .6rem; letter-spacing: .32em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 20px; opacity: 0; transform: translateY(14px);
+      padding: 0 20px; text-align: center;
+    }
+    .hero-hl {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300; font-size: clamp(2.6rem, 7.5vw, 9rem);
+      line-height: .96; text-align: center; color: var(--ink); z-index: 1;
+      padding: 0 20px;
+    }
+    .hero-hl .lw { display: block; overflow: hidden; }
+    .hero-hl .li { display: block; transform: translateY(110%); }
+    .hero-hl em { font-style: italic; color: var(--gold); }
+    .hero-sub {
+      font-size: .88rem; color: var(--mist); margin-top: 22px;
+      max-width: 400px; width: 100%; text-align: center; line-height: 1.85;
+      opacity: 0; transform: translateY(18px);
+      padding: 0 28px;
+    }
+    .hero-btns {
+      margin-top: 32px; display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;
+      opacity: 0; transform: translateY(18px);
+      padding: 0 24px;
+    }
+    .btn-solid {
+      font-size: .68rem; font-weight: 400; letter-spacing: .18em;
+      text-transform: uppercase; text-decoration: none;
+      color: var(--white); background: var(--ink);
+      padding: 15px 34px; border-radius: 60px;
+      display: inline-flex; align-items: center; gap: 9px;
+      transition: background .3s; white-space: nowrap;
+    }
+    .btn-solid:hover { background: var(--gold); }
+    .btn-ghost {
+      font-size: .68rem; font-weight: 400; letter-spacing: .18em;
+      text-transform: uppercase; text-decoration: none;
+      color: var(--ink); padding: 15px 34px; border-radius: 60px;
+      border: 1px solid rgba(28,25,23,.18);
+      display: inline-flex; align-items: center; gap: 9px;
+      transition: border-color .3s, background .3s; white-space: nowrap;
+    }
+    .btn-ghost:hover { border-color: var(--gold); background: rgba(200,168,107,.07); }
+
+    /* Scroll indicator: absolutely centered with margin auto trick — no transform conflict */
+    .hero-scroll {
+      position: absolute;
+      bottom: 28px;
+      left: 0; right: 0;
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .hero-scroll span {
+      font-size: .54rem; letter-spacing: .28em; text-transform: uppercase;
+      color: var(--stone); display: block; text-align: center;
+    }
+    .hero-scroll-line {
+      width: 1px; height: 44px;
+      background: linear-gradient(to bottom, var(--stone), transparent);
+      animation: lp 2s ease-in-out infinite;
+    }
+    @keyframes lp { 0%,100%{opacity:.3;transform:scaleY(1)}50%{opacity:1;transform:scaleY(.6)} }
+
+    /* ── PETAL CANVAS ── */
+    #petal-canvas {
+      position: fixed; inset: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 800;
+    }
+
+    /* ── WORKS ── */
+    #works { padding: 120px 60px 140px; }
+    .works-hdr {
+      display: flex; align-items: flex-end;
+      justify-content: space-between; margin-bottom: 60px;
+    }
+    .works-note { font-size: .84rem; color: var(--mist); max-width: 250px; line-height: 1.85; text-align: right; }
+
+    /* Masonry — fixed min-heights, no collapsing */
+    .mgrid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 16px; }
+    .mi { position: relative; overflow: hidden; border-radius: 10px; cursor: none; }
+    .mi:nth-child(1) { grid-column:1/6;  min-height:430px; }
+    .mi:nth-child(2) { grid-column:6/10; min-height:430px; }
+    .mi:nth-child(3) { grid-column:10/13; grid-row:1/3; min-height:570px; }
+    .mi:nth-child(4) { grid-column:1/4;  min-height:240px; }
+    .mi:nth-child(5) { grid-column:4/10; min-height:240px; }
+
+    /*
+      ADD PHOTOS:  <div class="mi" style="--mibg: url('photo.jpg')">
+      Placeholder disappears automatically when --mibg is set.
+    */
+    .mi-bg {
+      position: absolute; inset: 0;
+      background-image: var(--mibg, none); background-size: cover; background-position: center;
+      transition: transform .85s var(--ease);
+    }
+    /* warm gradient placeholders per card */
+    .mi:nth-child(1) .mi-bg { background-color: #dfd3c4; }
+    .mi:nth-child(2) .mi-bg { background-color: #d4cbc1; }
+    .mi:nth-child(3) .mi-bg { background-color: #e8dfd4; }
+    .mi:nth-child(4) .mi-bg { background-color: #c4bcb4; }
+    .mi:nth-child(5) .mi-bg { background-color: #d6cfc4; }
+
+    /* subtle inner pattern overlay on placeholders */
+    .mi-bg::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: radial-gradient(circle at 30% 40%, rgba(255,255,255,.18) 0%, transparent 60%),
+                        radial-gradient(circle at 70% 65%, rgba(200,168,107,.12) 0%, transparent 55%);
+    }
+
+    .mi:hover .mi-bg { transform: scale(1.06); }
+    .mi-ph {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 10px;
+      pointer-events: none;
+    }
+    .mi-ph svg { width: 44px; height: 44px; opacity: .28; }
+    .mi-ph span { font-family: 'Cormorant Garamond', serif; font-size: .84rem; font-style: italic; color: rgba(28,25,23,.42); letter-spacing: .08em; }
+    .mi[style*="--mibg"] .mi-ph { display: none; }
+    /* Wedding-themed label inside placeholder */
+    .mi-label {
+      position: absolute; bottom: 50%; left: 50%;
+      transform: translate(-50%, 50%);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.2rem, 2.5vw, 2rem);
+      font-weight: 300; font-style: italic;
+      color: rgba(28,25,23,.22); letter-spacing: .06em;
+      text-align: center; pointer-events: none;
+      white-space: nowrap;
+    }
+    .mi-chip {
+      position: absolute; top: 14px; right: 14px;
+      background: rgba(255,255,255,.14); backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,.22); border-radius: 40px;
+      padding: 5px 13px; font-size: .56rem; letter-spacing: .2em;
+      text-transform: uppercase; color: #fff;
+      opacity: 0; transform: translateY(-6px);
+      transition: opacity .35s .08s, transform .35s .08s;
+    }
+    .mi:hover .mi-chip { opacity: 1; transform: none; }
+    .mi-ov {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(14,13,12,.8) 0%, transparent 55%);
+      opacity: 0; transition: opacity .42s;
+      display: flex; flex-direction: column; justify-content: flex-end; padding: 26px;
+    }
+    .mi:hover .mi-ov { opacity: 1; }
+    .mi-title { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 300; color: #fff; line-height: 1.2; }
+    .mi-tag { font-size: .56rem; letter-spacing: .22em; text-transform: uppercase; color: var(--gold-lt); margin-top: 7px; }
+
+    /* ── PACKAGES / BENTO ── */
+    #packages { padding: 130px 60px; background: var(--white); }
+    .pkg-hdr { margin-bottom: 64px; }
+
+    .bgrid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 16px; }
+
+    .bc {
+      border-radius: 18px; padding: 40px;
+      position: relative; overflow: hidden; cursor: none;
+      will-change: transform; transform-style: preserve-3d;
+      transition: box-shadow .5s;
+    }
+    /* col spans + min-heights — all cards always visible */
+    .bc:nth-child(1) { grid-column:1/5;  min-height:320px; background:var(--ink); color:#fff; }
+    .bc:nth-child(2) { grid-column:5/9;  min-height:320px; background:var(--gold); color:#fff; }
+    .bc:nth-child(3) { grid-column:9/13; min-height:320px; background:var(--smoke); }
+    .bc:nth-child(4) { grid-column:1/5;  min-height:280px; background:var(--smoke); }
+    .bc:nth-child(5) { grid-column:5/9;  min-height:280px; background:var(--ink); color:#fff; }
+    /* add-ons row */
+    .bc:nth-child(6) { grid-column:9/13; min-height:280px; background:var(--off); }
+    .bc:nth-child(7) { grid-column:1/7;  min-height:160px; background:#f0ebe3; }
+    .bc:nth-child(8) { grid-column:7/13; min-height:160px; background:var(--ink); color:#fff; }
+
+    .bc:hover { box-shadow: 0 28px 70px rgba(0,0,0,.11); }
+    .bc::before {
+      content: ''; position: absolute; inset: 0; border-radius: inherit;
+      border: 1px solid transparent; transition: border-color .4s;
+      pointer-events: none; z-index: 2;
+    }
+    .bc:hover::before { border-color: rgba(200,168,107,.4); }
+
+    .bc-blob {
+      position: absolute; width: 220px; height: 220px; border-radius: 50%;
+      filter: blur(60px); opacity: 0; pointer-events: none; transition: opacity .5s;
+    }
+    .bc:nth-child(1) .bc-blob,
+    .bc:nth-child(5) .bc-blob,
+    .bc:nth-child(8) .bc-blob { background: rgba(200,168,107,.22); }
+    .bc:nth-child(2) .bc-blob  { background: rgba(255,255,255,.18); }
+    .bc:nth-child(3) .bc-blob,
+    .bc:nth-child(4) .bc-blob,
+    .bc:nth-child(6) .bc-blob,
+    .bc:nth-child(7) .bc-blob  { background: rgba(200,168,107,.14); }
+    .bc:hover .bc-blob { opacity: 1; }
+
+    .bc-inner { position: relative; z-index: 1; height: 100%; display: flex; flex-direction: column; }
+
+    .bc-pkg {
+      font-size: .6rem; letter-spacing: .3em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 10px;
+    }
+    .bc:nth-child(1) .bc-pkg,
+    .bc:nth-child(2) .bc-pkg,
+    .bc:nth-child(5) .bc-pkg,
+    .bc:nth-child(8) .bc-pkg { color: rgba(255,255,255,.55); }
+
+    .bc-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.65rem; font-weight: 300; line-height: 1.1; margin-bottom: 6px;
+    }
+    .bc:nth-child(3) .bc-name,
+    .bc:nth-child(4) .bc-name,
+    .bc:nth-child(6) .bc-name,
+    .bc:nth-child(7) .bc-name { color: var(--ink); }
+
+    .bc-price {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem; font-weight: 300; margin-bottom: 18px;
+      color: var(--gold-lt);
+    }
+    .bc:nth-child(3) .bc-price,
+    .bc:nth-child(4) .bc-price,
+    .bc:nth-child(6) .bc-price,
+    .bc:nth-child(7) .bc-price { color: var(--gold); }
+
+    .bc-sale {
+      display: inline-block; font-size: .56rem; letter-spacing: .18em;
+      text-transform: uppercase; background: rgba(200,168,107,.25);
+      color: var(--gold-lt); padding: 3px 10px; border-radius: 20px;
+      margin-bottom: 18px;
+    }
+    .bc:nth-child(3) .bc-sale,
+    .bc:nth-child(4) .bc-sale,
+    .bc:nth-child(6) .bc-sale,
+    .bc:nth-child(7) .bc-sale { background: rgba(200,168,107,.15); color: var(--gold); }
+
+    .bc-desc { font-size: .8rem; line-height: 1.82; flex: 1; }
+    .bc:nth-child(1) .bc-desc,
+    .bc:nth-child(2) .bc-desc,
+    .bc:nth-child(5) .bc-desc,
+    .bc:nth-child(8) .bc-desc { color: rgba(255,255,255,.52); }
+    .bc:nth-child(3) .bc-desc,
+    .bc:nth-child(4) .bc-desc,
+    .bc:nth-child(6) .bc-desc,
+    .bc:nth-child(7) .bc-desc { color: var(--mist); }
+
+    .bc-feats { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-top: 16px; }
+    .bc-feats li { font-size: .76rem; display: flex; align-items: center; gap: 9px; }
+    .bc-feats li::before { content: ''; display: block; width: 4px; height: 4px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
+    .bc:nth-child(1) .bc-feats li,
+    .bc:nth-child(2) .bc-feats li,
+    .bc:nth-child(5) .bc-feats li,
+    .bc:nth-child(8) .bc-feats li { color: rgba(255,255,255,.55); }
+    .bc:nth-child(3) .bc-feats li,
+    .bc:nth-child(4) .bc-feats li,
+    .bc:nth-child(6) .bc-feats li,
+    .bc:nth-child(7) .bc-feats li { color: var(--mist); }
+
+    .bc-tag {
+      font-size: .54rem; letter-spacing: .24em; text-transform: uppercase;
+      padding: 4px 11px; border-radius: 40px; border: 1px solid currentColor;
+      opacity: 0; transform: translateY(8px); transition: opacity .32s, transform .32s;
+      align-self: flex-start; margin-top: 18px;
+    }
+    .bc:nth-child(1) .bc-tag,
+    .bc:nth-child(2) .bc-tag,
+    .bc:nth-child(5) .bc-tag,
+    .bc:nth-child(8) .bc-tag { color: rgba(255,255,255,.4); }
+    .bc:nth-child(3) .bc-tag,
+    .bc:nth-child(4) .bc-tag,
+    .bc:nth-child(6) .bc-tag,
+    .bc:nth-child(7) .bc-tag { color: var(--stone); }
+    .bc:hover .bc-tag { opacity: 1; transform: none; }
+
+    /* ── HOW IT WORKS ── */
+    #how { padding: 130px 60px; background: var(--off); }
+    .how-hdr { text-align: center; margin-bottom: 80px; }
+
+    .timeline {
+      max-width: 820px; margin: 0 auto;
+      display: flex; flex-direction: column; gap: 0;
+      position: relative;
+    }
+    /* vertical spine */
+    .timeline::before {
+      content: ''; position: absolute;
+      left: 38px; top: 0; bottom: 0; width: 1px;
+      background: linear-gradient(to bottom, var(--gold), rgba(200,168,107,.15));
+    }
+
+    .tl-item {
+      display: flex; gap: 40px; align-items: flex-start;
+      padding-bottom: 52px; position: relative;
+    }
+    .tl-item:last-child { padding-bottom: 0; }
+
+    .tl-num {
+      width: 76px; height: 76px; flex-shrink: 0;
+      border-radius: 50%;
+      border: 1px solid rgba(200,168,107,.3);
+      display: flex; align-items: center; justify-content: center;
+      position: relative; z-index: 1;
+      background: var(--off);
+      transition: background .4s, border-color .4s;
+    }
+    .tl-item:hover .tl-num { background: var(--gold); border-color: var(--gold); }
+    .tl-num span {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem; font-weight: 300; color: var(--gold);
+      transition: color .4s;
+    }
+    .tl-item:hover .tl-num span { color: #fff; }
+
+    .tl-body { padding-top: 18px; }
+    .tl-step {
+      font-size: .6rem; letter-spacing: .3em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 8px;
+    }
+    .tl-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem; font-weight: 300; color: var(--ink);
+      margin-bottom: 10px; line-height: 1.2;
+    }
+    .tl-desc { font-size: .86rem; color: var(--mist); line-height: 1.85; max-width: 520px; }
+
+    /* ── FAQ ── */
+    #faq { padding: 130px 60px; background: var(--white); }
+    .faq-wrap { max-width: 740px; margin: 0 auto; }
+    .faq-hdr { text-align: center; margin-bottom: 64px; }
+
+    .faq-item { border-bottom: 1px solid rgba(200,168,107,.2); }
+    .faq-q {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.18rem; font-weight: 300; color: var(--ink);
+      padding: 24px 0; cursor: none;
+      display: flex; align-items: center; justify-content: space-between; gap: 18px;
+      user-select: none; line-height: 1.35;
+    }
+    .faq-ico {
+      width: 28px; height: 28px; border-radius: 50%;
+      border: 1px solid rgba(200,168,107,.28); flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      transition: background .3s, border-color .3s;
+    }
+    .faq-ico svg { width: 11px; height: 11px; transition: transform .4s var(--ease); }
+    .faq-item.open .faq-ico { background: var(--gold); border-color: var(--gold); }
+    .faq-item.open .faq-ico svg { transform: rotate(45deg); }
+    .faq-item.open .faq-ico path { stroke: #fff; }
+    .faq-body { overflow: hidden; height: 0; }
+    .faq-body-inner { padding-bottom: 24px; font-size: .88rem; line-height: 1.9; color: var(--mist); max-width: 590px; }
+    .faq-body-inner strong { color: var(--ink); font-weight: 500; }
+
+    /* ── CONTACT ── */
+    #contact { padding: 150px 60px; text-align: center; background: var(--ink); overflow: hidden; }
+    .c-ring {
+      position: absolute; border-radius: 50%;
+      border: 1px solid rgba(200,168,107,.07); pointer-events: none;
+      top: 50%; left: 50%; transform: translate(-50%,-50%) scale(0);
+    }
+    .c-ring:nth-child(1) { width: 440px;  height: 440px; }
+    .c-ring:nth-child(2) { width: 740px;  height: 740px; }
+    .c-ring:nth-child(3) { width: 1040px; height: 1040px; }
+    .c-inner { position: relative; z-index: 1; }
+    .c-eyebrow { font-size: .64rem; letter-spacing: .38em; text-transform: uppercase; color: var(--gold); margin-bottom: 24px; }
+    .c-hl {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.6rem, 6vw, 6.5rem);
+      font-weight: 300; color: #fff; line-height: 1.05; margin-bottom: 24px;
+    }
+    .c-hl em { font-style: italic; color: var(--gold); }
+    .c-sub { font-size: .88rem; line-height: 1.88; color: rgba(255,255,255,.4); max-width: 400px; margin: 0 auto 48px; }
+    .c-btn {
+      display: inline-flex; align-items: center; gap: 12px;
+      font-size: .72rem; letter-spacing: .22em; text-transform: uppercase;
+      text-decoration: none; color: #fff; background: var(--gold);
+      padding: 20px 52px; border-radius: 60px; cursor: none;
+      transition: transform .3s, box-shadow .3s;
+    }
+    .c-btn:hover { transform: scale(1.04); box-shadow: 0 16px 52px rgba(200,168,107,.4); }
+    .c-btn svg { width: 15px; height: 15px; transition: transform .3s; }
+    .c-btn:hover svg { transform: translateX(4px); }
+    .c-socials { margin-top: 44px; display: flex; align-items: center; justify-content: center; gap: 16px; }
+    .c-soc-label { font-size: .64rem; letter-spacing: .22em; text-transform: uppercase; color: rgba(255,255,255,.22); }
+    .c-soc-links { display: flex; gap: 12px; }
+    .c-soc-links a {
+      font-size: .68rem; letter-spacing: .18em; text-transform: uppercase;
+      text-decoration: none; color: rgba(255,255,255,.35);
+      border: 1px solid rgba(255,255,255,.1);
+      padding: 8px 18px; border-radius: 40px;
+      transition: border-color .3s, color .3s; cursor: none;
+    }
+    .c-soc-links a:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* ── FOOTER ── */
+    footer { background: var(--dark); padding: 56px 60px 32px; }
+    .foot-top {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      padding-bottom: 40px; border-bottom: 1px solid rgba(255,255,255,.07); margin-bottom: 28px;
+    }
+    .foot-brand { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 300; letter-spacing: .2em; text-transform: lowercase; color: rgba(255,255,255,.76); }
+    .foot-brand span { color: var(--gold); }
+    .foot-tag { font-size: .68rem; color: rgba(255,255,255,.2); margin-top: 7px; letter-spacing: .08em; }
+    .foot-cols { display: flex; gap: 50px; }
+    .foot-col-hd { font-size: .55rem; letter-spacing: .32em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
+    .foot-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .foot-col a { font-size: .76rem; color: rgba(255,255,255,.3); text-decoration: none; transition: color .3s; cursor: none; }
+    .foot-col a:hover { color: rgba(255,255,255,.76); }
+    .foot-btm { display: flex; align-items: center; justify-content: space-between; }
+    .foot-copy { font-size: .67rem; color: rgba(255,255,255,.17); letter-spacing: .05em; }
+    .foot-soc { display: flex; gap: 12px; }
+    .foot-soc a {
+      width: 32px; height: 32px; border-radius: 50%;
+      border: 1px solid rgba(255,255,255,.1);
+      display: flex; align-items: center; justify-content: center;
+      color: rgba(255,255,255,.28); text-decoration: none; font-size: .62rem; cursor: none;
+      transition: border-color .3s, color .3s;
+    }
+    .foot-soc a:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 960px) {
+      .burger { display: block; }
+      .nav-links, .nav-cta { display: none; }
+      nav { padding: 20px 24px; } 
+      nav.scrolled { padding: 12px 24px; }
+      
+  .hero-content {
+    margin: auto 0; /* Apply the iOS Safari centering hack ONLY on mobile */
+  }
+  
+ #hero {
+  height: 100svh; 
+  min-height: unset; 
+  padding-top: 0;    
+  padding-bottom: 60px; /* Keeps the buttons off the bottom edge on phones */
+  justify-content: center;
+}
+
+      #works, #packages, #how, #faq, #contact { padding: 80px 24px; }
+      .works-hdr { flex-direction: column; gap: 16px; align-items: flex-start; }
+      .works-note { text-align: left; max-width: 100%; }
+      .mgrid { grid-template-columns: 1fr 1fr; }
+      .mi:nth-child(1){grid-column:1/2}.mi:nth-child(2){grid-column:2/3}
+      .mi:nth-child(3){grid-column:1/3;grid-row:auto;min-height:280px}
+      .mi:nth-child(4){grid-column:1/2}.mi:nth-child(5){grid-column:2/3}
+      .bgrid { grid-template-columns: 1fr 1fr; }
+      .bc:nth-child(n) { grid-column:auto; min-height:240px; }
+      .bc:nth-child(7),.bc:nth-child(8) { min-height:180px; }
+      .bc:nth-child(7) .bc-inner,
+      .bc:nth-child(8) .bc-inner { flex-direction: column; }
+      .timeline::before { left: 28px; }
+      .tl-num { width: 56px; height: 56px; }
+      footer { padding: 40px 24px 24px; }
+      .foot-top { flex-direction: column; gap: 30px; }
+      .foot-btm { flex-direction: column; gap: 12px; text-align: center; }
+    }
+    @media (max-width: 480px) {
+      #hero { padding-top: 100px; padding-bottom: 80px; }
+      /* Shrink rings on tiny screens so they don't cause overflow */
+      .hero-ring:nth-child(1) { width: 260px; height: 260px; }
+      .hero-ring:nth-child(2) { width: 420px; height: 420px; }
+      .hero-ring:nth-child(3) { width: 580px; height: 580px; }
+      .hero-btns { flex-direction: column; align-items: center; }
+      .bgrid { grid-template-columns: 1fr; }
+      .bc:nth-child(n) { grid-column:auto; }
+      .tl-item { flex-direction: column; gap: 16px; }
+      .timeline::before { display: none; }
+      .c-socials { flex-direction: column; gap: 12px; }
+      .foot-cols { flex-direction: column; gap: 24px; }
+      .hero-eyebrow { margin-bottom: 30px; }
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+  #cursor, #cursor-f {
+    display: none !important;
+  }
+  body, a, button, .mi, .bc, .faq-q, .tl-item {
+    cursor: auto !important;
+  }
+}
+  </style>
+</head>
+<body>
+
+  <div id="cursor"></div>
+  <div id="cursor-f"></div>
+  <canvas id="petal-canvas"></canvas>
+
+  <!-- ══ NAV ══════════════════════════════════ -->
+ <nav id="nav">
+    <a href="#" class="logo">kneel<span>.</span>studios</a>
+    
+    <ul class="nav-links">
+      <li><a href="#works"    class="mlink">Works</a></li>
+      <li><a href="#packages" class="mlink">Packages</a></li>
+      <li><a href="#how"      class="mlink">Process</a></li>
+      <li><a href="#faq"      class="mlink">FAQ</a></li>
+    </ul>
+    
+    <a href="#contact" class="nav-cta mag">Order Now</a>
+
+    <button class="burger mag">
+      <div class="burger-line"></div>
+      <div class="burger-line"></div>
+    </button>
+  </nav>
+
+  <!-- ══ HERO ══════════════════════════════════
+       To add a bg photo:
+       1. Change section to: <section id="hero" style="--bg:url('photo.jpg')">
+       2. Uncomment the .sec-bg div below
+  ════════════════════════════════════════════ -->
+  <section id="hero" class="hero-dark" style="--bg:url('images/hand.jpg')">
+  <div class="sec-bg ov-vignette"></div>
+
+  <div class="hero-ring"></div>
+  <div class="hero-ring"></div>
+  <div class="hero-ring"></div>
+
+  <div class="hero-content">
+    <span class="hero-eyebrow">Custom Wedding &amp; Event Websites · Philippines</span>
+    
+    <h1 class="hero-hl" id="hhl">
+      <span class="lw"><span class="li">The day you've</span></span>
+      <span class="lw"><em class="li">dreamed of,</em></span>
+      <span class="lw"><span class="li">online.</span></span>
+    </h1>
+
+    <p class="hero-sub">We craft custom, animated wedding websites that capture the feeling of your love story — and share it with everyone you love.</p>
+
+    <div class="hero-btns">
+      <a href="#packages" class="btn-solid mag">See Packages</a>
+      <a href="#contact"  class="btn-ghost mag">Order Now</a>
+    </div>
+  </div>
+</section>
+
+  <!-- ══ WORKS ══════════════════════════════════
+       Add photos: style="--mibg: url('photo.jpg')" on .mi
+  ════════════════════════════════════════════ -->
+  <section id="works" style="background:var(--off);">
+    <!-- <div class="sec-bg ov-light"></div> -->
+
+    <div class="works-hdr">
+      <div>
+        <span class="lbl">Portfolio</span>
+        <h2 class="hdg">Real couples,<br><em>real moments</em></h2>
+      </div>
+      <p class="works-note">Every site is built from scratch — your colours, your story, your forever.</p>
+    </div>
+
+    <div class="mgrid">
+
+      <div class="mi" style="--mibg: url('images/1.jpg')">
+  <div class="mi-bg"></div>
+  <div class="mi-chip">Wedding</div>
+  <div class="mi-ov">
+    <div class="mi-title">Leomar & Elizabeth</div>
+    <div class="mi-tag">Infinity Package · Full Website</div>
+  </div>
+</div>
+
+      <div class="mi">
+        <div class="mi-bg"></div>
+        <div class="mi-label">Garcia × Santos</div>
+        <div class="mi-chip">Debut</div>
+        <div class="mi-ov">
+          <div class="mi-title">Garcia × Santos</div>
+          <div class="mi-tag">Legality Package · Debut</div>
+        </div>
+      </div>
+
+      <div class="mi">
+        <div class="mi-bg"></div>
+        <div class="mi-label">Reyes Celebration</div>
+        <div class="mi-chip">Birthday</div>
+        <div class="mi-ov">
+          <div class="mi-title">Reyes Celebration</div>
+          <div class="mi-tag">Felicity Package · Birthday</div>
+        </div>
+      </div>
+
+      <div class="mi">
+        <div class="mi-bg"></div>
+        <div class="mi-label">Lim × Cruz</div>
+        <div class="mi-chip">Wedding</div>
+        <div class="mi-ov">
+          <div class="mi-title">Lim × Cruz</div>
+          <div class="mi-tag">Serenity Package · Mini Site</div>
+        </div>
+      </div>
+
+      <div class="mi">
+        <div class="mi-bg"></div>
+        <div class="mi-label">Bautista × Flores</div>
+        <div class="mi-chip">Wedding</div>
+        <div class="mi-ov">
+          <div class="mi-title">Bautista × Flores</div>
+          <div class="mi-tag">Infinity Package · RSVP</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══ PACKAGES / BENTO ═══════════════════════ -->
+  <section id="packages">
+    <!-- <div class="sec-bg ov-light"></div> -->
+
+    <div class="pkg-hdr">
+      <span class="lbl">Packages &amp; Services</span>
+      <h2 class="hdg">Choose your <em>perfect</em> package</h2>
+    </div>
+
+    <div class="bgrid">
+
+      <!-- 1. Serenity — dark -->
+      <div class="bc">
+        <div class="bc-blob" style="top:-50px;right:-40px;"></div>
+        <div class="bc-inner">
+          <div class="bc-pkg">Package 01</div>
+          <div class="bc-name">Serenity</div>
+          <div class="bc-price">PHP 2,000 <span style="font-size:.7rem;opacity:.5;text-decoration:line-through;"></span></div>
+          <span class="bc-sale">Sale Price</span>
+          <ul class="bc-feats">
+            <li>Mini Wedding Website</li>
+            <li>Animated Video Invitation</li>
+            <li>5 Free Revision Rounds</li>
+            <li>Mobile-Responsive Design</li>
+          </ul>
+          <div class="bc-tag">Most Affordable</div>
+        </div>
+      </div>
+
+      <!-- 2. Infinity — gold -->
+      <div class="bc">
+        <div class="bc-blob" style="bottom:-40px;left:-40px;"></div>
+        <div class="bc-inner">
+          <div class="bc-pkg">Package 02</div>
+          <div class="bc-name">Infinity</div>
+          <div class="bc-price">PHP 2,500</div>
+          <span class="bc-sale">Sale Price</span>
+          <ul class="bc-feats">
+            <li>Full Wedding Website</li>
+            <li>Love Story Section</li>
+            <li>Timeline of Your Journey</li>
+            <li>Entourage &amp; Details Pages</li>
+            <li>5 Free Revision Rounds</li>
+          </ul>
+          <div class="bc-tag">Most Popular</div>
+        </div>
+      </div>
+
+      <!-- 3. Legality — light -->
+      <div class="bc">
+        <div class="bc-blob" style="top:-40px;left:-30px;"></div>
+        <div class="bc-inner">
+          <div class="bc-pkg">Package 03</div>
+          <div class="bc-name">Legality</div>
+          <div class="bc-price">PHP 2,300</div>
+          <span class="bc-sale">Sale Price</span>
+          <ul class="bc-feats">
+            <li>Full Debut Website</li>
+            <li>18 Roses Section</li>
+            <li>18 Candles Section</li>
+            <li>18 Treasures Section</li>
+            <li>5 Free Revision Rounds</li>
+          </ul>
+          <div class="bc-tag">For Debutantes</div>
+        </div>
+      </div>
+
+      <!-- 4. Felicity — light -->
+      <div class="bc">
+        <div class="bc-blob" style="bottom:-30px;right:-30px;"></div>
+        <div class="bc-inner">
+          <div class="bc-pkg">Package 04</div>
+          <div class="bc-name">Felicity</div>
+          <div class="bc-price">PHP 2,300</div>
+          <span class="bc-sale">Sale Price</span>
+          <ul class="bc-feats">
+            <li>Full Birthday Website</li>
+            <li>Custom Animated Sections</li>
+            <li>Photo Gallery</li>
+            <li>Event Details Page</li>
+            <li>5 Free Revision Rounds</li>
+          </ul>
+          <div class="bc-tag">For Birthdays</div>
+        </div>
+      </div>
+
+      <!-- 5. Empty spacer card with info — dark -->
+      <div class="bc" style="background:var(--ink);color:#fff;">
+        <div class="bc-blob" style="top:-40px;left:-20px;"></div>
+        <div class="bc-inner">
+          <div class="bc-pkg" style="color:rgba(255,255,255,.45);">All Packages Include</div>
+          <ul class="bc-feats" style="margin-top:0;">
+            <li>Custom design from scratch</li>
+            <li>Mobile-responsive layout</li>
+            <li>5 revision rounds</li>
+            <li>5 working-day lead time</li>
+            <li>Rush option available</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 6. Revisions info — off -->
+      <div class="bc">
+        <div class="bc-blob" style="bottom:-20px;left:-20px;"></div>
+        <div class="bc-inner">
+          <div class="bc-pkg">Revisions Policy</div>
+          <div class="bc-name" style="font-size:1.3rem;color:var(--ink);">5 Free Rounds</div>
+          <p class="bc-desc" style="margin-top:14px;">2 design revisions + 3 minor revisions included. Major changes after that are 30% of the package price.</p>
+        </div>
+      </div>
+
+      <!-- 7. Add-on 1 — warm light -->
+      <div class="bc">
+        <div class="bc-blob" style="top:-30px;right:-30px;"></div>
+        <div class="bc-inner" style="flex-direction:row;align-items:center;justify-content:space-between;gap:20px;">
+          <div>
+            <div class="bc-pkg">Add-on</div>
+            <div class="bc-name" style="font-size:1.2rem;color:var(--ink);">Password-Protected Site</div>
+            <p class="bc-desc" style="margin-top:8px;">Keep your wedding site private — only guests with the password can view it.</p>
+          </div>
+          <div style="flex-shrink:0;text-align:right;">
+            <div style="font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:300;color:var(--gold);">+₱199</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 8. Add-on 2 — dark -->
+      <div class="bc">
+        <div class="bc-blob" style="top:-30px;left:-30px;"></div>
+        <div class="bc-inner" style="flex-direction:row;align-items:center;justify-content:space-between;gap:20px;">
+          <div>
+            <div class="bc-pkg" style="color:rgba(255,255,255,.45);">Add-on</div>
+            <div class="bc-name">Find My Invitation / Exclusive RSVP</div>
+            <p class="bc-desc" style="color:rgba(255,255,255,.52);margin-top:8px;">Let guests find their personalized invitation or RSVP privately.</p>
+          </div>
+          <div style="flex-shrink:0;text-align:right;">
+            <div style="font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:300;color:var(--gold-lt);">+₱500</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══ HOW IT WORKS ═══════════════════════════ -->
+  <section id="how" style="background:var(--off);">
+    <!-- <div class="sec-bg ov-light"></div> -->
+
+    <div class="how-hdr">
+      <span class="lbl" style="display:block;">The Process</span>
+      <h2 class="hdg">Simple steps to your <em>dream site</em></h2>
+    </div>
+
+    <div class="timeline">
+
+      <div class="tl-item">
+        <div class="tl-num"><span>01</span></div>
+        <div class="tl-body">
+          <div class="tl-step">Step One</div>
+          <div class="tl-title">Fill out the order form</div>
+          <p class="tl-desc">Head to our order form and fill in your details — package, event date, theme, and everything you envision for your site.</p>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-num"><span>02</span></div>
+        <div class="tl-body">
+          <div class="tl-step">Step Two</div>
+          <div class="tl-title">Message us on socials</div>
+          <p class="tl-desc">Once done, send us a message on our social media with <strong>"order form done"</strong> so we know to expect you. We'll confirm receipt shortly.</p>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-num"><span>03</span></div>
+        <div class="tl-body">
+          <div class="tl-step">Step Three</div>
+          <div class="tl-title">We send you the customization docs</div>
+          <p class="tl-desc">We'll prepare and send you a customization document — your chance to tell us everything: photos, text, colour palette, inspo, and style references.</p>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-num"><span>04</span></div>
+        <div class="tl-body">
+          <div class="tl-step">Step Four</div>
+          <div class="tl-title">50% downpayment secures your slot</div>
+          <p class="tl-desc">A 50% non-refundable downpayment officially books your slot and starts the lead time. Normal lead time is <strong>5 working days</strong>. Rush orders (+ PHP 700) are ready in <strong>2 working days</strong>.</p>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-num"><span>05</span></div>
+        <div class="tl-body">
+          <div class="tl-step">Step Five</div>
+          <div class="tl-title">We build · you review · we finalize</div>
+          <p class="tl-desc">We build your site, share a preview link, and you give feedback. With up to 5 free revision rounds, we fine-tune until it's perfect. Final 50% is due on your approval.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══ FAQ ════════════════════════════════════ -->
+  <section id="faq">
+    <!-- <div class="sec-bg ov-light"></div> -->
+
+    <div class="faq-wrap">
+      <div class="faq-hdr">
+        <span class="lbl" style="display:block;">FAQ</span>
+        <h2 class="hdg">Questions <em>answered</em></h2>
+      </div>
+
+      <div class="faq-list">
+
+        <div class="faq-item">
+          <div class="faq-q">How long does it take to build my site?
+            <div class="faq-ico"><svg viewBox="0 0 12 12" fill="none"><path class="faq-path" d="M6 1V11M1 6H11" stroke="var(--ink)" stroke-width="1.3" stroke-linecap="round"/></svg></div>
+          </div>
+          <div class="faq-body"><div class="faq-body-inner">Normal lead time is <strong>5 working days</strong> from the start of production (after your 50% downpayment and completed customization docs). Need it faster? A <strong>Rush Order adds PHP 700</strong> and gets your site ready in <strong>2 working days</strong>.</div></div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">How many revisions are included?
+            <div class="faq-ico"><svg viewBox="0 0 12 12" fill="none"><path class="faq-path" d="M6 1V11M1 6H11" stroke="var(--ink)" stroke-width="1.3" stroke-linecap="round"/></svg></div>
+          </div>
+          <div class="faq-body"><div class="faq-body-inner">Every package includes <strong>5 free revision rounds</strong> — 2 design revisions (layout, colour, style) and 3 minor revisions (text, photo swaps, small tweaks). Major revisions requested beyond these rounds are charged at <strong>30% of your package price</strong>.</div></div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">What's the payment structure?
+            <div class="faq-ico"><svg viewBox="0 0 12 12" fill="none"><path class="faq-path" d="M6 1V11M1 6H11" stroke="var(--ink)" stroke-width="1.3" stroke-linecap="round"/></svg></div>
+          </div>
+          <div class="faq-body"><div class="faq-body-inner">A <strong>50% non-refundable downpayment</strong> is required before we begin production — this officially books your slot and starts your lead time. The remaining <strong>50% is due upon your final approval</strong> before the site goes live.</div></div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">Do you use templates?
+            <div class="faq-ico"><svg viewBox="0 0 12 12" fill="none"><path class="faq-path" d="M6 1V11M1 6H11" stroke="var(--ink)" stroke-width="1.3" stroke-linecap="round"/></svg></div>
+          </div>
+          <div class="faq-body"><div class="faq-body-inner">Never. Every site is built from scratch, designed specifically for you. No two Kneel Studios sites look the same — your event deserves its own identity, not a recycled layout.</div></div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">Can I add a password to keep my site private?
+            <div class="faq-ico"><svg viewBox="0 0 12 12" fill="none"><path class="faq-path" d="M6 1V11M1 6H11" stroke="var(--ink)" stroke-width="1.3" stroke-linecap="round"/></svg></div>
+          </div>
+          <div class="faq-body"><div class="faq-body-inner">Yes! The <strong>Password-Protected Site add-on is PHP 199</strong>. Only guests who know the password can access your site — perfect if you want to keep things intimate or surprise your guests.</div></div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">What is the Find My Invitation / Exclusive RSVP add-on?
+            <div class="faq-ico"><svg viewBox="0 0 12 12" fill="none"><path class="faq-path" d="M6 1V11M1 6H11" stroke="var(--ink)" stroke-width="1.3" stroke-linecap="round"/></svg></div>
+          </div>
+          <div class="faq-body"><div class="faq-body-inner">For <strong>PHP 500</strong>, we build a search feature where each guest can look up their name and find their personalized invitation — or RSVP privately. It's an elegant, high-end touch your guests will remember.</div></div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">How do I start an order?
+            <div class="faq-ico"><svg viewBox="0 0 12 12" fill="none"><path class="faq-path" d="M6 1V11M1 6H11" stroke="var(--ink)" stroke-width="1.3" stroke-linecap="round"/></svg></div>
+          </div>
+          <div class="faq-body"><div class="faq-body-inner">Fill out our order form (linked below), then message us on our socials — Facebook or Instagram <strong>@kneelstudios</strong> — with <strong>"order form done"</strong>. We'll take it from there!</div></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ CONTACT ════════════════════════════════ -->
+  <section id="contact">
+    <!-- <div class="sec-bg ov-dark"></div> -->
+
+    <div style="position:absolute;inset:0;overflow:hidden;pointer-events:none;">
+      <div class="c-ring"></div>
+      <div class="c-ring"></div>
+      <div class="c-ring"></div>
+    </div>
+
+    <div class="c-inner">
+      <p class="c-eyebrow">Ready to bring your day to life?</p>
+      <h2 class="c-hl">Let's build<br>your <em>forever</em><br>website.</h2>
+      <p class="c-sub">Fill out the order form to get started. We'll take care of everything from there — with heart.</p>
+
+      <a href="https://forms.google.com" target="_blank" class="c-btn mag">
+        Fill Out the Order Form
+        <svg viewBox="0 0 16 16" fill="none"><path d="M3 8H13M9 4L13 8L9 12" stroke="white" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+
+      <div class="c-socials">
+        <span class="c-soc-label">Find us at</span>
+        <div class="c-soc-links">
+          <a href="https://instagram.com/kneelstudios" target="_blank">@kneelstudios on IG</a>
+          <a href="https://facebook.com/kneelstudios"  target="_blank">@kneelstudios on FB</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ FOOTER ══════════════════════════════════ -->
+  <footer>
+    <div class="foot-top">
+      <div>
+        <div class="foot-brand">kneel<span>.</span>studios</div>
+        <div class="foot-tag">Bespoke Wedding &amp; Event Web Experiences · Philippines</div>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col">
+          <div class="foot-col-hd">Navigate</div>
+          <ul>
+            <li><a href="#works">Works</a></li>
+            <li><a href="#packages">Packages</a></li>
+            <li><a href="#how">Process</a></li>
+            <li><a href="#faq">FAQ</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <div class="foot-col-hd">Connect</div>
+          <ul>
+            <li><a href="https://forms.google.com" target="_blank">Order Form</a></li>
+            <li><a href="https://instagram.com/kneelstudios" target="_blank">Instagram</a></li>
+            <li><a href="https://facebook.com/kneelstudios"  target="_blank">Facebook</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="foot-btm">
+      <div class="foot-copy">© 2024 Kneel Studios. All rights reserved.</div>
+      <div class="foot-soc">
+        <a href="https://instagram.com/kneelstudios" target="_blank" title="Instagram">IG</a>
+        <a href="https://facebook.com/kneelstudios"  target="_blank" title="Facebook">FB</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="menu-overlay">
+    <div class="menu-inner">
+      <a href="#works" class="menu-link">Works</a>
+      <a href="#packages" class="menu-link">Packages</a>
+      <a href="#how" class="menu-link">Process</a>
+      <a href="#faq" class="menu-link">FAQ</a>
+      <a href="#contact" class="menu-link"><em>Order Now</em></a>
+    </div>
+  </div>
+
+  <!-- ══ JS ══════════════════════════════════════ -->
+  <script>
+  (function () {
+    gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+
+    /* CURSOR */
+    const dot = document.getElementById('cursor');
+    const fol = document.getElementById('cursor-f');
+    let mx=0,my=0,rx=0,ry=0;
+    document.addEventListener('mousemove', e => {
+      mx=e.clientX; my=e.clientY;
+      gsap.to(dot,{x:mx,y:my,duration:.07,ease:'none'});
+    });
+    (function tick(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;gsap.set(fol,{x:rx,y:ry});requestAnimationFrame(tick);})();
+    document.querySelectorAll('a,button,.faq-q,.mi,.bc,.tl-item').forEach(el=>{
+      el.addEventListener('mouseenter',()=>document.body.classList.add('hov'));
+      el.addEventListener('mouseleave',()=>document.body.classList.remove('hov'));
+    });
+
+    /* FULLSCREEN MENU ANIMATION */
+const burger = document.querySelector('.burger');
+const overlay = document.querySelector('.menu-overlay');
+const menuLinks = document.querySelectorAll('.menu-link');
+
+// Create the animation sequence
+const menuTl = gsap.timeline({ paused: true, reversed: true, defaults: { ease: 'power3.inOut' } });
+
+menuTl
+  .to(overlay, { autoAlpha: 1, duration: 0.6 })
+  .to(menuLinks, { y: 0, opacity: 1, duration: 0.6, stagger: 0.08 }, "-=0.3");
+
+// Toggle menu on burger click
+burger.addEventListener('click', () => {
+  burger.classList.toggle('open');
+  
+  if (menuTl.reversed()) {
+    menuTl.play();
+    document.body.style.overflow = 'hidden'; // Stop background scrolling
+  } else {
+    menuTl.reverse();
+    document.body.style.overflow = ''; // Restore scrolling
+  }
+});
+
+// Close menu when a link is clicked
+menuLinks.forEach(link => {
+  link.addEventListener('click', () => {
+    burger.classList.remove('open');
+    menuTl.reverse();
+    document.body.style.overflow = '';
+  });
+});
+
+    /* NAV */
+    ScrollTrigger.create({
+      start:'top -60',
+      onUpdate:s=>document.getElementById('nav').classList.toggle('scrolled',s.progress>0)
+    });
+
+    /* HERO ENTRANCE */
+    const ht = gsap.timeline({defaults:{ease:'expo.out'}});
+    ht.to('.hero-ring',{scale:1,opacity:1,duration:2.2,stagger:.18},0);
+    ht.to('#hhl .li',{y:'0%',opacity:1,duration:1.3,stagger:.13},.25);
+    ht.to('.hero-eyebrow',{opacity:1,y:0,duration:1},.5);
+    ht.to('.hero-sub',    {opacity:1,y:0,duration:1},.72);
+    ht.to('.hero-btns',   {opacity:1,y:0,duration:1},.9);
+    ht.to('.hero-scroll',  {opacity:1, duration:.8},1.15);
+
+   /* HERO PARALLAX */
+let mm = gsap.matchMedia();
+
+mm.add("(min-width: 961px)", () => {
+  // DESKTOP: Revert back to targeting ONLY the heading (#hhl)
+  // This restores your original layered, premium parallax effect.
+  gsap.to('#hhl', {y: -140, opacity: 0, scrollTrigger: {trigger: '#hero', start: 'top top', end: 'bottom top', scrub: 1.4}});
+  gsap.to('.hero-ring', {y: -80, scrollTrigger: {trigger: '#hero', start: 'top top', end: 'bottom top', scrub: true}});
+});
+
+mm.add("(max-width: 960px)", () => {
+  // MOBILE: Target the whole wrapper (.hero-content) 
+  // This ensures the text block moves together and doesn't crash.
+  gsap.to('.hero-content', {y: -60, opacity: 0, scrollTrigger: {trigger: '#hero', start: 'top top', end: 'bottom top', scrub: 1.4}});
+  gsap.to('.hero-ring', {y: -30, scrollTrigger: {trigger: '#hero', start: 'top top', end: 'bottom top', scrub: true}});
+});
+    /* BG COLOUR MORPH */
+    [{id:'#hero',c:'#f8f6f3'},{id:'#works',c:'#f8f6f3'},{id:'#packages',c:'#ffffff'},
+     {id:'#how',c:'#f8f6f3'},{id:'#faq',c:'#ffffff'},{id:'#contact',c:'#0e0d0c'}
+    ].forEach(({id,c})=>{
+      const el=document.querySelector(id); if(!el) return;
+      ScrollTrigger.create({
+        trigger:el,start:'top 55%',
+        onEnter:()=>gsap.to('body',{backgroundColor:c,duration:.9,ease:'power2.inOut'}),
+        onEnterBack:()=>gsap.to('body',{backgroundColor:c,duration:.9,ease:'power2.inOut'})
+      });
+    });
+
+    /* MASONRY STAGGER */
+    gsap.set('.mi',{opacity:0,y:60});
+    ScrollTrigger.create({trigger:'.mgrid',start:'top 85%',once:true,
+      onEnter:()=>gsap.to('.mi',{opacity:1,y:0,duration:1.1,stagger:.1,ease:'expo.out'})
+    });
+
+    /* BENTO STAGGER */
+    gsap.set('.bc',{opacity:0,y:55});
+    ScrollTrigger.create({trigger:'.bgrid',start:'top 85%',once:true,
+      onEnter:()=>gsap.to('.bc',{opacity:1,y:0,duration:1,stagger:.07,ease:'expo.out'})
+    });
+
+    /* BENTO 3D TILT */
+    document.querySelectorAll('.bc').forEach(card=>{
+      const blob=card.querySelector('.bc-blob');
+      card.addEventListener('mousemove',e=>{
+        const r=card.getBoundingClientRect();
+        const x=(e.clientX-r.left)/r.width-.5;
+        const y=(e.clientY-r.top)/r.height-.5;
+        gsap.to(card,{rotateY:x*9,rotateX:-y*9,transformPerspective:800,duration:.45,ease:'power2.out'});
+        if(blob) gsap.to(blob,{x:x*52,y:y*52,duration:.55,ease:'power2.out'});
+      });
+      card.addEventListener('mouseleave',()=>{
+        gsap.to(card,{rotateY:0,rotateX:0,duration:.6,ease:'power3.out'});
+        if(blob) gsap.to(blob,{x:0,y:0,duration:.6});
+      });
+    });
+
+    /* TIMELINE ITEMS */
+    gsap.set('.tl-item',{opacity:0,x:-40});
+    ScrollTrigger.create({trigger:'.timeline',start:'top 82%',once:true,
+      onEnter:()=>gsap.to('.tl-item',{opacity:1,x:0,duration:1,stagger:.15,ease:'expo.out'})
+    });
+    /* Timeline spine draw */
+    gsap.from('.timeline::before',{
+      scaleY:0,transformOrigin:'top center',duration:2,ease:'expo.out',
+      scrollTrigger:{trigger:'.timeline',start:'top 80%',once:true}
+    });
+
+    /* CONTACT RINGS */
+    gsap.set('.c-ring',{scale:0,opacity:0});
+    ScrollTrigger.create({trigger:'#contact',start:'top 78%',once:true,
+      onEnter:()=>gsap.to('.c-ring',{scale:1,opacity:1,duration:2,stagger:.2,ease:'expo.out'})
+    });
+
+    /* GENERIC REVEALS */
+    document.querySelectorAll('.lbl,.hdg,.works-note,.how-hdr,.faq-hdr,.c-eyebrow,.c-hl,.c-sub,.c-btn,.c-socials').forEach(el=>{
+      gsap.from(el,{opacity:0,y:36,duration:1,ease:'expo.out',
+        scrollTrigger:{trigger:el,start:'top 92%',once:true}});
+    });
+
+    /* FAQ */
+    document.querySelectorAll('.faq-item').forEach(item=>{
+      item.querySelector('.faq-q').addEventListener('click',()=>{
+        const isOpen=item.classList.contains('open');
+        document.querySelectorAll('.faq-item.open').forEach(o=>{
+          gsap.to(o.querySelector('.faq-body'),{height:0,duration:.42,ease:'power3.inOut'});
+          o.classList.remove('open');
+        });
+        if(!isOpen){
+          item.classList.add('open');
+          const inner=item.querySelector('.faq-body-inner');
+          gsap.fromTo(item.querySelector('.faq-body'),{height:0},{height:inner.offsetHeight,duration:.5,ease:'expo.out'});
+        }
+      });
+    });
+    gsap.from('.faq-item',{opacity:0,y:22,duration:.7,stagger:.07,ease:'expo.out',
+      scrollTrigger:{trigger:'.faq-list',start:'top 86%',once:true}});
+
+    /* MAGNETIC */
+    document.querySelectorAll('.mag,.nav-cta').forEach(btn=>{
+      btn.addEventListener('mousemove',e=>{
+        const r=btn.getBoundingClientRect();
+        gsap.to(btn,{x:(e.clientX-r.left-r.width/2)*.3,y:(e.clientY-r.top-r.height/2)*.3,duration:.38,ease:'power2.out'});
+      });
+      btn.addEventListener('mouseleave',()=>gsap.to(btn,{x:0,y:0,duration:.55,ease:'elastic.out(1,.5)'}));
+    });
+    document.querySelectorAll('.mlink').forEach(link=>{
+      link.addEventListener('mousemove',e=>{
+        const r=link.getBoundingClientRect();
+        gsap.to(link,{x:(e.clientX-r.left-r.width/2)*.2,y:(e.clientY-r.top-r.height/2)*.2,duration:.35,ease:'power2.out'});
+      });
+      link.addEventListener('mouseleave',()=>gsap.to(link,{x:0,y:0,duration:.48,ease:'elastic.out(1,.6)'}));
+    });
+
+    /* SMOOTH ANCHOR SCROLL */
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click',e=>{
+        const t=document.querySelector(a.getAttribute('href'));
+        if(!t) return; e.preventDefault();
+        gsap.to(window,{duration:1.4,scrollTo:{y:t,offsetY:72},ease:'expo.inOut'});
+      });
+    });
+
+  })();
+    /* ══════════════════════════════════════════
+       PREMIUM PETAL SYSTEM
+       Gold + white petals, organic shapes,
+       realistic tumble physics, depth layering
+    ══════════════════════════════════════════ */
+    (function petalSystem() {
+      const canvas = document.getElementById('petal-canvas');
+      const ctx    = canvas.getContext('2d');
+
+      let W, H, petals = [], raf;
+      const PETAL_COUNT = 38;
+
+      /* palette: gold tones + soft white */
+      const PALETTE = [
+        { r:200, g:168, b:107, a:.55 },  // warm gold
+        { r:226, g:207, b:170, a:.45 },  // light gold
+        { r:245, g:238, b:225, a:.60 },  // creamy white
+        { r:212, g:180, b:130, a:.40 },  // deep gold
+        { r:255, g:250, b:242, a:.50 },  // pure white
+      ];
+
+      function resize() {
+        W = canvas.width  = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+      }
+      window.addEventListener('resize', resize);
+      resize();
+
+      function rand(min, max) { return Math.random() * (max - min) + min; }
+
+      /* Each petal: an organic ellipse with a bezier wobble */
+      function createPetal(fromTop) {
+        const scale = rand(.18, .52);       // depth layering via size
+        const col   = PALETTE[Math.floor(Math.random() * PALETTE.length)];
+        return {
+          x:     rand(-60, W + 60),
+          y:     fromTop ? rand(-120, -10) : rand(-H, H),
+          vx:    rand(-.45, .45),           // gentle drift
+          vy:    rand(.28, .9) * scale * 1.8, // fall speed scales with size
+          rot:   rand(0, Math.PI * 2),
+          rotV:  rand(-.018, .018),         // tumble speed
+          sw:    14 * scale,                // short axis (petal width)
+          lw:    26 * scale,                // long axis (petal length)
+          wobble: rand(0, Math.PI * 2),
+          wobbleV: rand(.012, .028),
+          wobbleAmp: rand(0.2, 0.55),
+          r: col.r, g: col.g, b: col.b,
+          baseA: col.a,
+          a: col.a,
+          scale,
+        };
+      }
+
+      for (let i = 0; i < PETAL_COUNT; i++) {
+        petals.push(createPetal(false));   // seed spread across full screen
+      }
+
+      /* Draw a single organic petal shape */
+      function drawPetal(p) {
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rot);
+
+        /* subtle wobble simulates 3D flip */
+        const flipScale = Math.cos(p.wobble);
+        ctx.scale(1, flipScale * p.wobbleAmp + (1 - p.wobbleAmp));
+
+        ctx.beginPath();
+        /* bezier petal: pointed at both ends, full in middle */
+        const hw = p.sw, hl = p.lw;
+        ctx.moveTo(0, -hl);
+        ctx.bezierCurveTo( hw, -hl * .2,  hw, hl * .2,  0, hl);
+        ctx.bezierCurveTo(-hw,  hl * .2, -hw, -hl * .2, 0, -hl);
+        ctx.closePath();
+
+        /* shimmer: slightly lighter fill + subtle edge highlight */
+        const shimmer = 0.5 + 0.5 * Math.sin(p.wobble * 2.3);
+        const alpha   = p.a * (0.72 + 0.28 * shimmer);
+
+        const grad = ctx.createLinearGradient(-hw, -hl * .5, hw, hl * .5);
+        grad.addColorStop(0, `rgba(${p.r+20},${p.g+18},${p.b+14},${alpha})`);
+        grad.addColorStop(0.5, `rgba(${p.r},${p.g},${p.b},${alpha * .85})`);
+        grad.addColorStop(1, `rgba(${p.r-10},${p.g-10},${p.b-8},${alpha * .6})`);
+
+        ctx.fillStyle = grad;
+        ctx.fill();
+
+        /* thin edge line for crispness */
+        ctx.strokeStyle = `rgba(${p.r+30},${p.g+26},${p.b+18},${alpha * .25})`;
+        ctx.lineWidth   = 0.4;
+        ctx.stroke();
+
+        ctx.restore();
+      }
+
+      function tick() {
+        ctx.clearRect(0, 0, W, H);
+
+        petals.forEach((p, i) => {
+          /* physics */
+          p.wobble += p.wobbleV;
+          p.rot    += p.rotV;
+          p.x      += p.vx + Math.sin(p.wobble * .7) * .3;
+          p.y      += p.vy;
+
+          /* gentle sway */
+          p.vx += (Math.random() - .5) * .012;
+          p.vx  = Math.max(-0.7, Math.min(0.7, p.vx));
+
+          /* fade in near top, fade out near bottom */
+          if (p.y < 60)        p.a = p.baseA * (p.y / 60);
+          else if (p.y > H - 60) p.a = p.baseA * ((H - p.y) / 60);
+          else                   p.a = p.baseA;
+
+          drawPetal(p);
+
+          /* recycle offscreen */
+          if (p.y > H + 60 || p.x < -80 || p.x > W + 80) {
+            petals[i] = createPetal(true);
+          }
+        });
+
+        raf = requestAnimationFrame(tick);
+      }
+
+      tick();
+    })();
+
+  </script>
+</body>
+</html>
