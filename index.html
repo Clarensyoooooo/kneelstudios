@@ -12,6 +12,32 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
   <style>
 
+    /* ── PRELOADER ── */
+    #preloader {
+      position: fixed; inset: 0; z-index: 99999;
+      background: var(--ink); /* Matches the dark hero vibe perfectly */
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+    }
+    .pl-brand {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      font-weight: 300; letter-spacing: .2em; text-transform: lowercase;
+      color: var(--white); display: flex; gap: 4px; overflow: hidden;
+    }
+    .pl-brand span { 
+      display: block; 
+      transform: translateY(110%); 
+    }
+    .pl-dot { color: var(--gold); }
+    .pl-line-wrap {
+      width: 140px; height: 1px; background: rgba(255,255,255,0.1);
+      margin-top: 32px; overflow: hidden; position: relative;
+    }
+    .pl-line {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      background: var(--gold); transform: scaleX(0); transform-origin: left;
+    }
+
     /* ── CUSTOM HERO DARK MODE ── */
     .ov-vignette {
       /* Darker in the middle behind text, fading out at the edges */
@@ -715,6 +741,15 @@
 </head>
 <body>
 
+  <div id="preloader">
+    <div class="pl-brand">
+      <span>kneel</span>
+      <span class="pl-dot">.</span>
+      <span>studios</span>
+    </div>
+    <div class="pl-line-wrap"><div class="pl-line"></div></div>
+  </div>
+
   <div id="cursor"></div>
   <div id="cursor-f"></div>
   <canvas id="petal-canvas"></canvas>
@@ -1239,14 +1274,39 @@ menuLinks.forEach(link => {
       onUpdate:s=>document.getElementById('nav').classList.toggle('scrolled',s.progress>0)
     });
 
-    /* HERO ENTRANCE */
+    /* PRELOADER & HERO ENTRANCE */
+    // Lock scrolling while loading
+    document.body.style.overflow = 'hidden';
+
+    const pt = gsap.timeline({
+      onComplete: () => {
+        document.body.style.overflow = ''; // Restore scroll
+        gsap.set('#preloader', { display: 'none' }); // Remove from DOM
+      }
+    });
+
+    // 1. Elegantly slide text up into view
+    pt.to('.pl-brand span', { y: '0%', duration: 1.2, stagger: 0.15, ease: 'expo.out' })
+    // 2. Expand the gold loading line
+      .to('.pl-line', { scaleX: 1, duration: 1.5, ease: 'expo.inOut' }, '-=0.6')
+    // 3. Slide the text away
+      .to('.pl-brand span', { y: '-110%', duration: 0.8, stagger: 0.1, ease: 'expo.in' }, '+=0.2')
+      .to('.pl-line-wrap', { opacity: 0, duration: 0.4 }, '<')
+    // 4. Slide the entire dark preloader screen up to reveal the website
+      .to('#preloader', { yPercent: -100, duration: 1.4, ease: 'expo.inOut' });
+
+    /* ORIGINAL HERO ENTRANCE (Chained to Preloader) */
     const ht = gsap.timeline({defaults:{ease:'expo.out'}});
-    ht.to('.hero-ring',{scale:1,opacity:1,duration:2.2,stagger:.18},0);
-    ht.to('#hhl .li',{y:'0%',opacity:1,duration:1.3,stagger:.13},.25);
-    ht.to('.hero-eyebrow',{opacity:1,y:0,duration:1},.5);
-    ht.to('.hero-sub',    {opacity:1,y:0,duration:1},.72);
-    ht.to('.hero-btns',   {opacity:1,y:0,duration:1},.9);
-    ht.to('.hero-scroll',  {opacity:1, duration:.8},1.15);
+    
+    // Inject the hero animations so they trigger just as the preloader slides up
+    pt.add(ht, "-=0.8");
+
+    ht.to('.hero-ring',{scale:1,opacity:1,duration:2.2,stagger:.18}, 0);
+    ht.to('#hhl .li',{y:'0%',opacity:1,duration:1.3,stagger:.13}, 0.25);
+    ht.to('.hero-eyebrow',{opacity:1,y:0,duration:1}, 0.5);
+    ht.to('.hero-sub',    {opacity:1,y:0,duration:1}, 0.72);
+    ht.to('.hero-btns',   {opacity:1,y:0,duration:1}, 0.9);
+    ht.to('.hero-scroll',  {opacity:1, duration:.8}, 1.15);
 
    /* HERO PARALLAX */
 let mm = gsap.matchMedia();
