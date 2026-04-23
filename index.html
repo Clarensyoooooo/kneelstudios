@@ -12,31 +12,94 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
   <style>
 
-    /* ── PRELOADER ── */
+    /* ── PRELOADER — INVITATION REVEAL ── */
     #preloader {
       position: fixed; inset: 0; z-index: 99999;
-      background: var(--ink); /* Matches the dark hero vibe perfectly */
+      background: #f5f0e8;
       display: flex; flex-direction: column; align-items: center; justify-content: center;
+      overflow: hidden;
     }
-    .pl-brand {
+
+    /* Parchment texture overlay */
+    #preloader::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        radial-gradient(ellipse at 30% 20%, rgba(200,168,107,.08) 0%, transparent 55%),
+        radial-gradient(ellipse at 70% 80%, rgba(200,168,107,.06) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    /* The card itself */
+    .pl-card {
+      position: relative;
+      display: flex; flex-direction: column; align-items: center;
+      gap: 0;
+      opacity: 0;
+      transform: scale(.92) translateY(18px);
+    }
+
+    /* Top ornamental rule */
+    .pl-rule {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 28px;
+      opacity: 0;
+    }
+    .pl-rule-line {
+      width: 60px; height: 1px; background: var(--gold); transform-origin: center;
+      transform: scaleX(0);
+    }
+    .pl-rule-diamond {
+      width: 5px; height: 5px; background: var(--gold);
+      transform: rotate(45deg) scale(0);
+    }
+
+    /* "You are cordially invited" eyebrow */
+    .pl-eyebrow {
+      font-size: .58rem; letter-spacing: .42em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 20px;
+      opacity: 0; transform: translateY(8px);
+    }
+
+    /* Main title */
+    .pl-title {
       font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(1.8rem, 4vw, 2.5rem);
-      font-weight: 300; letter-spacing: .2em; text-transform: lowercase;
-      color: var(--white); display: flex; gap: 4px; overflow: hidden;
+      font-size: clamp(2.8rem, 7vw, 5rem);
+      font-weight: 300; font-style: italic;
+      color: var(--ink); line-height: 1;
+      letter-spacing: .04em;
+      text-align: center;
+      overflow: hidden;
     }
-    .pl-brand span { 
-      display: block; 
-      transform: translateY(110%); 
+    .pl-title-line { display: block; transform: translateY(110%); }
+    .pl-title em { color: var(--gold); font-style: italic; }
+
+    /* Studio name below */
+    .pl-studio {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(.9rem, 2vw, 1.1rem);
+      font-weight: 300; letter-spacing: .35em; text-transform: lowercase;
+      color: var(--mist); margin-top: 18px;
+      opacity: 0;
     }
-    .pl-dot { color: var(--gold); }
-    .pl-line-wrap {
-      width: 140px; height: 1px; background: rgba(255,255,255,0.1);
-      margin-top: 32px; overflow: hidden; position: relative;
+    .pl-studio strong { color: var(--gold); font-weight: 300; }
+
+    /* Bottom rule mirror */
+    .pl-rule-bottom {
+      margin-top: 28px;
     }
-    .pl-line {
-      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-      background: var(--gold); transform: scaleX(0); transform-origin: left;
+
+    /* Wax seal */
+    .pl-seal {
+      width: 52px; height: 52px; border-radius: 50%;
+      background: var(--gold);
+      display: flex; align-items: center; justify-content: center;
+      margin-top: 32px;
+      transform: scale(0) rotate(-20deg);
+      opacity: 0;
+      box-shadow: 0 2px 14px rgba(200,168,107,.35);
     }
+    .pl-seal svg { width: 24px; height: 24px; fill: none; stroke: rgba(255,255,255,.7); stroke-width: 1.2; }
 
     /* ── CUSTOM HERO DARK MODE ── */
     .ov-vignette {
@@ -87,28 +150,11 @@
     body {
       font-family: 'DM Sans', sans-serif;
       font-weight: 300; background: var(--white);
-      color: var(--ink); cursor: none; overflow-x: hidden;
+      color: var(--ink); overflow-x: hidden;
     }
     ::selection { background: var(--gold); color: var(--white); }
 
-    /* ── CURSOR ── */
-    #cursor {
-      position: fixed; top: 0; left: 0; width: 10px; height: 10px;
-      background: var(--ink); border-radius: 50%;
-      pointer-events: none; z-index: 9999;
-      transform: translate(-50%,-50%);
-      transition: width .25s var(--ease), height .25s var(--ease), background .25s;
-      mix-blend-mode: multiply;
-    }
-    #cursor-f {
-      position: fixed; top: 0; left: 0; width: 36px; height: 36px;
-      border: 1px solid rgba(28,25,23,.2); border-radius: 50%;
-      pointer-events: none; z-index: 9998;
-      transform: translate(-50%,-50%);
-      transition: width .3s, height .3s, border-color .3s;
-    }
-    body.hov #cursor { width: 6px; height: 6px; background: var(--gold); }
-    body.hov #cursor-f { width: 52px; height: 52px; border-color: var(--gold); }
+    /* cursor: default browser cursor */
 
     /* ── SECTION BG SYSTEM ──
        On any section, set style="--bg: url('photo.jpg')"
@@ -146,7 +192,7 @@
     /* ── MOBILE MENU ── */
 .burger {
   display: none;
-  background: none; border: none; cursor: none;
+  background: none; border: none; cursor: pointer;
   width: 36px; height: 24px; position: relative; z-index: 901;
 }
 .burger-line {
@@ -165,14 +211,14 @@
   position: fixed; inset: 0; z-index: 890;
   background: var(--off);
   display: flex; align-items: center; justify-content: center;
-  opacity: 0; visibility: hidden; pointer-events: none;
+  opacity: 0; visibility: hidden;
 }
 .menu-inner { display: flex; flex-direction: column; align-items: center; gap: 24px; }
 .menu-link {
   font-family: 'Cormorant Garamond', serif; 
   font-size: clamp(2.5rem, 8vw, 4rem); font-weight: 300;
   color: var(--ink); text-decoration: none; text-transform: lowercase;
-  opacity: 0; transform: translateY(40px); cursor: none;
+  opacity: 0; transform: translateY(40px); cursor: pointer;
 }
 .menu-link em { font-style: italic; color: var(--gold); }
 
@@ -228,14 +274,11 @@
 }
 
     #hero {
-  /* The Magic Formula:
-    1. 600px: Absolute minimum height (protects your buttons from overlapping).
-    2. 90vh: Preferred height. Leaves 10% of the screen so users can peek at the next section.
-    3. 850px: Maximum height. Stops it from stretching out on large monitors.
-  */
-  height: clamp(600px, 90vh, 850px);
-  padding-top: 80px; /* Accounts for your fixed navigation bar */
-  padding-bottom: 80px;
+  /* Tighter on desktop: caps at 680px so it doesn't eat the whole screen.
+     Mobile stays generous at up to 90vh since viewports are taller relative to content. */
+  height: clamp(520px, 70vh, 680px);
+  padding-top: 72px; /* Accounts for your fixed navigation bar */
+  padding-bottom: 48px;
   overflow: hidden;
   display: flex; 
   flex-direction: column;
@@ -245,13 +288,22 @@
 }
     .hero-ring {
       position: absolute; border-radius: 50%;
-      border: 1px solid rgba(200,168,107,.13);
       pointer-events: none; top: 50%; left: 50%;
       transform: translate(-50%,-50%) scale(0);
     }
-    .hero-ring:nth-child(1) { width: 480px;  height: 480px; }
-    .hero-ring:nth-child(2) { width: 780px;  height: 780px; }
-    .hero-ring:nth-child(3) { width: 1080px; height: 1080px; }
+    /* Rings scale with viewport so they're evenly spaced on any screen size */
+    .hero-ring:nth-child(1) {
+      width: min(400px, 62vw); height: min(400px, 62vw);
+      border: 1px solid rgba(200,168,107,.24);
+    }
+    .hero-ring:nth-child(2) {
+      width: min(660px, 102vw); height: min(660px, 102vw);
+      border: 1px solid rgba(200,168,107,.13);
+    }
+    .hero-ring:nth-child(3) {
+      width: min(920px, 142vw); height: min(920px, 142vw);
+      border: 1px solid rgba(200,168,107,.06);
+    }
 
     .hero-eyebrow {
       font-size: .6rem; letter-spacing: .32em; text-transform: uppercase;
@@ -260,7 +312,7 @@
     }
     .hero-hl {
       font-family: 'Cormorant Garamond', serif;
-      font-weight: 300; font-size: clamp(2.6rem, 7.5vw, 9rem);
+      font-weight: 300; font-size: clamp(2.6rem, 5.5vw, 6rem);
       line-height: .96; text-align: center; color: var(--ink); z-index: 1;
       padding: 0 20px;
     }
@@ -335,7 +387,7 @@
 
     /* Masonry — fixed min-heights, no collapsing */
     .mgrid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 16px; }
-    .mi { position: relative; overflow: hidden; border-radius: 10px; cursor: none; }
+    .mi { position: relative; overflow: hidden; border-radius: 10px; cursor: pointer; }
     .mi:nth-child(1) { grid-column:1/6;  min-height:430px; }
     .mi:nth-child(2) { grid-column:6/10; min-height:430px; }
     .mi:nth-child(3) { grid-column:10/13; grid-row:1/3; min-height:570px; }
@@ -415,7 +467,7 @@
 
     .bc {
       border-radius: 18px; padding: 40px;
-      position: relative; overflow: hidden; cursor: none;
+      position: relative; overflow: hidden; cursor: pointer;
       will-change: transform; transform-style: preserve-3d;
       transition: box-shadow .5s;
     }
@@ -591,7 +643,7 @@
     .faq-q {
       font-family: 'Cormorant Garamond', serif;
       font-size: 1.18rem; font-weight: 300; color: var(--ink);
-      padding: 24px 0; cursor: none;
+      padding: 24px 0; cursor: pointer;
       display: flex; align-items: center; justify-content: space-between; gap: 18px;
       user-select: none; line-height: 1.35;
     }
@@ -632,7 +684,7 @@
       display: inline-flex; align-items: center; gap: 12px;
       font-size: .72rem; letter-spacing: .22em; text-transform: uppercase;
       text-decoration: none; color: #fff; background: var(--gold);
-      padding: 20px 52px; border-radius: 60px; cursor: none;
+      padding: 20px 52px; border-radius: 60px; cursor: pointer;
       transition: transform .3s, box-shadow .3s;
     }
     .c-btn:hover { transform: scale(1.04); box-shadow: 0 16px 52px rgba(200,168,107,.4); }
@@ -646,7 +698,7 @@
       text-decoration: none; color: rgba(255,255,255,.35);
       border: 1px solid rgba(255,255,255,.1);
       padding: 8px 18px; border-radius: 40px;
-      transition: border-color .3s, color .3s; cursor: none;
+      transition: border-color .3s, color .3s; cursor: pointer;
     }
     .c-soc-links a:hover { border-color: var(--gold); color: var(--gold); }
 
@@ -662,7 +714,7 @@
     .foot-cols { display: flex; gap: 50px; }
     .foot-col-hd { font-size: .55rem; letter-spacing: .32em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
     .foot-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
-    .foot-col a { font-size: .76rem; color: rgba(255,255,255,.3); text-decoration: none; transition: color .3s; cursor: none; }
+    .foot-col a { font-size: .76rem; color: rgba(255,255,255,.3); text-decoration: none; transition: color .3s; cursor: pointer; }
     .foot-col a:hover { color: rgba(255,255,255,.76); }
     .foot-btm { display: flex; align-items: center; justify-content: space-between; }
     .foot-copy { font-size: .67rem; color: rgba(255,255,255,.17); letter-spacing: .05em; }
@@ -671,7 +723,7 @@
       width: 32px; height: 32px; border-radius: 50%;
       border: 1px solid rgba(255,255,255,.1);
       display: flex; align-items: center; justify-content: center;
-      color: rgba(255,255,255,.28); text-decoration: none; font-size: .62rem; cursor: none;
+      color: rgba(255,255,255,.28); text-decoration: none; font-size: .62rem; cursor: pointer;
       transition: border-color .3s, color .3s;
     }
     .foot-soc a:hover { border-color: var(--gold); color: var(--gold); }
@@ -730,11 +782,8 @@
     }
 
     @media (hover: none) and (pointer: coarse) {
-  #cursor, #cursor-f {
-    display: none !important;
-  }
   body, a, button, .mi, .bc, .faq-q, .tl-item {
-    cursor: auto !important;
+    cursor: auto;
   }
 }
   </style>
@@ -742,16 +791,39 @@
 <body>
 
   <div id="preloader">
-    <div class="pl-brand">
-      <span>kneel</span>
-      <span class="pl-dot">.</span>
-      <span>studios</span>
+    <!-- Ornamental top rule -->
+    <div class="pl-card">
+      <div class="pl-rule">
+        <div class="pl-rule-line"></div>
+        <div class="pl-rule-diamond"></div>
+        <div class="pl-rule-line"></div>
+      </div>
+
+      <span class="pl-eyebrow">You are cordially invited</span>
+
+      <div class="pl-title">
+        <span class="pl-title-line">To celebrate</span>
+        <span class="pl-title-line"><em>your love,</em></span>
+        <span class="pl-title-line">beautifully.</span>
+      </div>
+
+      <p class="pl-studio">by <strong>kneel.</strong>studios</p>
+
+      <div class="pl-rule pl-rule-bottom">
+        <div class="pl-rule-line"></div>
+        <div class="pl-rule-diamond"></div>
+        <div class="pl-rule-line"></div>
+      </div>
+
+      <!-- Wax seal -->
+      <div class="pl-seal">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2 L13.5 8 L19.5 6 L15.5 11 L21 13 L15.5 15 L19.5 20 L13.5 18 L12 24 L10.5 18 L4.5 20 L8.5 15 L3 13 L8.5 11 L4.5 6 L10.5 8 Z" stroke-linejoin="round"/>
+        </svg>
+      </div>
     </div>
-    <div class="pl-line-wrap"><div class="pl-line"></div></div>
   </div>
 
-  <div id="cursor"></div>
-  <div id="cursor-f"></div>
   <canvas id="petal-canvas"></canvas>
 
   <!-- ══ NAV ══════════════════════════════════ -->
@@ -828,12 +900,11 @@
   </div>
 </div>
 
-      <div class="mi">
+      <div class="mi" style="--mibg: url('images/18.jpg')">
         <div class="mi-bg"></div>
-        <div class="mi-label">Garcia × Santos</div>
         <div class="mi-chip">Debut</div>
         <div class="mi-ov">
-          <div class="mi-title">Garcia × Santos</div>
+          <div class="mi-title">Stacey Grace</div>
           <div class="mi-tag">Legality Package · Debut</div>
         </div>
       </div>
@@ -1220,19 +1291,7 @@
   (function () {
     gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
-    /* CURSOR */
-    const dot = document.getElementById('cursor');
-    const fol = document.getElementById('cursor-f');
-    let mx=0,my=0,rx=0,ry=0;
-    document.addEventListener('mousemove', e => {
-      mx=e.clientX; my=e.clientY;
-      gsap.to(dot,{x:mx,y:my,duration:.07,ease:'none'});
-    });
-    (function tick(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;gsap.set(fol,{x:rx,y:ry});requestAnimationFrame(tick);})();
-    document.querySelectorAll('a,button,.faq-q,.mi,.bc,.tl-item').forEach(el=>{
-      el.addEventListener('mouseenter',()=>document.body.classList.add('hov'));
-      el.addEventListener('mouseleave',()=>document.body.classList.remove('hov'));
-    });
+    /* CURSOR — removed, using default browser cursor */
 
     /* FULLSCREEN MENU ANIMATION */
 const burger = document.querySelector('.burger');
@@ -1274,39 +1333,58 @@ menuLinks.forEach(link => {
       onUpdate:s=>document.getElementById('nav').classList.toggle('scrolled',s.progress>0)
     });
 
-    /* PRELOADER & HERO ENTRANCE */
-    // Lock scrolling while loading
+    /* PRELOADER — INVITATION REVEAL */
     document.body.style.overflow = 'hidden';
 
     const pt = gsap.timeline({
       onComplete: () => {
-        document.body.style.overflow = ''; // Restore scroll
-        gsap.set('#preloader', { display: 'none' }); // Remove from DOM
+        document.body.style.overflow = '';
+        gsap.set('#preloader', { display: 'none' });
       }
     });
 
-    // 1. Elegantly slide text up into view
-    pt.to('.pl-brand span', { y: '0%', duration: 1.2, stagger: 0.15, ease: 'expo.out' })
-    // 2. Expand the gold loading line
-      .to('.pl-line', { scaleX: 1, duration: 1.5, ease: 'expo.inOut' }, '-=0.6')
-    // 3. Slide the text away
-      .to('.pl-brand span', { y: '-110%', duration: 0.8, stagger: 0.1, ease: 'expo.in' }, '+=0.2')
-      .to('.pl-line-wrap', { opacity: 0, duration: 0.4 }, '<')
-    // 4. Slide the entire dark preloader screen up to reveal the website
-      .to('#preloader', { yPercent: -100, duration: 1.4, ease: 'expo.inOut' });
+    // 1. Card materialises — fades + lifts in like a card being placed on a table
+    pt.to('.pl-card', { opacity: 1, scale: 1, y: 0, duration: 1.1, ease: 'expo.out' })
 
-    /* ORIGINAL HERO ENTRANCE (Chained to Preloader) */
+    // 2. Top rule lines draw outward from centre
+      .to('.pl-rule-line', { scaleX: 1, duration: 0.9, stagger: 0.08, ease: 'expo.inOut' }, '-=0.5')
+      .to('.pl-rule-diamond', { scale: 1, rotate: 45, duration: 0.5, stagger: 0.1, ease: 'back.out(2)' }, '-=0.5')
+
+    // 3. Eyebrow letter-spaces in
+      .to('.pl-eyebrow', { opacity: 1, y: 0, duration: 0.9, ease: 'expo.out' }, '-=0.3')
+
+    // 4. Title lines rise one by one — like text being revealed on a card
+      .to('.pl-title-line', { y: '0%', duration: 1.0, stagger: 0.18, ease: 'expo.out' }, '-=0.5')
+
+    // 5. Studio name fades in softly
+      .to('.pl-studio', { opacity: 1, duration: 0.8, ease: 'power2.out' }, '-=0.3')
+
+    // 6. Bottom rule mirrors the top
+      .to('.pl-rule-bottom .pl-rule-line', { scaleX: 1, duration: 0.7, stagger: 0.08, ease: 'expo.inOut' }, '-=0.5')
+      .to('.pl-rule-bottom .pl-rule-diamond', { scale: 1, rotate: 45, duration: 0.4, ease: 'back.out(2)' }, '-=0.4')
+
+    // 7. Wax seal stamps in with a satisfying pop
+      .to('.pl-seal', { scale: 1, rotate: 0, opacity: 1, duration: 0.6, ease: 'back.out(2.5)' }, '-=0.1')
+
+    // 8. Hold a moment so it can be read
+      .to({}, { duration: 1.1 })
+
+    // 9. Everything gracefully fades out together
+      .to('.pl-card', { opacity: 0, y: -16, duration: 0.7, ease: 'power3.in' })
+
+    // 10. Preloader itself fades away (no hard slide — keeps the parchment feel)
+      .to('#preloader', { opacity: 0, duration: 0.6, ease: 'power2.inOut' });
+
+    /* HERO ENTRANCE — chained to preloader */
     const ht = gsap.timeline({defaults:{ease:'expo.out'}});
-    
-    // Inject the hero animations so they trigger just as the preloader slides up
-    pt.add(ht, "-=0.8");
+    pt.add(ht, '-=0.2');
 
     ht.to('.hero-ring',{scale:1,opacity:1,duration:2.2,stagger:.18}, 0);
-    ht.to('#hhl .li',{y:'0%',opacity:1,duration:1.3,stagger:.13}, 0.25);
-    ht.to('.hero-eyebrow',{opacity:1,y:0,duration:1}, 0.5);
-    ht.to('.hero-sub',    {opacity:1,y:0,duration:1}, 0.72);
-    ht.to('.hero-btns',   {opacity:1,y:0,duration:1}, 0.9);
-    ht.to('.hero-scroll',  {opacity:1, duration:.8}, 1.15);
+    ht.to('#hhl .li',{y:'0%',opacity:1,duration:1.3,stagger:.13}, 0.2);
+    ht.to('.hero-eyebrow',{opacity:1,y:0,duration:1}, 0.45);
+    ht.to('.hero-sub',    {opacity:1,y:0,duration:1}, 0.65);
+    ht.to('.hero-btns',   {opacity:1,y:0,duration:1}, 0.82);
+    ht.to('.hero-scroll', {opacity:1,duration:.8},    1.05);
 
    /* HERO PARALLAX */
 let mm = gsap.matchMedia();
