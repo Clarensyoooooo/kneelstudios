@@ -1,0 +1,2460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leomar &amp; Elizabeth — June 27, 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,600&family=Cinzel:wght@400;500&family=Playfair+Display:ital,wght@0,400;1,400;1,600&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<!-- GSAP -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/TextPlugin.min.js"></script>
+<style>
+
+/* ── PAGE LOADER — overridden by envelope styles below ── */
+body.loading { overflow: hidden; }
+#loader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+
+.l-card {
+  width: 320px;
+  height: 200px;
+  position: relative;
+  display: grid;
+  place-content: center;
+  border-radius: 10px;
+  overflow: hidden;
+  animation: l-cardScale 2.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+.l-border {
+  position: absolute;
+  inset: 0px;
+  border: 1.5px solid rgba(217, 114, 74, 0.35); /* Warm sunset orange border */
+  opacity: 0;
+  transform: rotate(10deg);
+  will-change: inset, transform, opacity;
+  animation: l-borderIn 1.2s cubic-bezier(0.25, 1, 0.5, 1) 0.2s forwards;
+}
+
+.l-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.l-names-wrap {
+  position: relative;
+  white-space: nowrap;
+  padding-right: 2px;
+  clip-path: inset(0 100% 0 0);
+  border-right: 1.5px solid transparent; 
+  will-change: clip-path;
+  animation: l-revealNames 1.2s cubic-bezier(0.25, 1, 0.5, 1) 0.6s forwards;
+}
+
+.l-names {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 32px;
+  color: var(--ink); /* Dark elegant ink */
+  line-height: 1.2;
+  padding: 0 10px;
+}
+
+.l-trail {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  animation: l-trailAnim 1.2s ease-in-out 0.6s forwards;
+}
+
+.l-date {
+  position: absolute;
+  top: 50%;
+  margin-top: 26px;
+  color: var(--muted);
+  font-family: 'Jost', sans-serif;
+  font-size: 10px;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(5px);
+  animation: l-fadeInUp 0.8s ease-out 1.2s forwards;
+}
+
+.l-bottom-text {
+  position: absolute;
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%);
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  text-transform: uppercase;
+  padding: 0 12px;
+  color: var(--orange);
+  background: var(--cream); /* Matches the light background perfectly */
+  opacity: 0;
+  letter-spacing: 8px;
+  white-space: nowrap;
+  animation: l-bottomTextIn 1s cubic-bezier(0.25, 1, 0.5, 1) 1.4s forwards;
+}
+
+/* ── SMOOTH KEYFRAMES ── */
+@keyframes l-cardScale {
+  0% { transform: scale(1); border-radius: 10px; }
+  100% { transform: scale(1.05); border-radius: 0px; }
+}
+
+@keyframes l-borderIn {
+  0% { inset: 0px; opacity: 0; transform: rotate(10deg); }
+  100% { inset: 15px; opacity: 1; transform: rotate(0deg); }
+}
+
+@keyframes l-revealNames {
+  0% { clip-path: inset(0 100% 0 0); border-right-color: var(--orange); }
+  80% { clip-path: inset(0 0 0 0); border-right-color: var(--orange); }
+  100% { clip-path: inset(0 0 0 0); border-right-color: transparent; }
+}
+
+@keyframes l-trailAnim {
+  0% { background: linear-gradient(90deg, rgba(217,114,74,0) 80%, var(--orange) 100%); opacity: 0; }
+  50% { background: linear-gradient(90deg, rgba(217,114,74,0) 60%, var(--orange) 100%); opacity: 1; }
+  100% { background: linear-gradient(90deg, rgba(217,114,74,0) 90%, var(--orange) 100%); opacity: 0; }
+}
+
+@keyframes l-fadeInUp {
+  0% { opacity: 0; transform: translateY(5px); letter-spacing: 0px; }
+  100% { opacity: 1; transform: translateY(0); letter-spacing: 5px; }
+}
+
+@keyframes l-bottomTextIn {
+  0% { opacity: 0; letter-spacing: 8px; }
+  100% { opacity: 1; letter-spacing: 3px; }
+}
+
+  /* ── DELICATE FLORAL FRAME ── */
+.delicate-frame {
+  position: relative;
+  border: 1px solid rgba(217, 114, 74, 0.25); /* Very subtle sunset/terracotta line */
+  border-radius: 12px;
+  padding: 48px 20px 32px;
+  margin-top: 10px;
+}
+
+.floral-accent {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--sage); /* Muted Sage green */
+  background: transparent;
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Position the background color to 'break' the border line cleanly */
+.floral-accent::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--cream);
+  z-index: -1;
+  border-radius: 50%;
+  filter: blur(4px); /* Blends the line break smoothly */
+}
+
+.floral-accent.top { top: -8px; }
+.floral-accent.bot { bottom: -8px; }
+
+/* ══════════════════════════════════════════
+   CUSTOMIZE: Global palette — change to match
+   your chosen section backgrounds
+══════════════════════════════════════════ */
+:root {
+  --pink:       #E8A0A8;
+  --orange:     #D9724A;
+  --gold:       #C9973A;
+  --gold-l:     #ECC96A;
+  --sage:       #8A9E82;
+  --cream:      #FDF8F2;
+  --cream2:     #F5ECD8;
+  --ink:        #2A1F1A;
+  --ink2:       #4A3828;
+  --muted:      rgba(42,31,26,0.5);
+  --div:        rgba(201,151,58,0.3);
+  --glass-l:    rgba(255,255,255,0.68);
+  --glass-d:    rgba(22,13,8,0.70);
+}
+
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Cormorant Garamond',serif;color:var(--ink);background:var(--cream);overflow-x:hidden}
+
+/* ── SECTIONS ── */
+.sec{position:relative;width:100%;min-height:100svh;display:flex;align-items:center;justify-content:center}
+.sec-short{min-height:auto;padding:80px 0}
+.sec-bg{position:absolute;inset:0;z-index:0;background-size:cover;background-position:center;background-repeat:no-repeat}
+.sec-bg::after{content:'';position:absolute;inset:0}
+.con{position:relative;z-index:1;width:100%;max-width:680px;margin:0 auto;padding:80px 32px;text-align:center}
+
+/* ══════════════════════════════════════════
+   CUSTOMIZE: Section backgrounds
+   For each section, set the .sec-bg background
+   to your photo: background-image: url('your.jpg')
+   Then tweak the ::after overlay opacity/color
+══════════════════════════════════════════ */
+/* Make the background transparent so the video shows, and add a slight overlay so text stays readable */
+/* 1. Switch to a dark overlay */
+#s-hero .sec-bg { background: transparent; }
+#s-hero .sec-bg::after { background: rgba(0, 0, 0, 0.45); } /* Adjust 0.45 higher if text is still hard to read */
+
+/* 2. Force the hero text to be light */
+#s-hero .eyebrow { color: var(--gold-l); }
+#s-hero .names, #s-hero .amp { color: var(--cream); }
+#s-hero .bigdate, #s-hero .cd-num { color: var(--gold-l); }
+#s-hero .cap, #s-hero .cd-lbl { color: rgba(245, 237, 216, 0.8); } /* Muted cream for subtitles */
+
+/* New rule for the video */
+.hero-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+/* ── SECTION 3 BACKGROUND (Two Stacked Images) ── */
+#s-story .sec-bg { 
+  display: flex;
+  flex-direction: column;
+  background: none; /* Removes the old single image */
+}
+
+.bg-half {
+  flex: 1;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+  background-attachment: scroll !important; /* Stops iOS from stretching */
+}
+
+#s-story .sec-bg::after { 
+  background: rgba(22, 13, 8, 0.65); /* A deep brown/black tint to help text pop */
+  z-index: 1; /* Ensures the dark tint covers both images */
+}
+
+/* ── TEXT COLOR OVERRIDES FOR SECTION 3 ── */
+#s-story h2, #s-story .body, #s-story .italic-note { 
+  color: var(--cream); 
+}
+
+#s-story .eyebrow { 
+  color: var(--gold-l); 
+}
+
+/* Make the countdown box inside this section blend better with the dark background */
+#s-story .cd-wrap {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border-color: rgba(236, 201, 106, 0.2) !important;
+}
+
+#s-story .cd-num, #s-story .cd-lbl {
+  color: var(--gold-l) !important;
+}
+
+#s-trail  .sec-bg { background: linear-gradient(135deg,#fef9f0,#fdf0e5); }
+#s-trail  .sec-bg::after { background: rgba(255,255,255,0.0); }
+
+#s-entourage .sec-bg { background: linear-gradient(160deg,#f8f5f0,#f0ede5); }
+#s-entourage .sec-bg::after { background: rgba(255,255,255,0.0); }
+
+#s-details .sec-bg { background: linear-gradient(135deg,#fef9f0,#fdf0e5); }
+#s-details .sec-bg::after { background: transparent; }
+
+#s-timeline .sec-bg { background: linear-gradient(160deg,#f8f5f0,#f0ede5); }
+#s-timeline .sec-bg::after { background: transparent; }
+
+/* ── TYPOGRAPHY ── */
+.eyebrow{font-family:'Cinzel',serif;font-size:9px;letter-spacing:.6em;text-transform:uppercase;color:var(--orange);margin-bottom:18px;display:block}
+.eyebrow-l{color:rgba(236,201,106,.8)}
+.names{font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(52px,12vw,88px);line-height:1;color:var(--ink)}
+.names-l{color:var(--cream)}
+.amp{font-size:.62em;color:var(--orange);display:block;font-style:normal}
+.amp-l{color:var(--gold-l)}
+h2{font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(26px,5.5vw,40px);line-height:1.2;color:var(--ink);margin-bottom:8px}
+h2.l{color:var(--cream)}
+h3{font-family:'Playfair Display',serif;font-style:italic;font-size:20px;color:var(--ink);margin-bottom:6px}
+h3.l{color:var(--cream)}
+.body{font-size:17px;line-height:1.95;color:var(--ink2)}
+.body-l{color:rgba(245,237,216,.8)}
+.cap{font-family:'Cinzel',serif;font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--muted)}
+.cap-l{color:rgba(236,201,106,.65)}
+.italic-note{font-style:italic;font-size:15px;color:var(--muted);line-height:1.8}
+
+/* ── DIVIDERS ── */
+.div{display:flex;align-items:center;gap:14px;margin:22px 0}
+.div-line{flex:1;height:1px;background:linear-gradient(to right,transparent,var(--div),transparent)}
+.div-line-l{background:linear-gradient(to right,transparent,rgba(236,201,106,.25),transparent)}
+.div-gem{width:5px;height:5px;background:var(--gold);transform:rotate(45deg);flex-shrink:0}
+.div-gem-l{background:rgba(236,201,106,.5)}
+.div-ctr{max-width:260px;margin:22px auto}
+
+/* ── GLASS CARDS ── */
+.card {
+  background: rgba(255, 255, 255, 0.85); /* Slightly less transparent */
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(217, 114, 74, 0.15); /* Warmer orange border */
+  border-top-color: rgba(217, 114, 74, 0.4);
+  border-radius: 8px; /* Slightly rounder edges */
+  padding: 36px 40px;
+  margin: 14px 0;
+  text-align: center;
+  box-shadow: 0 10px 40px rgba(217, 114, 74, 0.06); /* Warm sunset shadow */
+}
+.card-d{background:var(--glass-d);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(236,201,106,.12);border-top-color:rgba(236,201,106,.32);border-radius:5px;padding:36px 40px;margin:14px 0;text-align:center}
+.venue{font-family:'Playfair Display',serif;font-style:italic;font-size:22px;color:var(--ink);margin-bottom:8px}
+.venue-l{color:var(--cream)}
+.vdet{font-size:15px;color:var(--muted);line-height:2}
+.vdet-l{color:rgba(245,237,216,.6)}
+.time-big{font-family:'Cinzel',serif;font-size:30px;color:var(--orange);letter-spacing:.2em;display:block;margin:14px 0 8px}
+.time-big-l{color:var(--gold-l)}
+
+/* ── BIG DATE ── */
+.bigdate{font-family:'Cinzel',serif;font-size:clamp(12px,2.5vw,17px);letter-spacing:.35em;color:var(--orange);margin:26px 0 8px}
+
+/* ── COUNTDOWN ── */
+.cd-wrap{display:flex;gap:28px;justify-content:center;margin-top:32px;flex-wrap:wrap}
+.cd-unit{text-align:center}
+.cd-num{font-family:'Playfair Display',serif;font-size:clamp(36px,8vw,52px);color:var(--orange);line-height:1;display:block}
+.cd-lbl{font-family:'Jost',sans-serif;font-size:9px;letter-spacing:.35em;text-transform:uppercase;color:var(--muted);margin-top:6px;display:block}
+
+/* ── PHOTO SLOTS ── */
+.photo-slot img {
+  width: 100%; /* Forces the image to stay inside its container */
+  aspect-ratio: 4 / 5; /* Gives it a consistent, portrait-style arch shape */
+  object-fit: cover; /* Ensures the photo fills the arch without squishing */
+  border-radius: 200px 200px 8px 8px !important; 
+  border: 6px solid #FFF; 
+  box-shadow: 0 12px 30px rgba(42, 31, 26, 0.08); 
+  display: block; /* Removes any weird invisible spacing below the image */
+}
+
+/* ── STORY SECTION PHOTO ── */
+.story-photo {
+  width: 100%;
+  aspect-ratio: 16 / 9; /* Creates a beautiful wide, cinematic crop */
+  object-fit: cover;
+  border-radius: 8px; /* Standard soft rounded corners */
+  border: 6px solid #FFF; /* Matches the white frame of the venue photos */
+  box-shadow: 0 12px 30px rgba(42, 31, 26, 0.08);
+  display: block;
+  margin: 0 auto;
+}
+
+.photo-slot{width:100%;border-radius:5px;overflow:hidden;position:relative}
+/* CUSTOMIZE: replace .photo-ph background with background-image:url('your.jpg');background-size:cover */
+.photo-ph{width:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;
+  background:linear-gradient(135deg,rgba(201,151,58,.1),rgba(216,113,74,.08));
+  border:1.5px dashed rgba(201,151,58,.35);border-radius:5px}
+.photo-ph-lbl{font-family:'Jost',sans-serif;font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:rgba(201,151,58,.6)}
+
+/* ── FLORAL BORDER ── */
+.floral-wrap{position:relative;padding:0 52px}
+.floral-strip{position:absolute;top:0;bottom:0;width:50px;display:flex;flex-direction:column;align-items:center;justify-content:space-around;overflow:hidden;pointer-events:none}
+.floral-strip.l{left:0}
+.floral-strip.r{right:0;transform:scaleX(-1)}
+
+/* ── MEMORY TRAIL / POLAROIDS (Winding Map Trail) ── */
+.trail { display:flex; flex-direction:column; gap:0; position:relative; max-width:560px; margin:0 auto; padding-bottom:20px; }
+
+/* The Winding Trail Lines */
+.trail-item { display:grid; grid-template-columns:1fr 28px 1fr; align-items:start; gap:0; margin-bottom:40px; position:relative; z-index:1; }
+
+.trail-item::before {
+  content: '';
+  position: absolute;
+  top: 17px;       /* Aligns perfectly with the center of the current dot */
+  bottom: -57px;   /* Reaches down exactly to the center of the next dot */
+  width: 50%;
+  border: 2.5px dashed rgba(217, 114, 74, 0.35); /* Sunset orange dashed map line */
+  z-index: -1;
+}
+
+/* Odd items: The trail loops to the right */
+.trail-item:nth-child(odd)::before {
+  left: 50%;
+  border-left: none;
+  border-radius: 0 120px 120px 0;
+}
+
+/* Even items: The trail loops to the left */
+.trail-item:nth-child(even)::before {
+  right: 50%;
+  border-right: none;
+  border-radius: 120px 0 0 120px;
+}
+
+/* Hide the line after the very last milestone */
+.trail-item:last-child::before { display: none; }
+
+/* Grid ordering for alternating sides */
+.trail-item:nth-child(even) .trail-text{order:3;text-align:left}
+.trail-item:nth-child(even) .trail-photo{order:1;text-align:right}
+.trail-item:nth-child(odd)  .trail-text{order:1;text-align:right}
+.trail-item:nth-child(odd)  .trail-photo{order:3;text-align:left}
+
+/* The Dots */
+.trail-dot{order:2;display:flex;justify-content:center;padding-top:12px;position:relative;z-index:2}
+.trail-dot-inner{width:10px;height:10px;border-radius:50%;background:var(--pink);border:2px solid var(--cream);box-shadow:0 0 0 2px var(--cream)}
+.trail-item:nth-child(2)  .trail-dot-inner{background:var(--orange);}
+.trail-item:nth-child(3)  .trail-dot-inner{background:var(--gold);}
+.trail-item:nth-child(4)  .trail-dot-inner{background:var(--sage);}
+.trail-item:nth-child(5)  .trail-dot-inner{background:var(--pink);}
+.trail-item:nth-child(6)  .trail-dot-inner{background:var(--orange);}
+.trail-item:nth-child(7)  .trail-dot-inner{background:var(--gold);}
+.trail-item:nth-child(8)  .trail-dot-inner{background:#c46080;}
+.trail-item:nth-child(9)  .trail-dot-inner{background:var(--orange);}
+
+/* The Polaroids */
+.polaroid{display:inline-block;background:#fff;padding:8px 8px 28px;box-shadow:0 4px 18px rgba(0,0,0,.12);transform:rotate(-2deg);transition:transform .3s ease;max-width:180px;width:100%; position:relative; z-index:2;}
+.polaroid:hover{transform:rotate(0deg) scale(1.03)}
+.trail-item:nth-child(even) .polaroid{transform:rotate(2deg)}
+.trail-item:nth-child(even) .polaroid:hover{transform:rotate(0deg) scale(1.03)}
+.pol-img{width:100%;aspect-ratio:4/3;background:linear-gradient(135deg,rgba(232,160,168,.2),rgba(212,168,67,.12));display:flex;align-items:center;justify-content:center;font-family:'Jost',sans-serif;font-size:9px;letter-spacing:.15em;color:rgba(201,151,58,.5);text-transform:uppercase;text-align:center;padding:8px}
+.pol-cap{font-family:'Jost',sans-serif;font-size:10px;color:#666;margin-top:8px;text-align:center;letter-spacing:.05em}
+
+/* ── ENTOURAGE ── */
+.ent-section{margin-bottom:40px;text-align:center}
+.ent-label{font-family:'Cinzel',serif;font-size:9px;letter-spacing:.5em;text-transform:uppercase;color:var(--orange);margin-bottom:16px;border-bottom:1px solid var(--div);padding-bottom:10px}
+.ent-name{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:16px;color:var(--ink2);line-height:2;letter-spacing:.02em}
+.ent-name-pair{display:block;font-style:normal;font-size:14.5px;line-height:1.4;margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid rgba(201,151,58,.12)}
+.ent-name-pair:last-child{border-bottom:none}
+.ent-cols{display:grid;grid-template-columns:1fr 1fr;gap:32px;text-align:left}
+.ent-role{font-family:'Cinzel',serif;font-size:8px;letter-spacing:.3em;color:var(--orange);text-transform:uppercase;display:block;margin-top:2px}
+.ent-parents{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:17px;color:var(--ink2);line-height:2;margin-bottom:4px}
+.ent-family{font-family:'Cinzel',serif;font-size:9px;letter-spacing:.3em;color:var(--muted);margin-bottom:16px;text-transform:uppercase}
+
+/* ── SPONSOR BADGE ── */
+.sponsor-name{font-size:14.5px;color:var(--ink2);line-height:1.5;margin-bottom:4px}
+.sponsor-role{font-family:'Cinzel',serif;font-size:8px;letter-spacing:.25em;color:var(--muted);text-transform:uppercase}
+.sponsor-item{margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid rgba(201,151,58,.1)}
+.sponsor-item:last-child{border-bottom:none}
+
+/* ── SMALL ENTOURAGE GRID ── */
+/* ── SMALL ENTOURAGE GRID ── */
+.ent-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+.ent-grid-item {
+  width: calc(33.333% - 7px);
+  font-size: 13px;
+  color: var(--ink2);
+  line-height: 1.5;
+  padding: 8px;
+  border: 1px solid rgba(201,151,58,.12);
+  border-radius: 3px;
+  text-align: center;
+}
+.ent-grid-role {
+  font-family: 'Cinzel', serif;
+  font-size: 7.5px;
+  letter-spacing: .2em;
+  color: var(--orange);
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 2px;
+}
+/* ── EVENT TIMELINE ── */
+.evt-list{max-width:460px;margin:0 auto;text-align:left}
+.evt-item{display:grid;grid-template-columns:88px 1fr;gap:20px;margin-bottom:26px;opacity:0;transform:translateY(14px);transition:opacity .65s ease,transform .65s ease}
+.evt-item.vis{opacity:1;transform:translateY(0)}
+.evt-time{font-family:'Cinzel',serif;font-size:10px;letter-spacing:.2em;color:var(--orange);text-transform:uppercase;text-align:right;border-right:1px solid var(--div);padding-right:18px;padding-top:3px}
+.evt-name{font-family:'Playfair Display',serif;font-style:italic;font-size:19px;color:var(--ink);margin-bottom:3px}
+.evt-note{font-size:13px;color:var(--muted);font-style:italic;line-height:1.7}
+
+/* ── DRESS CODE SWATCHES ── */
+.swatches{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin:28px 0}
+.swatch{text-align:center}
+.sw-circle{width:58px;height:58px;border-radius:50%;border:3px solid #fff;box-shadow:0 8px 20px rgba(217,114,74,.15);position:relative;margin:0 auto 8px}
+.sw-name{font-family:'Jost',sans-serif;font-size:9px;letter-spacing:.15em;color:var(--muted);text-transform:uppercase}
+
+/* ── DRESS CODE SWATCHES (Light Theme) ── */
+.swatches { 
+  display: flex; 
+  gap: 16px; 
+  justify-content: center; 
+  flex-wrap: wrap; 
+  margin: 20px 0 36px; 
+}
+.swatch { text-align: center; }
+.sw-circle { 
+  width: 52px; 
+  height: 52px; 
+  border-radius: 50%; 
+  border: 3px solid #FFF; 
+  box-shadow: 0 8px 20px rgba(217,114,74,0.15); 
+  margin: 0 auto 8px; 
+}
+.sw-name { 
+  font-family: 'Jost', sans-serif; 
+  font-size: 8.5px; 
+  letter-spacing: 0.15em; 
+  color: var(--muted); 
+  text-transform: uppercase; 
+}
+
+/* ── FALLING PETALS ── */
+#petal-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* Crucial: lets guests click through the petals */
+  z-index: 9997; /* Sits behind the loader and music player, but above content */
+  overflow: hidden;
+}
+
+.petal {
+  position: absolute;
+  top: -10%;
+  opacity: 0;
+  animation: fall linear infinite;
+}
+
+@keyframes fall {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.8; /* Fades in softly at the top */
+  }
+  85% {
+    opacity: 0.8;
+  }
+  100% {
+    /* Uses variables set by JavaScript for a random, swaying fall */
+    transform: translate(var(--drift), 110vh) rotate(var(--spin));
+    opacity: 0;
+  }
+}
+
+/* ── SCROLL FADE ── */
+.fi{opacity:0;transform:translateY(26px);transition:opacity .85s ease,transform .85s ease}
+.fi.vis{opacity:1;transform:translateY(0)}
+.fi.d1{transition-delay:.12s}.fi.d2{transition-delay:.24s}.fi.d3{transition-delay:.36s}.fi.d4{transition-delay:.48s}
+
+/* ── LOVE MOMENT BLOCKS ── */
+.love-block{max-width:540px;margin:0 auto 0;text-align:left}
+.love-lead{font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(19px,4vw,26px);color:var(--ink);line-height:1.5;margin-bottom:20px}
+
+
+
+/* ── MUSIC PLAYER ── */
+#music-player{position:fixed;bottom:26px;right:22px;z-index:999;display:flex;align-items:center;gap:10px}
+.mbtn{width:50px;height:50px;border-radius:50%;border:none;background:rgba(22,12,6,.88);backdrop-filter:blur(12px);border:1px solid rgba(201,151,58,.4);color:var(--gold-l);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .2s,box-shadow .2s;box-shadow:0 4px 18px rgba(0,0,0,.3);flex-shrink:0}
+.mbtn:hover{transform:scale(1.08);box-shadow:0 6px 26px rgba(201,151,58,.22)}
+.mbtn.playing{animation:mbtnPulse 2.5s ease-in-out infinite}
+@keyframes mbtnPulse{0%,100%{border-color:rgba(201,151,58,.4)}50%{border-color:rgba(216,113,74,.75);box-shadow:0 4px 18px rgba(0,0,0,.3),0 0 0 4px rgba(201,151,58,.08)}}
+.mlabel{background:rgba(22,12,6,.88);backdrop-filter:blur(12px);border:1px solid rgba(201,151,58,.22);border-radius:22px;padding:7px 15px;font-family:'Jost',sans-serif;font-size:10.5px;letter-spacing:.12em;color:rgba(236,201,106,.8);white-space:nowrap;opacity:0;transform:translateX(8px);transition:opacity .3s,transform .3s;pointer-events:none;max-width:200px;overflow:hidden;text-overflow:ellipsis}
+.mlabel.show{opacity:1;transform:translateX(0)}
+.sw-bars{display:flex;align-items:center;gap:2.5px;height:16px}
+.bar{width:3px;background:var(--gold-l);border-radius:2px;animation:barD .8s ease-in-out infinite alternate}
+.bar:nth-child(1){height:5px;animation-delay:0s}
+.bar:nth-child(2){height:13px;animation-delay:.1s}
+.bar:nth-child(3){height:9px;animation-delay:.22s}
+.bar:nth-child(4){height:15px;animation-delay:.07s}
+.bar:nth-child(5){height:6px;animation-delay:.17s}
+@keyframes barD{from{transform:scaleY(.35);opacity:.55}to{transform:scaleY(1);opacity:1}}
+
+/* ── NAV DOTS ── */
+#nav{position:fixed;right:18px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:9px;z-index:998}
+.ndot{width:5px;height:5px;border-radius:50%;background:rgba(201,151,58,.3);border:1px solid rgba(201,151,58,.4);cursor:pointer;transition:all .3s}
+.ndot.a{background:var(--gold);transform:scale(1.7);box-shadow:0 0 5px rgba(201,151,58,.5)}
+
+/* ── CLOSING ── */
+.closing-names{font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(40px,10vw,70px);color:var(--cream);line-height:1;opacity:.88}
+
+/* ── QR PLACEHOLDER ── */
+.qr-box{width:100px;height:100px;border:1.5px dashed rgba(201,151,58,.4);border-radius:4px;display:flex;align-items:center;justify-content:center;margin:0 auto;font-family:'Jost',sans-serif;font-size:9px;letter-spacing:.2em;color:rgba(201,151,58,.5);text-transform:uppercase;text-align:center;padding:8px}
+
+/* ── RESPONSIVE ── */
+/* ── FIX: REMOVE LINE BREAKS (BORDERS) & DEAD SPACE ── */
+.sponsor-item, .ent-name-pair {
+  border-bottom: none !important;
+  padding-bottom: 4px !important;
+  margin-bottom: 4px !important;
+}
+
+/* Kills the dead space between Section 5 and Section 6 */
+#s-entourage, #s-entourage .con { padding-bottom: 0 !important; }
+#s-details, #s-details .con { padding-top: 0 !important; }
+
+
+/* ── RESPONSIVE (MOBILE) ── */
+@media(max-width:600px){
+  /* Reduces overall padding to tighten up scrolling everywhere */
+  .sec-short { padding: 40px 0 !important; }
+  .con { padding: 40px 20px !important; }
+  
+  .card, .card-d { padding: 26px 22px; }
+  .floral-wrap { padding: 0 40px; }
+  .trail-item { grid-template-columns: 1fr 22px 1fr; }
+  .polaroid { max-width: 140px; }
+  .trail-title { font-size: 14px; }
+  
+  /* ── ENTOURAGE 2-COLUMN CENTERING ── */
+  .ent-cols {
+    grid-template-columns: 1fr 1fr !important; 
+    gap: 8px !important; 
+    text-align: center !important; /* Centers the names */
+  }
+  
+  .ent-cols .ent-label {
+    justify-content: center !important; /* Centers the icons with the headers */
+  }
+  
+  /* Sizes down the text slightly so it fits perfectly side-by-side */
+  .ent-name-pair, .sponsor-name { font-size: 11px !important; }
+  .ent-label { font-size: 8.5px !important; margin-bottom: 10px !important; }
+  .ent-parents { font-size: 15px !important; }
+  
+  .ent-grid-item { width: calc(50% - 5px); }
+  .cd-wrap { gap: 18px; }
+  #nav { display: none; }
+
+  /* ── FIX: OUR STORY BACKGROUND STRETCH ── */
+  #s-story .sec-bg {
+    background-size: cover !important;
+    background-position: center top !important; /* Forces the top of the image to stay on screen */
+    background-attachment: scroll !important; 
+  }
+  /* (Included just in case the background is an <img> tag instead of CSS) */
+  #s-story .sec-bg img, 
+  #s-story img.bg-img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+  }
+}
+
+@keyframes scrollBounce{0%,100%{transform:translateY(0);opacity:.45}50%{transform:translateY(7px);opacity:.8}}
+
+/* ══════════════════════════════
+   ENVELOPE LOADER
+══════════════════════════════ */
+#loader {
+  position: fixed; inset: 0; z-index: 99999;
+  background: linear-gradient(160deg, #fdf9f4, #fdf0e8);
+  display: flex; align-items: center; justify-content: center;
+  transition: opacity 0.7s ease, visibility 0.7s ease;
+}
+#loader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+
+/* Kill old .l-card styles — not used */
+.l-card, .l-border, .l-content, .l-names-wrap, .l-names,
+.l-trail, .l-date, .l-bottom-text { display: none !important; }
+
+#env-scene {
+  width: 300px;
+  position: relative;
+  perspective: 600px;
+}
+
+#env-body {
+  width: 300px;
+  height: 190px;
+  position: relative;
+  transform-style: preserve-3d;
+}
+
+/* The envelope base (rectangle) */
+#env-body::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #fff;
+  border-radius: 4px;
+  border: 1px solid rgba(217,114,74,0.2);
+  box-shadow: 0 20px 60px rgba(42,31,26,0.12);
+  z-index: 1;
+}
+
+/* Left triangle fold */
+#env-left {
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 0;
+  border-top: 95px solid transparent;
+  border-bottom: 95px solid transparent;
+  border-left: 130px solid #f0e8da;
+  z-index: 2;
+  filter: drop-shadow(2px 0 3px rgba(0,0,0,.05));
+}
+/* Right triangle fold */
+#env-right {
+  position: absolute;
+  right: 0; top: 0; bottom: 0;
+  width: 0;
+  border-top: 95px solid transparent;
+  border-bottom: 95px solid transparent;
+  border-right: 130px solid #ede4d4;
+  z-index: 2;
+}
+/* Bottom triangle */
+#env-bottom {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 0;
+  width: 0;
+  border-left: 150px solid transparent;
+  border-right: 150px solid transparent;
+  border-bottom: 110px solid #e8deca;
+  z-index: 3;
+}
+
+/* Top flap (the one that opens) */
+#env-flap {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 0;
+  width: 0;
+  border-left: 150px solid transparent;
+  border-right: 150px solid transparent;
+  border-top: 110px solid #f5ede0;
+  z-index: 5;
+  transform-origin: top center;
+  transform-style: preserve-3d;
+  filter: drop-shadow(0 6px 12px rgba(42,31,26,0.08));
+}
+
+/* Floral inner liner of flap */
+#env-flap-inner {
+  position: absolute;
+  top: -108px; left: -148px;
+  width: 296px; height: 108px;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* Wax seal */
+#env-seal {
+  position: absolute;
+  bottom: 50%; right: 50%;
+  transform: translate(50%, 50%);
+  z-index: 6;
+  border-radius: 50%;
+  box-shadow: 0 4px 14px rgba(217,114,74,0.35);
+}
+
+/* The card rising from inside the envelope */
+#env-card {
+  position: absolute;
+  left: 20px; right: 20px;
+  bottom: 0;
+  background: #fff;
+  border: 1px solid rgba(217,114,74,0.15);
+  border-radius: 4px;
+  padding: 20px 16px 16px;
+  text-align: center;
+  z-index: 4;
+  box-shadow: 0 4px 24px rgba(42,31,26,0.08);
+  transform: translateY(40px);
+  opacity: 0;
+}
+
+/* ══════════════════════════════
+   SECTION TRANSITION — Warm paper wipe
+══════════════════════════════ */
+.sec-wipe {
+  position: absolute; inset: 0; z-index: 10;
+  background: linear-gradient(135deg, #fdf9f4, #fdf0e8);
+  pointer-events: none;
+  transform-origin: left center;
+}
+
+/* ══════════════════════════════
+   MEMORY TRAIL — Video-style (warm gradient bg)
+══════════════════════════════ */
+#s-trail {
+  background: linear-gradient(180deg, #ffecd2 0%, #fcb69f 40%, #ffeaa7 100%);
+}
+#s-trail .sec-bg { display: none; } /* Override the plain bg */
+#s-trail .eyebrow { color: #7a3e1a; }
+#s-trail h2 { color: #3d1a08; font-style: italic; }
+#s-trail .italic-note { color: rgba(61,26,8,0.6); }
+
+/* Trail title/date/desc colors to match warm bg */
+.trail-date { color: #7a3e1a; }
+.trail-title { color: #3d1a08; }
+.trail-desc { color: rgba(61,26,8,0.7); }
+
+/* Dashed SVG path that draws itself */
+#trail-path-svg {
+  position: absolute;
+  top: 0; left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+  z-index: 0;
+  width: 60px;
+}
+#trail-dash-path {
+  stroke: rgba(217,114,74,0.5);
+  stroke-width: 2.5;
+  stroke-dasharray: 8 6;
+  fill: none;
+  stroke-linecap: round;
+}
+
+/* Polaroid — video-accurate styling */
+.polaroid {
+  background: #fff;
+  padding: 8px 8px 30px;
+  box-shadow: 0 8px 30px rgba(42,31,26,0.18);
+  display: inline-block;
+  position: relative;
+  z-index: 2;
+  max-width: 160px;
+  width: 100%;
+  transform: rotate(-2deg);
+}
+.trail-item:nth-child(even) .polaroid { transform: rotate(2deg); }
+
+/* Trail milestone dot — pink/orange like in video */
+.trail-dot-inner {
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  border: 2.5px solid white;
+  box-shadow: 0 0 0 2px var(--orange);
+}
+
+/* ══════════════════════════════
+   SCROLL PROGRESS BAR
+══════════════════════════════ */
+#scroll-progress {
+  position: fixed; top: 0; left: 0; width: 0; height: 2px;
+  background: linear-gradient(90deg, var(--gold), var(--orange), var(--pink));
+  z-index: 100000;
+  box-shadow: 0 0 8px rgba(217,114,74,0.6);
+  transform-origin: left;
+}
+
+/* ══════════════════════════════
+   HERO — card-unfold feel
+══════════════════════════════ */
+.hero-card-reveal {
+  transform-origin: top center;
+}
+
+/* ══════════════════════════════
+   LOVE STORY — paragraph fade
+══════════════════════════════ */
+.love-block p { opacity: 0; transform: translateY(24px); }
+
+/* ══════════════════════════════
+   GENERAL SCROLL FADE (keep existing .fi system)
+══════════════════════════════ */
+
+</style>
+</head>
+<body>
+
+<div id="scroll-progress"></div>
+
+  <!-- ENVELOPE LOADER -->
+  <div id="loader">
+    <div id="env-scene">
+      <!-- Envelope body -->
+      <div id="env-body">
+        <!-- Back flap (behind) -->
+        <div id="env-flap-back"></div>
+        <!-- Side triangles -->
+        <div id="env-left"></div>
+        <div id="env-right"></div>
+        <!-- Bottom triangle -->
+        <div id="env-bottom"></div>
+        <!-- Top flap (opens) -->
+        <div id="env-flap">
+          <!-- Floral liner inside flap -->
+          <div id="env-flap-inner">
+            <svg width="100%" height="100%" viewBox="0 0 300 160" xmlns="http://www.w3.org/2000/svg" style="position:absolute;inset:0;opacity:.9">
+              <g opacity=".8">
+                <circle cx="40" cy="30" r="14" fill="#ECC96A" opacity=".35"/>
+                <circle cx="80" cy="15" r="9" fill="#E8A0A8" opacity=".4"/>
+                <circle cx="120" cy="35" r="11" fill="#8A9E82" opacity=".3"/>
+                <circle cx="200" cy="20" r="13" fill="#ECC96A" opacity=".35"/>
+                <circle cx="250" cy="35" r="10" fill="#E8A0A8" opacity=".4"/>
+                <!-- Stems -->
+                <path d="M40,44 Q38,70 50,90" stroke="#8A9E82" stroke-width="1.5" fill="none" opacity=".5"/>
+                <path d="M80,24 Q85,50 75,80" stroke="#8A9E82" stroke-width="1.5" fill="none" opacity=".5"/>
+                <path d="M200,33 Q195,60 210,85" stroke="#8A9E82" stroke-width="1.5" fill="none" opacity=".5"/>
+                <path d="M250,45 Q248,70 260,90" stroke="#8A9E82" stroke-width="1.5" fill="none" opacity=".5"/>
+                <!-- Leaves -->
+                <ellipse cx="55" cy="72" rx="8" ry="4" fill="#8A9E82" opacity=".4" transform="rotate(-30 55 72)"/>
+                <ellipse cx="68" cy="60" rx="7" ry="3" fill="#8A9E82" opacity=".35" transform="rotate(20 68 60)"/>
+                <ellipse cx="205" cy="68" rx="8" ry="4" fill="#8A9E82" opacity=".4" transform="rotate(-20 205 68)"/>
+              </g>
+            </svg>
+          </div>
+        </div>
+        <!-- Wax seal -->
+        <div id="env-seal">
+          <svg width="36" height="36" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="18" cy="18" r="17" fill="#D9724A" opacity=".9"/>
+            <circle cx="18" cy="18" r="13" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="0.8"/>
+            <text x="18" y="22" text-anchor="middle" font-family="Cinzel,serif" font-size="9" fill="white" opacity=".9">L&amp;E</text>
+          </svg>
+        </div>
+        <!-- Card that rises out -->
+        <div id="env-card">
+          <div style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:.5em;color:var(--orange);margin-bottom:10px;text-transform:uppercase">Save the Date</div>
+          <div style="font-family:'Playfair Display',serif;font-style:italic;font-size:28px;color:var(--ink);line-height:1.1">Leomar <span style="color:var(--orange);font-style:normal">&amp;</span> Elizabeth</div>
+          <div style="width:60px;height:1px;background:var(--div);margin:12px auto"></div>
+          <div style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:.3em;color:var(--orange);margin-top:4px">JUNE 27 · 2026</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- ══════════════════════════════════════════
+     SECTION 1 — HERO
+     CUSTOMIZE: #s-hero .sec-bg { background-image: url('your-hero.jpg'); }
+══════════════════════════════════════════ -->
+<section class="sec" id="s-hero">
+  
+  <video autoplay loop muted playsinline class="hero-video">
+    <source src="sunset.mp4" type="video/mp4">
+  </video>
+
+  <div class="sec-bg"></div>
+  
+  <div class="con">
+    <span class="eyebrow fi">Save the Date</span>
+    <h1 class="names fi d1">
+      Leomar
+      <span class="amp">&amp;</span>
+      Elizabeth
+    </h1>
+    <div class="div div-ctr fi d2">
+      <div class="div-line"></div><div class="div-gem"></div><div class="div-line"></div>
+    </div>
+    <div class="bigdate fi d2">Saturday · June 27, 2026</div>
+    <div class="cap fi d3" style="margin-top:6px">Tanauan City, Batangas</div>
+
+    <div class="fi d4" style="margin-top:52px; display:flex; flex-direction:column; align-items:center; gap:20px;">
+      
+      <div style="font-family:'Jost',sans-serif; font-size:10px; letter-spacing:.2em; color:var(--gold-l); text-transform:uppercase; text-align:center;">
+        Tap to play our favorite song &amp; scroll down
+      </div>
+
+      <button class="mbtn" onclick="toggleMusic()" aria-label="Play music" style="position:relative;">
+        <svg class="play-icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><polygon points="4,2 14,8 4,14"/></svg>
+        <div class="eq-icon sw-bars" style="display:none">
+          <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+        </div>
+      </button>
+
+      <div style="animation:scrollBounce 2s ease-in-out infinite; color:var(--gold-l); margin-top:10px;">
+        <svg width="16" height="26" viewBox="0 0 16 26" fill="none">
+          <rect x="1" y="1" width="14" height="20" rx="7" stroke="currentColor" stroke-width="1.1" opacity=".4"/>
+          <circle cx="8" cy="7" r="2.2" fill="currentColor" opacity=".6"/>
+          <path d="M4,23 L8,26 L12,23" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" opacity=".35"/>
+        </svg>
+      </div>
+
+    </div>
+
+    <div style="margin-top:52px;animation:scrollBounce 2s ease-in-out infinite" class="fi d4">
+      <svg width="16" height="26" viewBox="0 0 16 26" fill="none">
+        <rect x="1" y="1" width="14" height="20" rx="7" stroke="currentColor" stroke-width="1.1" opacity=".4"/>
+        <circle cx="8" cy="7" r="2.2" fill="currentColor" opacity=".6"/>
+        <path d="M4,23 L8,26 L12,23" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" opacity=".35"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     SECTION 2 — SAVE THE DATE + VENUES
+     CUSTOMIZE: #s-savedate .sec-bg
+══════════════════════════════════════════ -->
+<section class="sec sec-short" id="s-savedate">
+  <div class="sec-bg" style="background:linear-gradient(160deg,#fdf9f4,#fdf0e8)"></div>
+  <div class="con">
+    
+    <div class="delicate-frame fi">
+      
+      <div class="floral-accent top">
+        <svg width="50" height="14" viewBox="0 0 50 14" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round">
+          <path d="M2,7 C12,7 18,2 25,2 C32,2 38,7 48,7" opacity="0.4"/>
+          <path d="M25,2 C22,5 18,6 15,6 C18,8 22,8 25,6 Z" fill="currentColor" opacity="0.25"/>
+          <path d="M25,2 C28,5 32,6 35,6 C32,8 28,8 25,6 Z" fill="currentColor" opacity="0.25"/>
+        </svg>
+      </div>
+
+      <div style="text-align:center; padding-bottom:10px;">
+        <span class="eyebrow">You are cordially invited</span>
+        <h2 style="margin-bottom:4px">Leomar &amp; Elizabeth</h2>
+        <div class="cap" style="margin-bottom:26px">are getting married</div>
+        <div class="div div-ctr"><div class="div-line"></div><div class="div-gem"></div><div class="div-line"></div></div>
+
+        <div class="photo-slot" style="margin-bottom:22px">
+          <img src="church.jpg" alt="St. Augustine Parish">
+        </div>
+
+        <div class="bigdate">Saturday · June 27, 2026</div>
+
+        <div class="fi d1" style="margin-top:16px; margin-bottom:48px; padding:0 10px;">
+          <div class="cap" style="margin-bottom:10px">Ceremony</div>
+          <div class="venue">St. Augustine Parish</div>
+          <span class="time-big" style="margin: 8px 0;">1:30 PM</span>
+          <div class="vdet">Brgy. Santor, Tanauan City, Batangas</div>
+        </div>
+
+         <div class="photo-slot fi d2" style="margin-top:22px">
+          <img src="pat.jpg" alt="Patricio's Cafe & Restaurant">
+        </div>
+
+        <div class="fi d3" style="margin-top:28px; padding:0 10px;">
+          <div class="cap" style="margin-bottom:10px">Dinner &amp; Celebration</div>
+          <div class="venue">Patricio's Café &amp; Restaurant</div>
+          <div class="vdet" style="margin-top:8px">Brgy. Luyos, Tanauan City, Batangas</div>
+        </div>
+
+      </div>
+      
+      <div class="floral-accent bot">
+        <svg width="50" height="14" viewBox="0 0 50 14" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" style="transform: rotate(180deg);">
+          <path d="M2,7 C12,7 18,2 25,2 C32,2 38,7 48,7" opacity="0.4"/>
+          <path d="M25,2 C22,5 18,6 15,6 C18,8 22,8 25,6 Z" fill="currentColor" opacity="0.25"/>
+          <path d="M25,2 C28,5 32,6 35,6 C32,8 28,8 25,6 Z" fill="currentColor" opacity="0.25"/>
+        </svg>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     SECTION 3 — LOVE STORY
+     CUSTOMIZE: #s-story .sec-bg
+══════════════════════════════════════════ -->
+<section class="sec sec-short" id="s-story">
+  
+  <div class="sec-bg">
+    <div class="bg-half" style="background-image: url('story2.jpg');"></div>
+    <div class="bg-half" style="background-image: url('story1.jpg');"></div>
+  </div>
+  
+  <div class="con" style="z-index: 2;">
+    <span class="eyebrow fi">Our Story</span>
+    <h2 class="fi" style="margin-bottom:16px">Our Go-With-The-Flow<br>Love Story</h2>
+    <div class="div div-ctr fi"><div class="div-line"></div><div class="div-gem"></div><div class="div-line"></div></div>
+
+    <div class="love-block fi d1" style="margin-top:32px">
+      <p class="body" style="margin-bottom:18px">
+        Approximately eight years ago, in the lobby of FAITH, Leomar first noticed Eli because of her loud voice and laughter—though he didn’t even know her name yet. Every time he saw her around campus, he found himself drawn to her cheerful and lively personality.
+      </p>
+      <p class="body" style="margin-bottom:18px">
+        Fast forward to the time of the pandemic. One chill night, while drinking with his friends, Leomar randomly saw Eli’s Facebook profile in his suggested friends. With a bit of courage from the alcohol, he immediately sent her a friend request. In Eli’s POV, she was usually intentional when accepting friends online. But at that time, something felt different—Leomar’s request caught her attention. She stalked his profile, checked his background, and found out they came from the same college and accepted him. Despite considering this as unusual behavior of her, she tried to accept him because she had a thought of “she might be missing out on being too protective of herself.”
+      </p>
+      <p class="body" style="margin-bottom:18px">
+        As in... right after, Leomar immediately sent a “Hi.” Eli was a bit hesitant during their “getting to know” stage, but Leomar reassured her that their conversations didn’t have to lead to anything romantic—no pressure, just go with the flow. At that time, neither of them found themselves at their best, as they were dealing with broken souls and personal battles. Still, through each other, they slowly built a genuine connection and companionship.
+      </p>
+      <p class="body" style="margin-bottom:18px">
+        They went through the getting-to-know-you stage through shared simple, random adventures together. But it wasn’t as smooth, as they encountered multiple goodbyes for choosing self-reconnection.
+      </p>
+      <p class="body" style="margin-bottom:18px">
+        Despite all the goodbyes and rejections, Leomar never stopped hoping they would find their way back to each other. After taking time and self-reflection, they eventually both took the risk and chose to stay—to root for one another. No proposal happened, they simply realized they had found a home in each other.
+      </p>
+      <p class="body">
+        Five years later, they decided to tie the knot.
+      </p>
+    </div>
+
+    <div class="cd-wrap fi d2" style="margin-top:40px; padding:28px 24px; border:1px solid rgba(255,255,255,0.2); border-radius:5px; background:rgba(255,255,255,0.1); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);">
+      <div style="width:100%; margin-bottom:20px; text-align:center">
+        <span class="cap" style="display:block; margin-bottom:4px; color:rgba(255,255,255,0.7)">Counting down to</span>
+        <div style="font-family:'Playfair Display',serif; font-style:italic; font-size:18px; color:var(--gold-l)">June 27, 2026</div>
+      </div>
+      <div class="cd-unit"><span class="cd-num" id="cd-d2" style="color:var(--gold-l)">—</span><span class="cd-lbl" style="color:rgba(255,255,255,0.6)">Days</span></div>
+      <div class="cd-unit"><span class="cd-num" id="cd-h2" style="color:var(--gold-l)">—</span><span class="cd-lbl" style="color:rgba(255,255,255,0.6)">Hours</span></div>
+      <div class="cd-unit"><span class="cd-num" id="cd-m2" style="color:var(--gold-l)">—</span><span class="cd-lbl" style="color:rgba(255,255,255,0.6)">Minutes</span></div>
+      <div class="cd-unit"><span class="cd-num" id="cd-s2" style="color:var(--gold-l)">—</span><span class="cd-lbl" style="color:rgba(255,255,255,0.6)">Seconds</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     SECTION 4 — MEMORY TRAIL
+     CUSTOMIZE: #s-trail .sec-bg
+     Replace .pol-img contents with <img> tags
+══════════════════════════════════════════ -->
+<section class="sec sec-short" id="s-trail">
+  <div class="sec-bg"></div>
+  <div class="con">
+    <span class="eyebrow fi">The Memory Trail</span>
+    <h2 class="fi" style="margin-bottom:6px">Milestones</h2>
+    <p class="italic-note fi" style="margin-bottom:48px">A map of the moments that made us.</p>
+
+    <div class="trail">
+
+      <div class="trail-item fi">
+        <div class="trail-text">
+          <div class="trail-date">Aug 30, 2020</div>
+          <div class="trail-title">FIRST MEET AT PADRE PIO & SM LIPA </div>
+          <div class="trail-desc">We didn’t get to take a photo when we first met, but here’s one of our first selfies together.</div>
+        </div>
+        <div class="trail-dot"><div class="trail-dot-inner"></div></div>
+        <div class="trail-photo">
+          <div class="polaroid">
+            <img src="1.jpg" style="width:100%; aspect-ratio:4/3; object-fit:cover; display:block" alt="First meet">
+            <div class="pol-cap">Aug 30, 2020</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="trail-item fi">
+        <div class="trail-photo">
+          <div class="polaroid">
+            <img src="2.jpg" style="width:100%; aspect-ratio:4/3; object-fit:cover; display:block" alt="Lemery Beach">
+            <div class="pol-cap">SEPTEMBER 26, 2020</div>
+          </div>
+        </div>
+        <div class="trail-dot"><div class="trail-dot-inner"></div></div>
+        <div class="trail-text">
+          <div class="trail-date">SEPTEMBER 26, 2020</div>
+          <div class="trail-title">LEMERY BEACH TRIP AS FRIENDS</div>
+          <div class="trail-desc">We thought this was the end of “us”, but actually became one of the foundations of “us”.</div>
+        </div>
+      </div>
+
+      <div class="trail-item fi">
+        <div class="trail-text">
+          <div class="trail-date">NOVEMBER 22, 2020</div>
+          <div class="trail-title">MT. BULALO OR BULALO HILL?</div>
+          <div class="trail-desc">At the burol, our favorite nearby nature spot.</div>
+        </div>
+        <div class="trail-dot"><div class="trail-dot-inner"></div></div>
+        <div class="trail-photo">
+          <div class="polaroid">
+            <img src="3.jpg" style="width:100%; aspect-ratio:4/3; object-fit:cover; display:block" alt="Mt Bulalo">
+            <div class="pol-cap">NOVEMBER 22, 2020</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="trail-item fi">
+        <div class="trail-photo">
+          <div class="polaroid">
+            <img src="4.jpg" style="width:100%; aspect-ratio:4/3; object-fit:cover; display:block" alt="New Year">
+            <div class="pol-cap">JANUARY 1, 2021</div>
+          </div>
+        </div>
+        <div class="trail-dot"><div class="trail-dot-inner"></div></div>
+        <div class="trail-text">
+          <div class="trail-date">JANUARY 1, 2021</div>
+          <div class="trail-title">FIRST NEW YEAR CELEBRATION </div>
+          <div class="trail-desc">Starting that day, we’ve spent every New Year’s date at the burol.</div>
+        </div>
+      </div>
+
+      <div class="trail-item fi">
+        <div class="trail-text">
+          <div class="trail-date">MARCH 14, 2021</div>
+          <div class="trail-title">LEOMAR FIRST MEETING THE CASTILLO FAMILY</div>
+          <div class="trail-desc">We didn’t get to document that day, but here’s one of our first photos together with the Castillo family.</div>
+        </div>
+        <div class="trail-dot"><div class="trail-dot-inner"></div></div>
+        <div class="trail-photo">
+          <div class="polaroid">
+            <img src="5.jpg" style="width:100%; aspect-ratio:4/3; object-fit:cover; display:block" alt="Castillo Family">
+            <div class="pol-cap">MARCH 14, 2021</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="trail-item fi">
+        <div class="trail-photo">
+          <div class="polaroid">
+            <img src="6.jpg" style="width:100%; aspect-ratio:4/3; object-fit:cover; display:block" alt="Gonzales Family">
+            <div class="pol-cap">APRIL 5, 2021</div>
+          </div>
+        </div>
+        <div class="trail-dot"><div class="trail-dot-inner"></div></div>
+        <div class="trail-text">
+          <div class="trail-date">APRIL 5, 2021</div>
+          <div class="trail-title">ELI FIRST MEETING THE GONZALES FAMILY</div>
+          <div class="trail-desc">Another undocumented day, but here’s one of our first photos together with the Gonzales family.</div>
+        </div>
+      </div>
+
+      <div class="trail-item fi">
+        <div class="trail-text">
+          <div class="trail-date">MAY 27, 2021</div>
+          <div class="trail-title">AGREED TO BE OFFICIAL LOVERS</div>
+          <div class="trail-desc">This was the first time we held each other’s hands.</div>
+        </div>
+        <div class="trail-dot"><div class="trail-dot-inner"></div></div>
+        <div class="trail-photo">
+          <div class="polaroid">
+            <img src="7.jpg" style="width:100%; aspect-ratio:4/3; object-fit:cover; display:block" alt="Official">
+            <div class="pol-cap">MAY 27, 2021</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="trail-item fi">
+        <div class="trail-photo">
+          <div class="polaroid">
+            <img src="8.jpg" style="width:100%; aspect-ratio:4/3; object-fit:cover; display:block" alt="Pagbilao">
+            <div class="pol-cap">JUNE 12, 2021</div>
+          </div>
+        </div>
+        <div class="trail-dot"><div class="trail-dot-inner"></div></div>
+        <div class="trail-text">
+          <div class="trail-date">JUNE 12, 2021</div>
+          <div class="trail-title">PAGBILAO BEACH TRIP</div>
+          <div class="trail-desc">Sponty beach date with our friends.</div>
+        </div>
+      </div>
+
+      <div class="trail-item fi">
+        <div class="trail-text">
+          <div class="trail-date">SEPTEMBER 28, 2024</div>
+          <div class="trail-title">MT. KAPIGPIGLATAN BUNDOK TRIP</div>
+          <div class="trail-desc">Best quality time = Nature trip</div>
+        </div>
+        <div class="trail-dot"><div class="trail-dot-inner"></div></div>
+        <div class="trail-photo">
+          <div class="polaroid">
+            <img src="9.jpg" style="width:100%; aspect-ratio:4/3; object-fit:cover; display:block" alt="Milestone 9">
+            <div class="pol-cap">SEPTEMBER 28, 2024</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="trail-item fi">
+        <div class="trail-photo">
+          <div class="polaroid">
+            <img src="10.jpg" style="width:100%; aspect-ratio:4/3; object-fit:cover; display:block" alt="Milestone 10">
+            <div class="pol-cap">OCTOBER 18, 2025</div>
+          </div>
+        </div>
+        <div class="trail-dot"><div class="trail-dot-inner"></div></div>
+        <div class="trail-text">
+          <div class="trail-date">OCTOBER 18, 2025</div>
+          <div class="trail-title">PUERTO GALERA TRIP</div>
+          <div class="trail-desc">Leomar’s pre-birthday celebration </div>
+        </div>
+      </div>
+
+      <div class="trail-item fi">
+        <div class="trail-text">
+          <div class="trail-date">DECEMBER 5, 2025</div>
+          <div class="trail-title">THE VERY RAW PROPOSAL</div>
+          <div class="trail-desc">Only God, us, and Botok witnessed everything</div>
+        </div>
+        <div class="trail-dot"><div class="trail-dot-inner"></div></div>
+        <div class="trail-photo">
+          <div class="polaroid">
+            <img src="11.jpg" style="width:100%; aspect-ratio:4/3; object-fit:cover; display:block" alt="Milestone 9">
+            <div class="pol-cap">DECEMBER 5, 2025</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="trail-item fi">
+        <div class="trail-photo">
+          <div class="polaroid">
+            <img src="12.jpg" style="width:100%; aspect-ratio:4/3; object-fit:cover; display:block" alt="Milestone 10">
+            <div class="pol-cap">DECEMBER 8, 2025</div>
+          </div>
+        </div>
+        <div class="trail-dot"><div class="trail-dot-inner"></div></div>
+        <div class="trail-text">
+          <div class="trail-date">DECEMBER 8, 2025</div>
+          <div class="trail-title">TAKE 2 PROPOSAL</div>
+          <div class="trail-desc">Leomar had to double-check if it’s legit. And… it’s a “YES” from Eli!</div>
+        </div>
+      </div>
+
+      <div class="trail-item fi">
+        <div class="trail-text">
+          <div class="trail-date">JANUARY 25, 2026</div>
+          <div class="trail-title">PAMAMANHIKAN</div>
+          <div class="trail-desc">The Gonzales–Delos Reyes family’s first meeting with the Castillo–Marudo family</div>
+        </div>
+        <div class="trail-dot"><div class="trail-dot-inner"></div></div>
+        <div class="trail-photo">
+          <div class="polaroid" style="background:#fffbf0">
+             <img src="13.jpg" style="width:100%; aspect-ratio:4/3; object-fit:cover; display:block" alt="Milestone 10">
+            <div class="pol-cap" style="font-weight:500;color:var(--orange)">JANUARY 25, 2026</div>
+          </div>
+        </div>
+      </div>
+
+    </div></div>
+</section>
+<!-- ══════════════════════════════════════════
+     SECTION 5 — ENTOURAGE
+     CUSTOMIZE: #s-entourage .sec-bg
+══════════════════════════════════════════ -->
+<section class="sec sec-short" id="s-entourage" style="padding-bottom: 0;">
+  <div class="sec-bg" style="background: linear-gradient(160deg, #FDF9F4 0%, #FCE8B2 35%, #FAD0B4 75%, #F5CDD2 100%);"></div>
+  <div class="con" style="padding-bottom: 0;">
+
+    <div class="delicate-frame fi" style="border-color: rgba(42, 31, 26, 0.15); padding-top: 50px; border-bottom: none; border-bottom-left-radius: 0; border-bottom-right-radius: 0; margin-bottom: -20px;">
+      
+      <div class="floral-accent top" style="background: transparent;">
+        <div style="background: #FDF9F4; border-radius: 20px; padding: 0 12px; display: flex; align-items: center;">
+          <svg width="50" height="14" viewBox="0 0 50 14" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round">
+            <path d="M2,7 C12,7 18,2 25,2 C32,2 38,7 48,7" opacity="0.4"/>
+            <path d="M25,2 C22,5 18,6 15,6 C18,8 22,8 25,6 Z" fill="currentColor" opacity="0.25"/>
+            <path d="M25,2 C28,5 32,6 35,6 C32,8 28,8 25,6 Z" fill="currentColor" opacity="0.25"/>
+          </svg>
+        </div>
+      </div>
+
+      <span class="eyebrow" style="color: #2A1F1A; font-weight: 600; font-size: 10px;">The Wedding Party</span>
+      <h2 style="margin-bottom:6px">Our Pillars in This Union</h2>
+      <p class="italic-note" style="margin-bottom:56px; color: rgba(42,31,26,0.85);">Held by God’s grace and the love of our parents and families,<br>we joyfully choose to tie the knot.</p>
+
+      <div style="margin-bottom:48px;">
+        <div class="ent-label" style="font-size: 15px; font-weight: 600; color: #2A1F1A; letter-spacing: 0.35em; border-bottom: none; display: flex; flex-direction: column; align-items: center; gap: 14px; padding-bottom: 10px;">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#C8714A" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14.5 9c2.5 0 4.5 2 4.5 4.5S17 18 14.5 18c-2.3 0-3.6-2.1-4.5-3.5C9.1 13.1 7.8 11 5.5 11 3 11 1 13 1 15.5S3 20 5.5 20c2.3 0 3.6-2.1 4.5-3.5.9-1.4 2.2-3.5 4.5-3.5 2.5 0 4.5 2 4.5 4.5" />
+          </svg>
+          <span>The Parents</span>
+        </div>
+        <div class="ent-parents" style="font-size: 18px;">Mr. Leopoldo Q. Gonzales<br>&amp; Mrs. Ma. Teresa D. Gonzales</div>
+        <div class="ent-family" style="margin-bottom:24px; color: rgba(42,31,26,0.7);">Parents of the Groom</div>
+        
+        <div class="ent-parents" style="font-size: 18px;">Mr. Felixberto M. Castillo<br>&amp; Mrs. Rafaela M. Castillo</div>
+        <div class="ent-family" style="color: rgba(42,31,26,0.7);">Parents of the Bride</div>
+      </div>
+
+      <div style="margin-bottom:48px;">
+        <div class="ent-label" style="font-size: 15px; font-weight: 600; color: #2A1F1A; letter-spacing: 0.35em; border-bottom: none; display: flex; flex-direction: column; align-items: center; gap: 14px; padding-bottom: 10px;">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C8714A" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <span>Principal Sponsors</span>
+        </div>
+        <p class="italic-note" style="font-size:14px;margin-bottom:28px;color:rgba(42,31,26,0.7);">to witness our exchange of vows &amp; be our guide in marriage</p>
+        
+        <div class="ent-cols">
+          <div>
+            <div class="ent-label" style="font-size:10px; font-weight: 600; color: #C8714A; margin-bottom:14px; border-bottom:none; display: flex; align-items: center; gap: 6px;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12l4 6-10 13L2 9z"></path></svg>
+              Ninong
+            </div>
+            <div class="sponsor-item" style="border-bottom-color:rgba(42,31,26,0.1);"><div class="sponsor-name">Mr. Sergio M. Carandang</div></div>
+            <div class="sponsor-item" style="border-bottom-color:rgba(42,31,26,0.1);"><div class="sponsor-name">Arch. Joel L. De Juan</div></div>
+            <div class="sponsor-item" style="border-bottom-color:rgba(42,31,26,0.1);"><div class="sponsor-name">Mr. Olivo M. Quimio</div></div>
+            <div class="sponsor-item" style="border-bottom-color:rgba(42,31,26,0.1);"><div class="sponsor-name">Mr. Jeric M. Natividad</div></div>
+            <div class="sponsor-item" style="border-bottom-color:rgba(42,31,26,0.1);"><div class="sponsor-name">Mr. Roque L. Castillo</div></div>
+            <div class="sponsor-item" style="border-bottom-color:rgba(42,31,26,0.1);"><div class="sponsor-name">Mr. George M. Saniano</div></div>
+            <div class="sponsor-item" style="border-bottom-color:rgba(42,31,26,0.1);"><div class="sponsor-name">Kap. Domingo A. Carpio</div></div>
+            <div class="sponsor-item" style="border-bottom-color:rgba(42,31,26,0.1);"><div class="sponsor-name">Mr. Jeffrey B. Deriquito</div></div>
+            <div class="sponsor-item" style="border-bottom-color:rgba(42,31,26,0.1);"><div class="sponsor-name">Mr. Elmer B. Barquilla</div></div>
+            <div class="sponsor-item" style="border-bottom-color:rgba(42,31,26,0.1);"><div class="sponsor-name">Mr. Allan Narvaez</div></div>
+            <div class="sponsor-item" style="border-bottom-color:rgba(42,31,26,0.1);"><div class="sponsor-name">Mr. Rene A. Malijan</div></div>
+            <div class="sponsor-item" style="border-bottom-color:rgba(42,31,26,0.1);"><div class="sponsor-name">Mr. Edgar Q. Gonzales</div></div>
+            <div class="sponsor-item" style="border-bottom-color:rgba(42,31,26,0.1);"><div class="sponsor-name">Mr. Zaldy De Chavez</div></div>
+            <div class="sponsor-item" style="border-bottom-color:rgba(42,31,26,0.1);"><div class="sponsor-name">Mr. Malvin M. Gonzales</div></div>
+            <div class="sponsor-item" style="border-bottom-color:rgba(42,31,26,0.1);"><div class="sponsor-name">Mr. Aries G. Chavez</div></div>
+            <div class="sponsor-item" style="border-bottom:none"><div class="sponsor-name">Atty. Raegan L. Capuno</div></div>
+          </div>
+          <div>
+            <div class="ent-label" style="font-size:10px; font-weight: 600; color: #C8714A; margin-bottom:14px; border-bottom:none; display: flex; align-items: center; gap: 6px;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12l4 6-10 13L2 9z"></path></svg>
+              Ninang
+            </div>
+            <div class="sponsor-item" style="border-bottom-color:rgba(42,31,26,0.1);"><div class="sponsor-name">Mrs. Juana L. Carandang</div></div>
+            <div class="sponsor-item" style="border-bottom-color:rgba(42,31,26,0.1);"><div class="sponsor-name">Dra. Tess Q. De Juan</div></div>
+            <div class="sponsor-item" style="border-bottom-color:rgba(42,31,26,0.1);"><div class="sponsor-name">Mrs. Evelyn C. Quimio</div></div>
+            <div class="sponsor-item" style="border-bottom-color:rgba(42,31,26,0.1);"><div class="sponsor-name">Mrs. Amabel M. Natividad</div></div>
+            <div class="sponsor-item" style="border-bottom-color:rgba(42,31,26,0.1);"><div class="sponsor-name">Mrs. Rosebelle Castillo</div></div>
+            <div class="sponsor-item" style="border-bottom-color:rgba(42,31,26,0.1);"><div class="sponsor-name">Ms. Elvie C. Marudo</div></div>
+            <div class="sponsor-item" style="border-bottom-color:rgba(42,31,26,0.1);"><div class="sponsor-name">Mrs. Flordeliza S. Gonzales</div></div>
+            <div class="sponsor-item" style="border-bottom-color:rgba(42,31,26,0.1);"><div class="sponsor-name">Mrs. Verna C. Deriquito</div></div>
+            <div class="sponsor-item" style="border-bottom-color:rgba(42,31,26,0.1);"><div class="sponsor-name">Mrs. Ma. Lina O. Barquilla</div></div>
+            <div class="sponsor-item" style="border-bottom-color:rgba(42,31,26,0.1);"><div class="sponsor-name">Mrs. Lorlita Narvaez</div></div>
+            <div class="sponsor-item" style="border-bottom-color:rgba(42,31,26,0.1);"><div class="sponsor-name">Mrs. Ma. Rowena E. Malijan</div></div>
+            <div class="sponsor-item" style="border-bottom-color:rgba(42,31,26,0.1);"><div class="sponsor-name">Mrs. Melanie D. Gonzales</div></div>
+            <div class="sponsor-item" style="border-bottom-color:rgba(42,31,26,0.1);"><div class="sponsor-name">Ms. Carlota Alcantara</div></div>
+            <div class="sponsor-item" style="border-bottom-color:rgba(42,31,26,0.1);"><div class="sponsor-name">Mrs. Michelle Gonzales</div></div>
+            <div class="sponsor-item" style="border-bottom-color:rgba(42,31,26,0.1);"><div class="sponsor-name">Mrs. Adora O. Chavez</div></div>
+            <div class="sponsor-item" style="border-bottom:none;"><div class="sponsor-name">Dr. Mylen Capuno</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:48px;">
+        <div class="ent-label" style="font-size: 15px; font-weight: 600; color: #2A1F1A; letter-spacing: 0.35em; border-bottom: none; display: flex; flex-direction: column; align-items: center; gap: 14px; padding-bottom: 10px;">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C8714A" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M8 22h8"></path><path d="M12 12v10"></path><path d="M17 3v4a5 5 0 0 1-10 0V3h10z"></path><path d="M7 8h10"></path>
+          </svg>
+          <span>Our Chosen Circle</span>
+        </div>
+        <p class="italic-note" style="font-size:14px;margin-bottom:32px;color:rgba(42,31,26,0.7);">the persons closest to our hearts, who will assist us with our needs</p>
+        
+        <div class="ent-cols" style="margin-bottom:40px">
+          <div style="text-align:center">
+            <div class="ent-label" style="font-size:10px; font-weight: 600; color: #C8714A; margin-bottom:12px; border-bottom:none; display: flex; align-items: center; justify-content: center; gap: 6px;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+              Best Man
+            </div>
+            <div style="font-family:'Playfair Display',serif;font-style:italic;font-size:20px;color:var(--ink)">Mark Eriel M. Montero</div>
+          </div>
+          <div style="text-align:center">
+            <div class="ent-label" style="font-size:10px; font-weight: 600; color: #C8714A; margin-bottom:12px; border-bottom:none; display: flex; align-items: center; justify-content: center; gap: 6px;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+              Maid of Honor
+            </div>
+            <div style="font-family:'Playfair Display',serif;font-style:italic;font-size:20px;color:var(--ink)">Mariel M. Castillo</div>
+          </div>
+        </div>
+
+        <p class="italic-note" style="font-size:14px;margin-bottom:28px;border-top:1px solid rgba(42,31,26,0.1);padding-top:28px;color:rgba(42,31,26,0.7);">to guide us on our way to the altar</p>
+        <div class="ent-cols">
+          <div>
+            <div class="ent-label" style="font-size:10px; font-weight: 600; color: #C8714A; margin-bottom:16px; border-bottom:none; display: flex; align-items: center; gap: 6px;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"></polygon></svg>
+              Groomsmen
+            </div>
+            <div class="ent-name-pair" style="border-bottom-color:rgba(42,31,26,0.1);">Louie P. Castillo</div>
+            <div class="ent-name-pair" style="border-bottom-color:rgba(42,31,26,0.1);">Paolo M. Delos Reyes</div>
+            <div class="ent-name-pair" style="border-bottom-color:rgba(42,31,26,0.1);">Julian Emmanuel M. Hidalgo</div>
+            <div class="ent-name-pair" style="border-bottom-color:rgba(42,31,26,0.1);">Robert Daniel A. Aliscuano</div>
+            <div class="ent-name-pair" style="border-bottom-color:rgba(42,31,26,0.1);">Charles Aldrin S. Dimaunahan</div>
+            <div class="ent-name-pair" style="border-bottom-color:rgba(42,31,26,0.1);">Mark Joseph Q. Canupin</div>
+          </div>
+          <div>
+            <div class="ent-label" style="font-size:10px; font-weight: 600; color: #C8714A; margin-bottom:16px; border-bottom:none; display: flex; align-items: center; gap: 6px;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"></polygon></svg>
+              Bridesmaids
+            </div>
+            <div class="ent-name-pair" style="border-bottom-color:rgba(42,31,26,0.1);">Ericka Q. Lumbres</div>
+            <div class="ent-name-pair" style="border-bottom-color:rgba(42,31,26,0.1);">Rein Mikaella M. Arcega</div>
+            <div class="ent-name-pair" style="border-bottom-color:rgba(42,31,26,0.1);">Dezerein Faye G. Mansit</div>
+            <div class="ent-name-pair" style="border-bottom-color:rgba(42,31,26,0.1);">Ma. Naomi D. Managa</div>
+            <div class="ent-name-pair" style="border-bottom-color:rgba(42,31,26,0.1);">Maricon M. Poot</div>
+            <div class="ent-name-pair" style="border-bottom-color:rgba(42,31,26,0.1);">Liza L. Quilao</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:48px;">
+        <div class="ent-label" style="font-size: 15px; font-weight: 600; color: #2A1F1A; letter-spacing: 0.35em; border-bottom: none; display: flex; flex-direction: column; align-items: center; gap: 14px; padding-bottom: 10px;">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C8714A" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2L15 9L22 12L15 15L12 22L9 15L2 12L9 9L12 2Z"></path>
+          </svg>
+          <span>Secondary Sponsors</span>
+        </div>
+        <p class="italic-note" style="font-size:14px;margin-bottom:32px;color:rgba(42,31,26,0.7);">to lay our love to each other</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;text-align:center">
+          <div>
+            <div class="cap" style="font-size:9px; font-weight:600; margin-bottom:12px; color:#2A1F1A; display: flex; flex-direction: column; align-items: center; gap: 8px;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C8714A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v8"></path><path d="M9 10h6v12H9z"></path></svg>
+              <div>Candle<br><span style="color:rgba(42,31,26,0.6);font-size:8px;font-weight:400;text-transform:none;font-style:italic">to light up our path</span></div>
+            </div>
+            <div class="ent-name-pair" style="font-size:14px;border-bottom:none;padding-bottom:0;margin-bottom:4px;">Christopher Dioneda</div>
+            <div class="ent-name-pair" style="font-size:14px;border-bottom:none;padding-bottom:0;margin-bottom:4px;">Lea Marie D. Gonzales</div>
+          </div>
+          <div>
+            <div class="cap" style="font-size:9px; font-weight:600; margin-bottom:12px; color:#2A1F1A; display: flex; flex-direction: column; align-items: center; gap: 8px;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C8714A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12c-4-4-6-4-10 0s-6 4-10 0v8c4 4 6 4 10 0s6-4 10 0V12z"></path></svg>
+              <div>Veil<br><span style="color:rgba(42,31,26,0.6);font-size:8px;font-weight:400;text-transform:none;font-style:italic">to clothe us as one</span></div>
+            </div>
+            <div class="ent-name-pair" style="font-size:14px;border-bottom:none;padding-bottom:0;margin-bottom:4px;">Christian V. Uri</div>
+            <div class="ent-name-pair" style="font-size:14px;border-bottom:none;padding-bottom:0;margin-bottom:4px;">Dra. Rose An Elizabeth C. Quimio</div>
+          </div>
+          <div>
+            <div class="cap" style="font-size:9px; font-weight:600; margin-bottom:12px; color:#2A1F1A; display: flex; flex-direction: column; align-items: center; gap: 8px;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C8714A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="12" r="5"></circle><circle cx="16" cy="12" r="5"></circle></svg>
+              <div>Cord<br><span style="color:rgba(42,31,26,0.6);font-size:8px;font-weight:400;text-transform:none;font-style:italic">to bind us together</span></div>
+            </div>
+            <div class="ent-name-pair" style="font-size:14px;border-bottom:none;padding-bottom:0;margin-bottom:4px;">Darwin D. Adino</div>
+            <div class="ent-name-pair" style="font-size:14px;border-bottom:none;padding-bottom:0;margin-bottom:4px;">Chilsea Malor Q. Opena</div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="ent-label" style="font-size: 15px; font-weight: 600; color: #2A1F1A; letter-spacing: 0.35em; border-bottom: none; display: flex; flex-direction: column; align-items: center; gap: 14px; padding-bottom: 10px;">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C8714A" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 12c-2-2-5-4-8-4v8c3 0 6-2 8-4z"></path><path d="M12 12c2-2 5-4 8-4v8c-3 0-6-2-8-4z"></path><circle cx="12" cy="12" r="2"></circle>
+          </svg>
+          <span>The Little Ones</span>
+        </div>
+        
+        <p class="italic-note" style="font-size:14px;margin-bottom:24px;color:rgba(42,31,26,0.7);">to carry our symbol of love, faith, and treasures</p>
+        <div class="ent-grid" style="margin-bottom:36px">
+          <div class="ent-grid-item" style="border-color: rgba(42,31,26,0.15); font-size:14px;">
+            <span class="ent-grid-role" style="color:#2A1F1A; font-weight:600; font-size:8.5px; display: flex; flex-direction: column; align-items: center; gap: 6px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C8714A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="14" r="6"></circle><polygon points="12 4 15 8 9 8 12 4"></polygon></svg>
+              Ring Bearer
+            </span>
+            Elias Maui S. Castillo
+          </div>
+          <div class="ent-grid-item" style="border-color: rgba(42,31,26,0.15); font-size:14px;">
+            <span class="ent-grid-role" style="color:#2A1F1A; font-weight:600; font-size:8.5px; display: flex; flex-direction: column; align-items: center; gap: 6px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C8714A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+              Bible Bearer
+            </span>
+            Kyle S. Delos Reyes
+          </div>
+          <div class="ent-grid-item" style="border-color: rgba(42,31,26,0.15); font-size:14px;">
+            <span class="ent-grid-role" style="color:#2A1F1A; font-weight:600; font-size:8.5px; display: flex; flex-direction: column; align-items: center; gap: 6px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C8714A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"></circle><path d="M6 12c0 3.31 2.69 6 6 6s6-2.69 6-6"></path><path d="M6 16c0 3.31 2.69 6 6 6s6-2.69 6-6"></path></svg>
+              Coin Bearer
+            </span>
+            Caelus Light D. Castillo
+          </div>
+          <div class="ent-grid-item" style="grid-column:1/-1;max-width:200px;margin:0 auto;width:100%;border-color:rgba(42,31,26,0.15); font-size:14px;">
+            <span class="ent-grid-role" style="color:#2A1F1A; font-weight:600; font-size:8.5px; display: flex; flex-direction: column; align-items: center; gap: 6px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C8714A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path><line x1="4" y1="22" x2="4" y2="15"></line></svg>
+              Banner Bearer
+            </span>
+            Felix Rafael Castillo
+          </div>
+        </div>
+
+        <p class="italic-note" style="font-size:14px;margin-bottom:24px;border-top:1px solid rgba(42,31,26,0.1);padding-top:28px;color:rgba(42,31,26,0.7);">to shower our aisle with flowers</p>
+        <div class="ent-grid">
+          <div class="ent-grid-item" style="border-color: rgba(42,31,26,0.15); font-size:14px;">
+            <span class="ent-grid-role" style="color:#2A1F1A; font-weight:600; font-size:8.5px; display: flex; flex-direction: column; align-items: center; gap: 6px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C8714A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M12 2a3 3 0 0 0-3 3v2a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"></path><path d="M22 12a3 3 0 0 0-3-3h-2a3 3 0 0 0 0 6h2a3 3 0 0 0 3-3z"></path><path d="M12 22a3 3 0 0 0 3-3v-2a3 3 0 0 0-6 0v2a3 3 0 0 0 3 3z"></path><path d="M2 12a3 3 0 0 0 3 3h2a3 3 0 0 0 0-6H5a3 3 0 0 0-3 3z"></path></svg>
+              Flower Girl
+            </span>
+            Ellie Grace L. Pamplona
+          </div>
+          <div class="ent-grid-item" style="border-color: rgba(42,31,26,0.15); font-size:14px;">
+            <span class="ent-grid-role" style="color:#2A1F1A; font-weight:600; font-size:8.5px; display: flex; flex-direction: column; align-items: center; gap: 6px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C8714A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M12 2a3 3 0 0 0-3 3v2a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"></path><path d="M22 12a3 3 0 0 0-3-3h-2a3 3 0 0 0 0 6h2a3 3 0 0 0 3-3z"></path><path d="M12 22a3 3 0 0 0 3-3v-2a3 3 0 0 0-6 0v2a3 3 0 0 0 3 3z"></path><path d="M2 12a3 3 0 0 0 3 3h2a3 3 0 0 0 0-6H5a3 3 0 0 0-3 3z"></path></svg>
+              Flower Girl
+            </span>
+            Maui Elise S. Castillo
+          </div>
+          <div class="ent-grid-item" style="border-color: rgba(42,31,26,0.15); font-size:14px;">
+            <span class="ent-grid-role" style="color:#2A1F1A; font-weight:600; font-size:8.5px; display: flex; flex-direction: column; align-items: center; gap: 6px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C8714A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M12 2a3 3 0 0 0-3 3v2a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"></path><path d="M22 12a3 3 0 0 0-3-3h-2a3 3 0 0 0 0 6h2a3 3 0 0 0 3-3z"></path><path d="M12 22a3 3 0 0 0 3-3v-2a3 3 0 0 0-6 0v2a3 3 0 0 0 3 3z"></path><path d="M2 12a3 3 0 0 0 3 3h2a3 3 0 0 0 0-6H5a3 3 0 0 0-3 3z"></path></svg>
+              Flower Girl
+            </span>
+            Sophia Louise S. Gonzales
+          </div>
+        </div>
+      </div>
+
+    </div></div>
+</section>
+
+<section class="sec sec-short" id="s-details" style="padding-top: 20px;">
+  <div class="sec-bg" style="background: linear-gradient(160deg, #F5CDD2 0%, #FAD0B4 40%, #FDF9F4 100%);"></div>
+  <div class="con">
+
+    <div class="delicate-frame fi" style="border-color: rgba(42, 31, 26, 0.15); border-top: none; border-top-left-radius: 0; border-top-right-radius: 0; padding-top: 20px;">
+
+      <span class="eyebrow" style="color: #2A1F1A; font-weight: 600; font-size: 10px;">The Details</span>
+      <h2 style="margin-bottom:56px">Everything You Need to Know</h2>
+
+      <div style="margin-bottom:56px;">
+        <div class="ent-label" style="font-size: 15px; font-weight: 600; color: #2A1F1A; letter-spacing: 0.35em; border-bottom: none; display: flex; flex-direction: column; align-items: center; gap: 14px; padding-bottom: 10px;">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C8714A" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3l2 5h5l-4 4 2 6-5-4-5 4 2-6-4-4h5z"></path>
+          </svg>
+          <span>Dress Code</span>
+        </div>
+
+        <div style="margin: 20px auto 24px; max-width: 90%; display: flex; justify-content: center;">
+          <img src="dresscode.png" alt="Dress Code Inspiration" style="width: 100%; max-width: 320px; height: auto; display: block;">
+        </div>
+
+        <div class="swatches" style="margin-bottom: 32px;">
+          <div class="swatch">
+            <div class="sw-circle" style="background: #e0623c;"></div>
+            <div class="sw-name">Terracotta</div>
+          </div>
+          <div class="swatch">
+            <div class="sw-circle" style="background: #ffde59;"></div>
+            <div class="sw-name">Sunlight</div>
+          </div>
+          <div class="swatch">
+            <div class="sw-circle" style="background: #ff690b;"></div>
+            <div class="sw-name">Tangerine</div>
+          </div>
+          <div class="swatch">
+            <div class="sw-circle" style="background: #fc5e53;"></div>
+            <div class="sw-name">Coral</div>
+          </div>
+          <div class="swatch">
+            <div class="sw-circle" style="background: #ef9525;"></div>
+            <div class="sw-name">Marigold</div>
+          </div>
+        </div>
+
+        <p class="body" style="font-size:15px;line-height:1.9;margin-bottom:24px">
+          <strong style="font-family:'Cinzel',serif;font-size:10px;letter-spacing:.2em;font-weight:600;color:var(--orange)">ENTOURAGE &amp; SPONSORS</strong><br>
+          <strong style="color:var(--ink2);">Gentlemen:</strong> Barong Tagalog with black slacks.<br>
+          <strong style="color:var(--ink2);">Ladies:</strong> Solid-colored long dresses in sunset shades.
+        </p>
+        
+        <p class="body" style="font-size:15px;line-height:1.9;margin-bottom:20px">
+          <strong style="font-family:'Cinzel',serif;font-size:10px;letter-spacing:.2em;font-weight:600;color:var(--orange)">GENERAL GUESTS</strong><br>
+          Wear anything you’re comfortable in. If you’d like to match our theme, you may choose any of the sunset shades shown above.
+        </p>
+      </div>
+
+      <div style="margin-bottom:56px;">
+        <div class="ent-label" style="font-size: 15px; font-weight: 600; color: #2A1F1A; letter-spacing: 0.35em; border-bottom: none; display: flex; flex-direction: column; align-items: center; gap: 14px; padding-bottom: 10px;">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C8714A" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="8" width="18" height="4" rx="1" ry="1"></rect><path d="M12 8v13"></path><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"></path><path d="M7.5 8a2.5 2.5 0 0 1 0-5A4.8 8 0 0 1 12 8a4.8 8 0 0 1 4.5-5 2.5 2.5 0 0 1 0 5"></path>
+          </svg>
+          <span>Gift Wishes</span>
+        </div>
+        <h3 style="margin-bottom:12px">Your Presence is the Present</h3>
+        <p class="body" style="font-size:15px;line-height:1.9">
+          Truly, your prayers and presence mean the world to us. But if you'd like to bless us with something more, monetary gifts are warmly appreciated — to help us begin our new chapter together.
+        </p>
+      </div>
+
+      <div>
+        <div class="ent-label" style="font-size: 15px; font-weight: 600; color: #2A1F1A; letter-spacing: 0.35em; border-bottom: none; display: flex; flex-direction: column; align-items: center; gap: 14px; padding-bottom: 10px;">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C8714A" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle>
+          </svg>
+          <span style="line-height: 1.4;">Getting There &amp;<br>Sharing Memories</span>
+        </div>
+        
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:32px;">
+          <div>
+            <div class="qr-box">
+              <img src="church-qr.png" style="width:100%;height:100%;object-fit:contain" alt="Church QR"> 
+            </div>
+            <div class="cap" style="margin-top:10px;font-size:9px">St. Augustine Parish</div>
+          </div>
+          <div>
+            <div class="qr-box">
+               <img src="pat-qr.png" style="width:100%;height:100%;object-fit:contain" alt="Reception QR"> 
+            </div>
+            <div class="cap" style="margin-top:10px;font-size:9px">Patricio's Café</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="floral-accent bot" style="background: transparent;">
+        <div style="background: #FDF9F4; border-radius: 20px; padding: 0 12px; display: flex; align-items: center;">
+          <svg width="50" height="14" viewBox="0 0 50 14" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" style="transform: rotate(180deg);">
+            <path d="M2,7 C12,7 18,2 25,2 C32,2 38,7 48,7" opacity="0.4"/>
+            <path d="M25,2 C22,5 18,6 15,6 C18,8 22,8 25,6 Z" fill="currentColor" opacity="0.25"/>
+            <path d="M25,2 C28,5 32,6 35,6 C32,8 28,8 25,6 Z" fill="currentColor" opacity="0.25"/>
+          </svg>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="sec sec-short" id="s-timeline">
+  <div class="sec-bg" style="background: linear-gradient(160deg, #FDF9F4 0%, #FCE8B2 100%);"></div>
+  <div class="con">
+    
+    <div class="delicate-frame fi" style="border-color: rgba(42, 31, 26, 0.15); padding-top: 50px;">
+      
+      <div class="floral-accent top" style="background: transparent;">
+        <div style="background: #FDF9F4; border-radius: 20px; padding: 0 12px; display: flex; align-items: center;">
+          <svg width="50" height="14" viewBox="0 0 50 14" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round">
+            <path d="M2,7 C12,7 18,2 25,2 C32,2 38,7 48,7" opacity="0.4"/>
+            <path d="M25,2 C22,5 18,6 15,6 C18,8 22,8 25,6 Z" fill="currentColor" opacity="0.25"/>
+            <path d="M25,2 C28,5 32,6 35,6 C32,8 28,8 25,6 Z" fill="currentColor" opacity="0.25"/>
+          </svg>
+        </div>
+      </div>
+
+      <div class="ent-label" style="font-size: 15px; font-weight: 600; color: #2A1F1A; letter-spacing: 0.35em; border-bottom: none; display: flex; flex-direction: column; align-items: center; gap: 14px; padding-bottom: 10px; margin-bottom: 32px;">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C8714A" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        <span>The Day's Journey</span>
+      </div>
+      
+      <p class="italic-note" style="margin-bottom:48px; color:rgba(42,31,26,0.7);">A timeline to guide you through our most cherished day</p>
+
+      <div class="evt-list">
+        
+        <div class="evt-item">
+          <div class="evt-time">1:30 PM</div>
+          <div>
+            <div class="evt-name" style="display:flex; align-items:center; gap:8px;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C8714A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+              Wedding Ceremony
+            </div>
+            <div class="evt-note">St. Augustine Parish · Brgy. Santor, Tanauan City</div>
+          </div>
+        </div>
+
+        <div class="evt-item">
+          <div class="evt-time">3:30 PM</div>
+          <div>
+            <div class="evt-name" style="display:flex; align-items:center; gap:8px;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C8714A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+              Post-Nuptial
+            </div>
+            <div class="evt-note">Newlywed portraits &amp; family photos after the ceremony</div>
+          </div>
+        </div>
+
+        <div class="evt-item">
+          <div class="evt-time">3:45 PM</div>
+          <div>
+            <div class="evt-name" style="display:flex; align-items:center; gap:8px;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C8714A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+              Reception Arrival
+            </div>
+            <div class="evt-note">Patricio's Café &amp; Restaurant · Brgy. Luyos, Tanauan City</div>
+          </div>
+        </div>
+
+        <div class="evt-item">
+          <div class="evt-time">5:00 PM</div>
+          <div>
+            <div class="evt-name" style="display:flex; align-items:center; gap:8px;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C8714A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"></path><path d="M7 2v20"></path><path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"></path></svg>
+              Dinner Buffet
+            </div>
+            <div class="evt-note">A feast of celebration opens</div>
+          </div>
+        </div>
+
+        <div class="evt-item">
+          <div class="evt-time">Onwards</div>
+          <div>
+            <div class="evt-name" style="display:flex; align-items:center; gap:8px;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C8714A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
+              Celebration
+            </div>
+            <div class="evt-note">Mingle, laugh, and toast to the newlyweds</div>
+          </div>
+        </div>
+
+        <div class="evt-item">
+          <div class="evt-time">7:00 PM</div>
+          <div>
+            <div class="evt-name" style="display:flex; align-items:center; gap:8px;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C8714A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="M4.93 4.93l1.41 1.41"></path><path d="M17.66 17.66l1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="M4.93 19.07l1.41-1.41"></path><path d="M17.66 6.34l1.41-1.41"></path></svg>
+              Fireworks
+            </div>
+            <div class="evt-note">Light up the Batangas sky in their honor</div>
+          </div>
+        </div>
+
+        <div class="evt-item">
+          <div class="evt-time">Late Night</div>
+          <div>
+            <div class="evt-name" style="display:flex; align-items:center; gap:8px;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C8714A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 3l-8 9v7h-4v-7L2 3h20z"></path><path d="M16 22H8"></path></svg>
+              Barekan
+            </div>
+            <div class="evt-note">The real party. Stay as long as your heart desires.</div>
+          </div>
+        </div>
+
+        <div class="evt-item">
+          <div class="evt-time" style="color:var(--orange);">Anytime</div>
+          <div>
+            <div class="evt-name" style="display:flex; align-items:center; gap:8px; color:var(--ink);">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C8714A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+              Snap &amp; Share
+            </div>
+            <div class="evt-note">Capture the moment and tag us in your photos!</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="floral-accent bot" style="background: transparent;">
+        <div style="background: #FCE8B2; border-radius: 20px; padding: 0 12px; display: flex; align-items: center;">
+          <svg width="50" height="14" viewBox="0 0 50 14" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" style="transform: rotate(180deg);">
+            <path d="M2,7 C12,7 18,2 25,2 C32,2 38,7 48,7" opacity="0.4"/>
+            <path d="M25,2 C22,5 18,6 15,6 C18,8 22,8 25,6 Z" fill="currentColor" opacity="0.25"/>
+            <path d="M25,2 C28,5 32,6 35,6 C32,8 28,8 25,6 Z" fill="currentColor" opacity="0.25"/>
+          </svg>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="s-closing" style="background: transparent; position: relative; padding-top: 60px;">
+  
+  <img src="last.gif" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0;" alt="Leomar and Eli">
+
+  <div class="sec-bg" style="background: rgba(255, 255, 255, 0.35);"></div>
+  
+  <div class="con" style="text-shadow: 0 2px 15px rgba(255,255,255,1), 0 0 30px rgba(255,255,255,0.9);">
+
+    <div class="closing-names fi" style="color: var(--ink); margin-bottom: 24px;">
+      Leomar<br>
+      <span style="font-size:.55em;color:var(--orange);font-style:normal; text-shadow: 0 2px 15px rgba(255,255,255,1);">&amp;</span><br>
+      Elizabeth
+    </div>
+
+    <span class="fi d1" style="font-family:'Cinzel',serif;font-size:11.5px;letter-spacing:.45em;color:var(--ink2);font-weight:600;display:block;margin-bottom:40px">JUNE 27 · 2026 · TANAUAN CITY</span>
+
+    <div class="fi d2" style="font-family: 'Playfair Display', serif; font-style: italic; font-size: 19px; line-height: 1.85; color: var(--ink); font-weight: 500; max-width: 480px; margin: 0 auto 40px;">
+      "Throughout our journey in our relationship, we’ve felt love and support not just from each other, but also from the people around us. Everyone has made us feel seen, valued, and included. So for our wedding, we want to keep that same vibe—something simple, inclusive, with less rules, and open to everyone. Your presence is what matters most to us.<br><br>
+      See you on our big day!<br><br>
+      With sml,<br>
+      <span style="color: var(--orange); font-size: 24px; font-weight: 600; display: inline-block; margin-top: 4px; text-shadow: 0 2px 15px rgba(255,255,255,1);">Leomar and Eli</span>"
+    </div>
+
+  </div>
+</section>
+
+<!-- ── MUSIC PLAYER ── -->
+<!-- CUSTOMIZE: Replace YOUR_AUDIO_URL with a direct link to your MP3 -->
+<audio id="waudio" loop preload="none">
+  <source src="theme-song.mp3" type="audio/mpeg">
+</audio>
+
+<div id="music-player">
+  <div class="mlabel" id="mlabel">♪ Our Song</div>
+  <button class="mbtn" onclick="toggleMusic()" aria-label="Play music">
+    <svg class="play-icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><polygon points="4,2 14,8 4,14"/></svg>
+    <div class="eq-icon sw-bars" style="display:none">
+      <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+    </div>
+  </button>
+</div>
+
+<!-- ── NAV DOTS ── -->
+<nav id="nav" aria-label="Sections">
+  <div class="ndot a" onclick="scrollTo({top:0,behavior:'smooth'})" title="Top"></div>
+  <div class="ndot" onclick="sid('s-savedate')" title="Save the Date"></div>
+  <div class="ndot" onclick="sid('s-story')" title="Love Story"></div>
+  <div class="ndot" onclick="sid('s-trail')" title="Memory Trail"></div>
+  <div class="ndot" onclick="sid('s-entourage')" title="Entourage"></div>
+  <div class="ndot" onclick="sid('s-details')" title="Details"></div>
+  <div class="ndot" onclick="sid('s-timeline')" title="Timeline"></div>
+  <div class="ndot" onclick="sid('s-closing')" title="Closing"></div>
+</nav>
+
+<script>
+// ═══════════════════════════════════════════════════════
+//  LEOMAR & ELIZABETH — GSAP ANIMATION ENGINE
+//  Modelled after the reference video:
+//  envelope open → card rise → scroll-reveal → trail draw
+// ═══════════════════════════════════════════════════════
+
+gsap.registerPlugin(ScrollTrigger, TextPlugin);
+
+/* ─── HELPERS ─── */
+document.body.classList.add('loading');
+
+function sid(id){ document.getElementById(id)?.scrollIntoView({behavior:'smooth'}); }
+
+/* ─── COUNTDOWN ─── */
+let prevCD = {};
+function tick(){
+  const t = new Date('2026-06-27T13:30:00+08:00') - new Date();
+  const vals = [
+    Math.max(0,Math.floor(t/86400000)),
+    Math.max(0,Math.floor(t%86400000/3600000)),
+    Math.max(0,Math.floor(t%3600000/60000)),
+    Math.max(0,Math.floor(t%60000/1000))
+  ];
+  ['cd-d','cd-h','cd-m','cd-s','cd-d2','cd-h2','cd-m2','cd-s2'].forEach((id,i)=>{
+    const el = document.getElementById(id);
+    const v  = vals[i%4];
+    if(el && prevCD[id] !== v){
+      prevCD[id] = v;
+      el.textContent = v;
+      gsap.fromTo(el,{y:-18,opacity:0,scale:1.2},{y:0,opacity:1,scale:1,duration:0.35,ease:'back.out(2)'});
+    }
+  });
+}
+tick(); setInterval(tick,1000);
+
+/* ─── NAV DOTS ─── */
+const secIds = ['s-hero','s-savedate','s-story','s-trail','s-entourage','s-details','s-timeline','s-closing'];
+const dots   = document.querySelectorAll('.ndot');
+const sio = new IntersectionObserver(es=>{
+  es.forEach(e=>{
+    if(e.isIntersecting){
+      const i = secIds.indexOf(e.target.id);
+      if(i>=0){ dots.forEach(d=>d.classList.remove('a')); dots[i]?.classList.add('a'); }
+    }
+  });
+},{rootMargin:'-40% 0px -40% 0px'});
+secIds.forEach(id=>{ const el=document.getElementById(id); if(el) sio.observe(el); });
+
+/* ─── SCROLL PROGRESS BAR ─── */
+gsap.to('#scroll-progress',{
+  width:'100%', ease:'none',
+  scrollTrigger:{scrub:0.3, start:'top top', end:'bottom bottom'}
+});
+
+/* ─── MUSIC PLAYER ─── */
+const audio = document.getElementById('waudio');
+const lbl   = document.getElementById('mlabel');
+let playing=false, lblTimer;
+function showLabel(txt,dur=3000){
+  lbl.textContent=txt; lbl.classList.add('show');
+  clearTimeout(lblTimer); lblTimer=setTimeout(()=>lbl.classList.remove('show'),dur);
+}
+function toggleMusic(){
+  const mbtns=document.querySelectorAll('.mbtn');
+  if(!playing){
+    if(audio.currentTime===0) audio.currentTime=19;
+    audio.play().then(()=>{
+      playing=true;
+      mbtns.forEach(b=>{ b.classList.add('playing'); b.querySelector('.play-icon').style.display='none'; b.querySelector('.eq-icon').style.display='flex'; });
+      showLabel('♪ Playing our song');
+    }).catch(()=>showLabel('Add audio URL in code ↗'));
+  } else {
+    audio.pause(); playing=false;
+    mbtns.forEach(b=>{ b.classList.remove('playing'); b.querySelector('.play-icon').style.display='block'; b.querySelector('.eq-icon').style.display='none'; });
+    showLabel('♪ Paused',2000);
+  }
+}
+let hinted=false;
+window.addEventListener('scroll',()=>{ if(!hinted&&!playing){hinted=true;showLabel('♪ Play our song');} },{passive:true});
+
+/* ─── FALLING PETALS ─── */
+(function createPetals(){
+  const wrap = document.createElement('div');
+  wrap.id='petal-container';
+  wrap.style.cssText='position:fixed;inset:0;pointer-events:none;z-index:9997;overflow:hidden';
+  document.body.appendChild(wrap);
+  const colors=['#ECC96A','#D9724A','#E8A0A8'];
+  for(let i=0;i<28;i++){
+    const p=document.createElement('div');
+    p.classList.add('petal');
+    const scale=0.6+Math.random()*0.6, color=colors[i%colors.length];
+    p.innerHTML=`<svg viewBox="0 0 24 24" fill="${color}" style="width:${16*scale}px;height:${16*scale}px;opacity:.7"><path d="M12,2C12,2,20,8,20,15C20,19,16,22,12,22C8,22,4,19,4,15C4,8,12,2,12,2Z"/></svg>`;
+    p.style.left=`${Math.random()*100}vw`;
+    p.style.animationDuration=`${6+Math.random()*6}s`;
+    p.style.animationDelay=`${Math.random()*10}s`;
+    p.style.setProperty('--drift',`${(Math.random()-.5)*200}px`);
+    p.style.setProperty('--spin',`${Math.random()*360+360}deg`);
+    wrap.appendChild(p);
+  }
+})();
+
+
+// ═══════════════════════════════════════════════════════
+//  SECTION 1 — ENVELOPE OPEN ANIMATION
+//  Sequence: envelope drops in → flap opens up (rotateX)
+//  → card rises from inside → everything fades out
+//  → hero section fades in underneath
+// ═══════════════════════════════════════════════════════
+window.addEventListener('load', ()=>{
+
+  const loaderTl = gsap.timeline({
+    onComplete: ()=>{
+      // Fade out loader, reveal page
+      gsap.to('#loader',{
+        opacity:0, duration:0.7, ease:'power2.inOut',
+        onComplete:()=>{
+          document.getElementById('loader').style.display='none';
+          document.body.classList.remove('loading');
+          // Hero entrance after loader gone
+          heroEntrance();
+        }
+      });
+    }
+  });
+
+  // 1a. Envelope scene drops in from above
+  loaderTl.fromTo('#env-scene',
+    { y:-120, opacity:0, scale:0.85 },
+    { y:0, opacity:1, scale:1, duration:0.9, ease:'expo.out' }
+  );
+
+  // 1b. Wax seal pulses
+  loaderTl.fromTo('#env-seal',
+    { scale:0, rotation:-30 },
+    { scale:1, rotation:0, duration:0.5, ease:'back.out(2.5)' },
+    '-=0.3'
+  );
+
+  // 1c. Short pause — let viewer read the envelope
+  loaderTl.to({},{duration:0.6});
+
+  // 1d. Wax seal shrinks away (flap is about to open)
+  loaderTl.to('#env-seal',
+    { scale:0, opacity:0, duration:0.3, ease:'power2.in' }
+  );
+
+  // 1e. Top flap opens — rotate around top edge (like unfolding)
+  loaderTl.to('#env-flap',{
+    rotateX:-180, duration:1, ease:'power3.inOut',
+    transformOrigin:'top center',
+    transformPerspective:500
+  }, '-=0.1');
+
+  // 1f. Card rises from inside the envelope
+  loaderTl.to('#env-card',{
+    y:-110, opacity:1, duration:1, ease:'expo.out'
+  }, '-=0.5');
+
+  // 1g. Pause — viewer reads the card
+  loaderTl.to({},{duration:1.2});
+
+  // 1h. Whole scene scales up and fades (cinematic zoom-into-card)
+  loaderTl.to('#env-scene',{
+    scale:1.15, opacity:0, duration:0.8, ease:'power2.in'
+  });
+
+  // Music player slides in after loader
+  gsap.fromTo('#music-player',
+    {x:100,opacity:0},
+    {x:0,opacity:1,duration:0.9,ease:'elastic.out(1,0.5)',delay:4.5}
+  );
+});
+
+
+// ═══════════════════════════════════════════════════════
+//  HERO ENTRANCE — matches the video's card-reveal feel
+// ═══════════════════════════════════════════════════════
+function heroEntrance(){
+  const tl = gsap.timeline();
+
+  tl.fromTo('#s-hero .eyebrow',
+    { clipPath:'inset(0 100% 0 0)', opacity:1 },
+    { clipPath:'inset(0 0% 0 0)', duration:0.9, ease:'power3.out' }
+  );
+
+  tl.fromTo('#s-hero .names',
+    { y:60, opacity:0, filter:'blur(8px)' },
+    { y:0, opacity:1, filter:'blur(0px)', duration:1.1, ease:'expo.out' },
+    '-=0.3'
+  );
+
+  tl.fromTo('#s-hero .amp',
+    { scale:0, rotation:-90, opacity:0 },
+    { scale:1, rotation:0, opacity:1, duration:0.7, ease:'elastic.out(1,0.5)' },
+    '-=0.6'
+  );
+
+  tl.fromTo('#s-hero .div-line',
+    { scaleX:0 },
+    { scaleX:1, duration:0.8, ease:'power3.out', transformOrigin:'center' },
+    '-=0.3'
+  );
+
+  tl.fromTo('#s-hero .div-gem',
+    { scale:0 },
+    { scale:1, duration:0.4, ease:'back.out(3)' },
+    '-=0.4'
+  );
+
+  tl.fromTo('#s-hero .bigdate',
+    { opacity:0, y:20 },
+    { opacity:1, y:0, duration:0.7, ease:'power3.out' },
+    '-=0.2'
+  );
+
+  tl.fromTo('#s-hero .cap, #s-hero .fi.d4',
+    { opacity:0, y:16 },
+    { opacity:1, y:0, duration:0.6, stagger:0.15, ease:'power2.out' },
+    '-=0.3'
+  );
+
+  // Mark hero .fi elements done so IntersectionObserver doesn't double-trigger
+  document.querySelectorAll('#s-hero .fi').forEach(el=>{
+    el.style.opacity='1'; el.style.transform='none'; el.classList.add('vis');
+  });
+}
+
+
+// ═══════════════════════════════════════════════════════
+//  HERO VIDEO — subtle parallax zoom on scroll
+// ═══════════════════════════════════════════════════════
+gsap.to('#s-hero .hero-video',{
+  scale:1.12, ease:'none',
+  scrollTrigger:{trigger:'#s-hero', start:'top top', end:'bottom top', scrub:true}
+});
+
+
+// ═══════════════════════════════════════════════════════
+//  SAVE THE DATE — paper-unfold reveal (like the video card)
+// ═══════════════════════════════════════════════════════
+ScrollTrigger.create({
+  trigger:'#s-savedate',
+  start:'top 75%',
+  onEnter:()=>{
+    const tl = gsap.timeline();
+
+    // The whole frame unfolds from top
+    tl.fromTo('.delicate-frame',
+      { scaleY:0, opacity:0, transformOrigin:'top center' },
+      { scaleY:1, opacity:1, duration:0.8, ease:'expo.out' }
+    );
+
+    // Eyebrow letter reveal
+    tl.fromTo('#s-savedate .eyebrow',
+      { clipPath:'inset(0 100% 0 0)' },
+      { clipPath:'inset(0 0% 0 0)', duration:0.7, ease:'power3.out' },
+      '-=0.3'
+    );
+
+    // Heading drops in
+    tl.fromTo('#s-savedate h2',
+      { y:30, opacity:0 },
+      { y:0, opacity:1, duration:0.6, ease:'expo.out' },
+      '-=0.2'
+    );
+
+    // Divider draws
+    tl.fromTo('#s-savedate .div-line',
+      { scaleX:0 },
+      { scaleX:1, duration:0.7, ease:'power3.out', transformOrigin:'center', stagger:0.1 },
+      '-=0.2'
+    );
+
+    // Each fi element staggers in
+    gsap.utils.toArray('#s-savedate .fi').forEach((el,i)=>{
+      gsap.fromTo(el,
+        {opacity:0, y:28},
+        {opacity:1, y:0, duration:0.65, ease:'power3.out', delay:0.3+i*0.12,
+         onStart:()=>el.classList.add('vis')}
+      );
+    });
+  }
+});
+
+// Photo tilt on hover
+gsap.utils.toArray('.photo-slot img').forEach(img=>{
+  img.addEventListener('mousemove',e=>{
+    const r=img.getBoundingClientRect();
+    const cx=(e.clientX-r.left)/r.width-.5;
+    const cy=(e.clientY-r.top)/r.height-.5;
+    gsap.to(img,{rotateY:cx*12,rotateX:-cy*12,scale:1.03,duration:0.3,ease:'power2.out',transformPerspective:600});
+  });
+  img.addEventListener('mouseleave',()=>{
+    gsap.to(img,{rotateY:0,rotateX:0,scale:1,duration:0.6,ease:'elastic.out(1,0.5)'});
+  });
+});
+
+
+// ═══════════════════════════════════════════════════════
+//  LOVE STORY — paragraphs fade in one by one (video style)
+// ═══════════════════════════════════════════════════════
+ScrollTrigger.create({
+  trigger:'#s-story .love-block',
+  start:'top 80%',
+  onEnter:()=>{
+    const paras = document.querySelectorAll('#s-story .love-block p');
+    paras.forEach((p,i)=>{
+      gsap.to(p,{opacity:1,y:0,duration:0.7,ease:'power3.out',delay:i*0.18});
+    });
+  }
+});
+
+// Section heading
+gsap.fromTo('#s-story h2, #s-story .eyebrow',
+  {opacity:0,y:40},
+  {opacity:1,y:0,duration:0.9,ease:'expo.out',stagger:0.15,
+   scrollTrigger:{trigger:'#s-story',start:'top 70%'}}
+);
+
+
+// ═══════════════════════════════════════════════════════
+//  MEMORY TRAIL — the centrepiece, matching the video exactly
+//
+//  What the video shows:
+//   • Warm sunset gradient background (orange→yellow)
+//   • Cursive "Our memory trail" title fades/slides in
+//   • Dashed winding path connects the dots
+//   • Each polaroid DROPS in from above with a slight rotate
+//   • Date & text fades in beside each polaroid
+//   • Dots pulse pink/orange
+// ═══════════════════════════════════════════════════════
+
+// Title
+gsap.fromTo('#s-trail h2, #s-trail .eyebrow, #s-trail .italic-note',
+  {opacity:0, y:50, filter:'blur(6px)'},
+  {opacity:1, y:0, filter:'blur(0)', duration:1, ease:'expo.out', stagger:0.15,
+   scrollTrigger:{trigger:'#s-trail',start:'top 70%'}}
+);
+
+// Draw the dashed SVG path that connects each milestone.
+// We build it dynamically in JS so it flows between actual DOM positions.
+function buildTrailPath(){
+  const trail    = document.querySelector('.trail');
+  const dotEls   = document.querySelectorAll('.trail-dot-inner');
+  if(!trail || dotEls.length === 0) return;
+
+  // Create SVG overlay positioned over the trail container
+  const svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
+  svg.id = 'trail-svg-overlay';
+  svg.style.cssText = 'position:absolute;inset:0;width:100%;pointer-events:none;z-index:0;overflow:visible';
+  trail.style.position = 'relative';
+  trail.prepend(svg);
+
+  const trailRect = trail.getBoundingClientRect();
+
+  // Collect dot centre positions relative to trail
+  const pts = [];
+  dotEls.forEach(dot=>{
+    const r = dot.getBoundingClientRect();
+    pts.push({
+      x: r.left - trailRect.left + r.width/2,
+      y: r.top  - trailRect.top  + r.height/2
+    });
+  });
+
+  if(pts.length < 2) return;
+
+  // Build a smooth winding path through the points
+  // Alternates curve direction to match the S-shaped trail in the video
+  let d = `M ${pts[0].x} ${pts[0].y}`;
+  for(let i=1;i<pts.length;i++){
+    const prev = pts[i-1], curr = pts[i];
+    const mid  = {x:(prev.x+curr.x)/2, y:(prev.y+curr.y)/2};
+    // Control point bulges left/right alternately
+    const side = i%2===0 ? 1 : -1;
+    const cpx  = mid.x + side * 60;
+    d += ` Q ${cpx} ${mid.y} ${curr.x} ${curr.y}`;
+  }
+
+  const path = document.createElementNS('http://www.w3.org/2000/svg','path');
+  path.setAttribute('d',d);
+  path.setAttribute('fill','none');
+  path.setAttribute('stroke','rgba(180,80,20,0.45)');
+  path.setAttribute('stroke-width','2.5');
+  path.setAttribute('stroke-dasharray','8 7');
+  path.setAttribute('stroke-linecap','round');
+  svg.appendChild(path);
+
+  // Animate the path drawing in as the trail section scrolls into view
+  const totalLen = path.getTotalLength();
+  gsap.set(path,{strokeDashoffset:totalLen, strokeDasharray:`${totalLen}`});
+  gsap.to(path,{
+    strokeDashoffset:0,
+    ease:'none',
+    scrollTrigger:{
+      trigger:'#s-trail',
+      start:'top 60%',
+      end:'bottom 80%',
+      scrub:0.8
+    }
+  });
+}
+
+// Each trail item: polaroid drops in + text slides in from opposite side
+gsap.utils.toArray('.trail-item').forEach((item,i)=>{
+  const polaroid = item.querySelector('.polaroid');
+  const text     = item.querySelector('.trail-text');
+  const dot      = item.querySelector('.trail-dot-inner');
+  const isEven   = i%2===0;
+
+  if(polaroid){
+    gsap.fromTo(polaroid,
+      { y:-60, rotation: isEven ? -18 : 18, opacity:0, scale:0.8 },
+      { y:0, rotation: isEven ? -2 : 2, opacity:1, scale:1,
+        duration:0.9, ease:'elastic.out(1,0.55)',
+        scrollTrigger:{trigger:item,start:'top 88%',toggleActions:'play none none none'}
+      }
+    );
+    // Polaroid hover
+    polaroid.addEventListener('mouseenter',()=>{
+      gsap.to(polaroid,{rotation:0,scale:1.07,y:-6,duration:0.3,ease:'power2.out'});
+    });
+    polaroid.addEventListener('mouseleave',()=>{
+      gsap.to(polaroid,{rotation:isEven?-2:2,scale:1,y:0,duration:0.5,ease:'elastic.out(1,0.5)'});
+    });
+  }
+
+  if(text){
+    gsap.fromTo(text,
+      { x: isEven ? 40 : -40, opacity:0 },
+      { x:0, opacity:1, duration:0.8, ease:'power3.out',
+        scrollTrigger:{trigger:item,start:'top 88%',toggleActions:'play none none none'},
+        delay:0.15
+      }
+    );
+  }
+
+  if(dot){
+    gsap.fromTo(dot,
+      { scale:0 },
+      { scale:1, duration:0.5, ease:'elastic.out(1.5,0.4)',
+        scrollTrigger:{trigger:item,start:'top 85%',toggleActions:'play none none none'}
+      }
+    );
+    // Continuous heartbeat pulse on dots
+    gsap.to(dot,{
+      scale:1.45, duration:0.7, ease:'power1.inOut',
+      yoyo:true, repeat:-1, delay:i*0.12
+    });
+  }
+
+  // Mark vis so old CSS observer doesn't interfere
+  item.classList.add('vis');
+});
+
+// Build the SVG path after layout settles
+setTimeout(buildTrailPath, 400);
+
+
+// ═══════════════════════════════════════════════════════
+//  ENTOURAGE — names stagger up
+// ═══════════════════════════════════════════════════════
+ScrollTrigger.create({
+  trigger:'#s-entourage',
+  start:'top 70%',
+  onEnter:()=>{
+    gsap.fromTo('.ent-name,.ent-name-pair,.ent-parents,.sponsor-name',
+      {opacity:0,y:20},
+      {opacity:1,y:0,duration:0.55,stagger:0.05,ease:'power2.out'}
+    );
+    gsap.fromTo('.ent-label',
+      {opacity:0,scaleX:0},
+      {opacity:1,scaleX:1,duration:0.55,stagger:0.1,ease:'power3.out',transformOrigin:'left'}
+    );
+  }
+});
+
+
+// ═══════════════════════════════════════════════════════
+//  DETAILS / TIMELINE — cards flip in
+// ═══════════════════════════════════════════════════════
+gsap.utils.toArray('.card,.card-d').forEach((card,i)=>{
+  gsap.fromTo(card,
+    {opacity:0,y:50,rotateY:12,transformPerspective:700},
+    {opacity:1,y:0,rotateY:0,duration:0.85,ease:'power3.out',
+     scrollTrigger:{trigger:card,start:'top 85%',toggleActions:'play none none none'}}
+  );
+  card.addEventListener('mouseenter',()=>gsap.to(card,{y:-6,boxShadow:'0 20px 50px rgba(217,114,74,0.18)',duration:0.3}));
+  card.addEventListener('mouseleave',()=>gsap.to(card,{y:0,boxShadow:'',duration:0.5,ease:'elastic.out(1,0.5)'}));
+});
+
+// Timeline events cascade in
+ScrollTrigger.create({
+  trigger:'.evt-list',
+  start:'top 75%',
+  onEnter:()=>{
+    gsap.fromTo('.evt-item',
+      {opacity:0,x:-40},
+      {opacity:1,x:0,duration:0.6,stagger:0.1,ease:'power3.out',
+       onStart:()=>document.querySelectorAll('.evt-item').forEach(el=>el.classList.add('vis'))}
+    );
+  }
+});
+
+
+// ═══════════════════════════════════════════════════════
+//  DRESS CODE SWATCHES — spin in
+// ═══════════════════════════════════════════════════════
+gsap.utils.toArray('.sw-circle').forEach((sw,i)=>{
+  gsap.fromTo(sw,
+    {scale:0,rotation:-180,opacity:0},
+    {scale:1,rotation:0,opacity:1,duration:0.65,ease:'back.out(2)',delay:i*0.08,
+     scrollTrigger:{trigger:sw.closest('.swatches')||sw,start:'top 88%',toggleActions:'play none none none'}}
+  );
+  sw.addEventListener('mouseenter',()=>gsap.to(sw,{rotation:360,duration:0.6,ease:'power2.inOut'}));
+  sw.addEventListener('mouseleave',()=>gsap.to(sw,{rotation:0,duration:0.4}));
+});
+
+
+// ═══════════════════════════════════════════════════════
+//  CLOSING SECTION — cinematic finale
+// ═══════════════════════════════════════════════════════
+ScrollTrigger.create({
+  trigger:'#s-closing',
+  start:'top 60%',
+  onEnter:()=>{
+    const tl = gsap.timeline();
+    tl.fromTo('.closing-names',
+      {opacity:0,scale:0.4,filter:'blur(24px)'},
+      {opacity:1,scale:1,filter:'blur(0)',duration:1.4,ease:'expo.out'}
+    );
+    tl.fromTo('#s-closing .fi.d1',
+      {opacity:0,letterSpacing:'1.2em'},
+      {opacity:1,letterSpacing:'.45em',duration:1,ease:'power3.out'},
+      '-=0.6'
+    );
+    tl.fromTo('#s-closing .fi.d2',
+      {opacity:0,y:40},
+      {opacity:1,y:0,duration:1,ease:'power3.out'},
+      '-=0.4'
+    );
+
+    // Confetti burst of petals
+    ['🌸','🌺','✨','💛','🧡','💍'].forEach((e,i)=>{
+      for(let k=0;k<4;k++){
+        const el=document.createElement('div');
+        el.style.cssText=`position:fixed;left:50%;top:50%;font-size:${18+Math.random()*16}px;pointer-events:none;z-index:99999;transform:translate(-50%,-50%)`;
+        el.textContent=e;
+        document.body.appendChild(el);
+        gsap.to(el,{
+          x:(Math.random()-.5)*window.innerWidth*1.4,
+          y:(Math.random()-.5)*window.innerHeight*1.2,
+          opacity:0,
+          rotation:Math.random()*720-360,
+          scale:Math.random()*1.5+0.5,
+          duration:1.8+Math.random()*1.2,
+          delay:i*0.06+k*0.05,
+          ease:'power2.out',
+          onComplete:()=>el.remove()
+        });
+      }
+    });
+  }
+});
+
+
+// ═══════════════════════════════════════════════════════
+//  GENERIC SCROLL FADE — all remaining .fi elements
+//  (handles sections not explicitly targeted above)
+// ═══════════════════════════════════════════════════════
+const ioFade = new IntersectionObserver(es=>{
+  es.forEach(e=>{
+    if(e.isIntersecting){
+      // Only animate if not already made visible by GSAP above
+      if(!e.target.classList.contains('vis')){
+        gsap.to(e.target,{opacity:1,y:0,duration:0.7,ease:'power3.out'});
+        e.target.classList.add('vis');
+      }
+      ioFade.unobserve(e.target);
+    }
+  });
+},{threshold:0.1});
+document.querySelectorAll('.fi').forEach(el=>{
+  if(!el.classList.contains('vis')) ioFade.observe(el);
+});
+
+// Divider gems — continuous spin
+gsap.utils.toArray('.div-gem').forEach((gem,i)=>{
+  gsap.to(gem,{rotation:360,duration:5+i*0.5,ease:'none',repeat:-1,delay:i*0.4});
+});
+
+// All headings outside hero — slide up on scroll
+document.querySelectorAll('h2,h3').forEach(h=>{
+  if(h.closest('#loader,#s-hero')) return;
+  gsap.fromTo(h,
+    {opacity:0,y:35,skewY:2},
+    {opacity:1,y:0,skewY:0,duration:0.85,ease:'expo.out',
+     scrollTrigger:{trigger:h,start:'top 88%',toggleActions:'play none none none'}}
+  );
+});
+</script>
+</body>
+</html>
