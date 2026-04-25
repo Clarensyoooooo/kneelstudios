@@ -1,0 +1,1938 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nikko &amp; Karrell — December 12, 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,600&family=Cinzel:wght@400;500;600&family=Playfair+Display:ital,wght@0,400;1,400;1,600;1,700&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+<style>
+/* ════════════════════════════════════════
+   TADHANA — Nikko & Karrell
+   Palette: Merlot · Ivory · Rose Gold · Blush
+════════════════════════════════════════ */
+:root {
+  --merlot:       #6B2D3E;
+  --merlot-dark:  #4A1A27;
+  --merlot-mid:   #8B3A50;
+  --merlot-soft:  #A85070;
+  --rose-gold:    #C4856A;
+  --rose-light:   #D9A090;
+  --blush:        #EDD5CC;
+  --blush-soft:   #F5E8E3;
+  --ivory:        #FAF6F0;
+  --ivory-warm:   #F2EBE1;
+  --ivory-deep:   #E8DDD0;
+  --ink:          #2A1520;
+  --ink-soft:     rgba(42,21,32,0.65);
+  --ink-ghost:    rgba(42,21,32,0.3);
+  --cream-glass:  rgba(250,246,240,0.85);
+  --merlot-glass: rgba(107,45,62,0.12);
+}
+
+*,*::before,*::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  font-family: 'Cormorant Garamond', serif;
+  color: var(--ink);
+  background: var(--ivory);
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* ── CUSTOM CURSOR ── */
+#cursor {
+  position: fixed; width: 12px; height: 12px;
+  border-radius: 50%; background: var(--merlot);
+  pointer-events: none; z-index: 999999;
+  transform: translate(-50%,-50%);
+  transition: width 0.2s, height 0.2s, opacity 0.2s;
+  mix-blend-mode: multiply;
+}
+#cursor-ring {
+  position: fixed; width: 36px; height: 36px;
+  border-radius: 50%; border: 1px solid var(--merlot-soft);
+  pointer-events: none; z-index: 999998;
+  transform: translate(-50%,-50%);
+  transition: transform 0.12s ease, width 0.3s, height 0.3s;
+  opacity: 0.6;
+}
+body:hover #cursor { opacity: 1; }
+
+/* ── SCROLL PROGRESS ── */
+#scroll-progress {
+  position: fixed; top: 0; left: 0; height: 2px; width: 0%;
+  background: linear-gradient(90deg, var(--merlot), var(--rose-gold), var(--blush));
+  z-index: 100000; transform-origin: left;
+  box-shadow: 0 0 8px rgba(107,45,62,0.5);
+}
+
+/* ── LOADER ── */
+body.loading { overflow: hidden; }
+#loader {
+  position: fixed; inset: 0; z-index: 99999;
+  background: var(--merlot-dark);
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column; gap: 0;
+}
+#loader.out { animation: loaderOut 1s cubic-bezier(0.76, 0, 0.24, 1) forwards; }
+@keyframes loaderOut {
+  0%   { clip-path: inset(0 0 0 0); }
+  100% { clip-path: inset(0 0 100% 0); }
+}
+
+.l-monogram {
+  position: relative;
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: clamp(56px, 14vw, 100px);
+  color: var(--ivory);
+  opacity: 0;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+.l-monogram .l-amp {
+  color: var(--rose-gold);
+  font-size: 0.6em;
+  margin: 0 8px;
+}
+.l-date-line {
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  letter-spacing: 0.5em;
+  color: rgba(250,246,240,0.4);
+  text-transform: uppercase;
+  margin-top: 20px;
+  opacity: 0;
+}
+.l-bar {
+  position: absolute;
+  bottom: 0; left: 0;
+  height: 1px;
+  background: var(--rose-gold);
+  width: 0;
+}
+.l-tadhana {
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  letter-spacing: 0.7em;
+  color: var(--rose-gold);
+  text-transform: uppercase;
+  margin-top: 48px;
+  opacity: 0;
+}
+
+/* ── NAVIGATION ── */
+#nav {
+  position: fixed; right: 28px; top: 50%;
+  transform: translateY(-50%);
+  display: flex; flex-direction: column; gap: 12px;
+  z-index: 9000;
+}
+.ndot {
+  width: 6px; height: 6px;
+  border-radius: 50%; border: 1.5px solid var(--merlot);
+  background: transparent; cursor: pointer;
+  transition: all 0.3s ease;
+}
+.ndot.a { background: var(--merlot); width: 6px; height: 20px; border-radius: 3px; }
+
+/* ── HERO ── */
+#s-hero {
+  position: relative;
+  min-height: 100svh;
+  background: var(--merlot-dark);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  overflow: hidden;
+}
+@media (max-width: 700px) { #s-hero { grid-template-columns: 1fr; } }
+
+.hero-video {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover; opacity: 0.22;
+  z-index: 0;
+}
+
+.hero-grain {
+  position: absolute; inset: 0; z-index: 1;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");
+  opacity: 0.4; pointer-events: none;
+}
+
+.hero-left {
+  position: relative; z-index: 2;
+  display: flex; flex-direction: column;
+  justify-content: flex-end;
+  padding: 60px 40px 60px 52px;
+}
+.hero-right {
+  position: relative; z-index: 2;
+  display: flex; flex-direction: column;
+  justify-content: center; align-items: flex-end;
+  padding: 60px 52px 60px 40px;
+}
+
+@media (max-width: 700px) {
+  .hero-left { padding: 120px 28px 40px; justify-content: center; }
+  .hero-right { padding: 0 28px 80px; align-items: flex-start; }
+}
+
+.hero-eyebrow {
+  font-family: 'Cinzel', serif;
+  font-size: 9px; letter-spacing: 0.6em;
+  text-transform: uppercase;
+  color: var(--rose-gold);
+  margin-bottom: 28px; display: block;
+  opacity: 0;
+}
+.hero-names {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: clamp(52px, 10vw, 96px);
+  color: var(--ivory);
+  line-height: 0.92;
+  letter-spacing: -0.01em;
+  opacity: 0;
+}
+.hero-names .amp {
+  display: block;
+  color: var(--rose-gold);
+  font-size: 0.52em;
+  font-style: normal;
+  margin: 8px 0;
+}
+.hero-date {
+  font-family: 'Cinzel', serif;
+  font-size: 11px; letter-spacing: 0.35em;
+  text-transform: uppercase; color: var(--blush);
+  margin-top: 32px; opacity: 0;
+}
+.hero-location {
+  font-family: 'Jost', sans-serif;
+  font-size: 13px; font-weight: 300;
+  color: rgba(250,246,240,0.5);
+  margin-top: 10px; opacity: 0;
+  letter-spacing: 0.08em;
+}
+
+.hero-vertical-text {
+  writing-mode: vertical-rl;
+  font-family: 'Cinzel', serif;
+  font-size: 9px; letter-spacing: 0.45em;
+  color: rgba(196,133,106,0.45);
+  text-transform: uppercase;
+  margin-bottom: 32px; opacity: 0;
+}
+
+.hero-countdown {
+  display: flex; gap: 28px;
+  opacity: 0;
+}
+.hero-cd-unit { text-align: right; }
+.hero-cd-num {
+  display: block;
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(32px, 6vw, 52px);
+  color: var(--ivory); line-height: 1;
+}
+.hero-cd-lbl {
+  display: block;
+  font-family: 'Jost', sans-serif;
+  font-size: 8px; font-weight: 300;
+  letter-spacing: 0.3em; text-transform: uppercase;
+  color: rgba(250,246,240,0.45); margin-top: 4px;
+}
+
+.hero-line {
+  position: absolute;
+  left: 50%; top: 0; bottom: 0;
+  width: 1px; background: rgba(196,133,106,0.15);
+  z-index: 3; transform: scaleY(0); transform-origin: top;
+}
+
+.hero-scroll {
+  position: absolute; bottom: 40px; left: 50%;
+  transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+  z-index: 4; opacity: 0;
+}
+.hero-scroll-text {
+  font-family: 'Jost', sans-serif; font-size: 9px;
+  letter-spacing: 0.35em; text-transform: uppercase;
+  color: rgba(250,246,240,0.4);
+}
+.hero-scroll-line {
+  width: 1px; height: 50px;
+  background: linear-gradient(to bottom, var(--rose-gold), transparent);
+  animation: scrollLine 2s ease-in-out infinite;
+}
+@keyframes scrollLine {
+  0%,100% { transform: scaleY(0); transform-origin: top; opacity: 0; }
+  50% { transform: scaleY(1); transform-origin: top; opacity: 1; }
+}
+
+/* ── MUSIC BUTTON HERO ── */
+.hero-music {
+  display: flex; align-items: center; gap: 14px;
+  margin-top: 40px; opacity: 0;
+}
+.mbtn {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: rgba(196,133,106,0.15);
+  border: 1px solid rgba(196,133,106,0.35);
+  color: var(--rose-gold); cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.3s ease; backdrop-filter: blur(8px);
+  position: relative;
+}
+.mbtn:hover { background: var(--rose-gold); color: var(--ivory); transform: scale(1.08); }
+.mbtn-label {
+  font-family: 'Jost', sans-serif; font-size: 11px;
+  font-weight: 300; letter-spacing: 0.2em;
+  color: rgba(250,246,240,0.5);
+}
+.eq-bars { display: flex; gap: 2px; align-items: flex-end; height: 16px; }
+.eq-bar {
+  width: 2.5px; border-radius: 1px;
+  background: currentColor;
+  animation: eqAnim 0.8s ease-in-out infinite;
+}
+.eq-bar:nth-child(1) { height: 60%; animation-delay: 0s; }
+.eq-bar:nth-child(2) { height: 100%; animation-delay: 0.15s; }
+.eq-bar:nth-child(3) { height: 40%; animation-delay: 0.3s; }
+.eq-bar:nth-child(4) { height: 80%; animation-delay: 0.45s; }
+.eq-bar:nth-child(5) { height: 55%; animation-delay: 0.6s; }
+@keyframes eqAnim {
+  0%,100% { transform: scaleY(0.4); }
+  50% { transform: scaleY(1); }
+}
+
+/* ── FLOATING MUSIC PLAYER ── */
+#music-player {
+  position: fixed; bottom: 28px; right: 28px;
+  z-index: 9500;
+  display: flex; align-items: center; gap: 12px;
+  background: rgba(74,26,39,0.92);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(196,133,106,0.2);
+  border-radius: 40px; padding: 10px 18px 10px 14px;
+  transform: translateX(120px); opacity: 0;
+}
+#music-player .mbtn { width: 36px; height: 36px; }
+.mlabel {
+  font-family: 'Jost', sans-serif; font-size: 10px;
+  letter-spacing: 0.15em; color: rgba(250,246,240,0.6);
+  white-space: nowrap; max-width: 0; overflow: hidden;
+  transition: max-width 0.4s ease;
+}
+.mlabel.show { max-width: 150px; }
+
+/* ── SECTION SYSTEM ── */
+.sec { position: relative; width: 100%; }
+.sec-padded { padding: 100px 0; }
+
+/* ── REVEAL ANIMATIONS ── */
+.reveal { opacity: 0; transform: translateY(40px); }
+.reveal.in { animation: revealIn 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+@keyframes revealIn {
+  to { opacity: 1; transform: translateY(0); }
+}
+.reveal-left { opacity: 0; transform: translateX(-40px); }
+.reveal-left.in { animation: revealIn 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.reveal-right { opacity: 0; transform: translateX(40px); }
+.reveal-right.in { animation: revealIn 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+
+/* ── EYEBROW ── */
+.eyebrow {
+  font-family: 'Cinzel', serif; font-size: 9px;
+  letter-spacing: 0.6em; text-transform: uppercase;
+  color: var(--merlot-soft); display: block; margin-bottom: 20px;
+}
+.eyebrow-light { color: var(--rose-gold); }
+.eyebrow-ivory { color: rgba(250,246,240,0.5); }
+
+/* ── SECTION TITLES ── */
+.sec-title {
+  font-family: 'Playfair Display', serif; font-style: italic;
+  font-size: clamp(32px, 6vw, 54px); line-height: 1.1;
+  color: var(--ink); margin-bottom: 12px;
+}
+.sec-title-light { color: var(--ivory); }
+.sec-subtitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 17px; line-height: 1.9;
+  color: var(--ink-soft);
+}
+
+/* ── DIVIDER ── */
+.div-ornament {
+  display: flex; align-items: center; gap: 16px; margin: 28px 0;
+}
+.div-ornament .line {
+  flex: 1; height: 1px;
+  background: linear-gradient(to right, transparent, var(--merlot-glass), transparent);
+}
+.div-ornament .gem {
+  width: 5px; height: 5px;
+  background: var(--rose-gold); transform: rotate(45deg);
+}
+
+/* ════════════════════════════════════════
+   SECTION 2: SAVE THE DATE — Bento Grid
+════════════════════════════════════════ */
+#s-savedate {
+  background: var(--ivory);
+  padding: 80px 0 80px;
+}
+.bento-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto;
+  gap: 16px;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+@media (max-width: 600px) {
+  .bento-grid { grid-template-columns: 1fr; }
+}
+
+.bento-header {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 40px 20px 20px;
+}
+
+.bento-card {
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Large venue photo card */
+.bento-photo {
+  grid-column: 1 / -1;
+  aspect-ratio: 16 / 7;
+  background: var(--ivory-deep);
+  overflow: hidden;
+  position: relative;
+}
+.bento-photo img {
+  width: 100%; height: 100%;
+  object-fit: cover; display: block;
+  transition: transform 0.8s ease;
+}
+.bento-photo:hover img { transform: scale(1.04); }
+.bento-photo-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(74,26,39,0.7) 0%, transparent 60%);
+  display: flex; align-items: flex-end; padding: 24px;
+}
+.bento-photo-label {
+  font-family: 'Playfair Display', serif; font-style: italic;
+  font-size: 22px; color: var(--ivory);
+  text-shadow: 0 2px 12px rgba(0,0,0,0.3);
+}
+.bento-photo-sub {
+  font-family: 'Jost', sans-serif; font-size: 11px;
+  letter-spacing: 0.2em; color: var(--blush);
+  margin-top: 4px; display: block;
+}
+
+/* Info cells */
+.bento-info {
+  background: var(--merlot-dark);
+  color: var(--ivory);
+  padding: 28px 24px;
+  display: flex; flex-direction: column; justify-content: center;
+  border-radius: 4px;
+}
+.bento-info-label {
+  font-family: 'Cinzel', serif; font-size: 8px;
+  letter-spacing: 0.4em; text-transform: uppercase;
+  color: var(--rose-gold); margin-bottom: 10px; display: block;
+}
+.bento-info-main {
+  font-family: 'Playfair Display', serif; font-style: italic;
+  font-size: 24px; color: var(--ivory); line-height: 1.2;
+}
+.bento-info-sub {
+  font-family: 'Jost', sans-serif; font-size: 12px;
+  color: rgba(250,246,240,0.5); margin-top: 8px;
+  font-weight: 300; line-height: 1.6;
+}
+
+.bento-time {
+  background: var(--blush-soft);
+  padding: 28px 24px;
+  display: flex; flex-direction: column; justify-content: center;
+  border-radius: 4px;
+}
+.bento-time-big {
+  font-family: 'Cinzel', serif; font-size: 36px;
+  color: var(--merlot); letter-spacing: 0.05em; line-height: 1;
+}
+.bento-time-label {
+  font-family: 'Jost', sans-serif; font-size: 10px;
+  letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--merlot-soft); margin-top: 8px;
+}
+
+.bento-date-banner {
+  grid-column: 1 / -1;
+  background: var(--merlot);
+  padding: 28px 32px;
+  display: flex; align-items: center; justify-content: center; gap: 24px;
+  border-radius: 4px;
+  flex-wrap: wrap;
+}
+.bento-date-text {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(18px, 4vw, 28px);
+  color: var(--ivory); letter-spacing: 0.2em;
+}
+.bento-date-sep {
+  width: 5px; height: 5px;
+  background: var(--rose-gold); transform: rotate(45deg);
+  flex-shrink: 0;
+}
+
+/* ════════════════════════════════════════
+   SECTION 3: OUR STORY
+════════════════════════════════════════ */
+#s-story {
+  background: var(--merlot-dark);
+  overflow: hidden;
+  position: relative;
+}
+
+.story-bg-img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover; opacity: 0.12;
+}
+
+.story-inner {
+  position: relative; z-index: 2;
+  max-width: 760px; margin: 0 auto;
+  padding: 100px 32px;
+}
+
+.story-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px 60px;
+  margin-top: 56px;
+  align-items: start;
+}
+@media (max-width: 650px) { .story-grid { grid-template-columns: 1fr; gap: 32px; } }
+
+.story-text-col .body-text {
+  font-size: 15px; line-height: 2;
+  color: rgba(250,246,240,0.75);
+  text-align: justify;
+}
+.story-text-col .body-text + .body-text { margin-top: 16px; }
+
+.story-countdown {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(196,133,106,0.2);
+  border-radius: 4px; padding: 32px 24px;
+  text-align: center;
+  backdrop-filter: blur(10px);
+}
+.story-cd-header {
+  font-family: 'Cinzel', serif; font-size: 9px;
+  letter-spacing: 0.4em; color: var(--rose-gold);
+  text-transform: uppercase; margin-bottom: 6px; display: block;
+}
+.story-cd-date {
+  font-family: 'Playfair Display', serif; font-style: italic;
+  font-size: 18px; color: var(--ivory); margin-bottom: 24px;
+}
+.story-cd-wrap { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+.story-cd-unit { text-align: center; }
+.story-cd-num {
+  display: block; font-family: 'Playfair Display', serif;
+  font-size: clamp(30px, 7vw, 48px); color: var(--rose-gold); line-height: 1;
+}
+.story-cd-lbl {
+  display: block; font-family: 'Jost', sans-serif;
+  font-size: 8px; font-weight: 300; letter-spacing: 0.3em;
+  text-transform: uppercase; color: rgba(250,246,240,0.4); margin-top: 5px;
+}
+
+/* ════════════════════════════════════════
+   SECTION 4: MEMORY TRAIL
+════════════════════════════════════════ */
+#s-trail {
+  background: var(--ivory-warm);
+  overflow: hidden;
+}
+.trail-inner {
+  max-width: 680px; margin: 0 auto;
+  padding: 100px 28px;
+}
+.trail-header { text-align: center; margin-bottom: 70px; }
+
+.trail { position: relative; padding-bottom: 20px; }
+.trail-spine {
+  position: absolute; left: 50%; top: 0; bottom: 0;
+  width: 1px; background: linear-gradient(to bottom, transparent, var(--merlot-glass) 10%, var(--merlot-glass) 90%, transparent);
+  transform: translateX(-50%);
+}
+@media (max-width: 580px) { .trail-spine { left: 20px; } }
+
+.trail-item {
+  display: grid;
+  grid-template-columns: 1fr 48px 1fr;
+  gap: 0 4px; margin-bottom: 52px;
+  position: relative; align-items: center;
+}
+@media (max-width: 580px) {
+  .trail-item { grid-template-columns: 40px 1fr; grid-template-rows: auto; }
+  .trail-item .trail-photo { display: none; }
+  .trail-item .trail-text-odd, .trail-item .trail-text-even { order: 2; text-align: left; }
+  .trail-item .trail-dot { order: 1; padding-top: 0; }
+}
+
+.trail-text-odd  { order: 1; text-align: right; padding-right: 20px; }
+.trail-text-even { order: 3; text-align: left; padding-left: 20px; }
+.trail-photo-odd  { order: 3; }
+.trail-photo-even { order: 1; display: flex; justify-content: flex-end; }
+.trail-dot { order: 2; display: flex; justify-content: center; align-items: center; }
+
+.trail-dot-inner {
+  width: 11px; height: 11px; border-radius: 50%;
+  background: var(--blush);
+  border: 2.5px solid var(--ivory);
+  box-shadow: 0 0 0 2px var(--merlot-soft);
+  flex-shrink: 0;
+}
+
+.trail-date {
+  font-family: 'Cinzel', serif; font-size: 8.5px;
+  letter-spacing: 0.15em; color: var(--merlot-soft);
+  text-transform: uppercase; margin-bottom: 6px;
+}
+.trail-title {
+  font-family: 'Playfair Display', serif; font-style: italic;
+  font-size: 16px; color: var(--ink); line-height: 1.3; margin-bottom: 6px;
+}
+.trail-desc {
+  font-size: 13px; color: var(--ink-soft); line-height: 1.7;
+}
+
+.polaroid {
+  background: #fff;
+  padding: 8px 8px 28px; display: inline-block;
+  box-shadow: 0 8px 24px rgba(107,45,62,0.12), 0 2px 6px rgba(107,45,62,0.08);
+  max-width: 155px; width: 100%;
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s;
+}
+.trail-item:nth-child(odd)  .polaroid { transform: rotate(-2.5deg); }
+.trail-item:nth-child(even) .polaroid { transform: rotate(2deg); }
+.polaroid:hover { transform: rotate(0deg) scale(1.06) !important; box-shadow: 0 20px 40px rgba(107,45,62,0.2); z-index: 10; }
+.polaroid img { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block; }
+.pol-cap {
+  font-family: 'Jost', sans-serif; font-size: 9.5px;
+  color: #888; margin-top: 8px; text-align: center;
+  letter-spacing: 0.04em;
+}
+
+/* ════════════════════════════════════════
+   SECTION 5 & 6: ENTOURAGE — Stacked asymmetric
+════════════════════════════════════════ */
+#s-entourage {
+  background: var(--ivory);
+  overflow: hidden;
+  padding: 0;
+}
+
+.entourage-hero-strip {
+  background: var(--merlot);
+  padding: 80px 32px 60px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.entourage-hero-strip::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23FAF6F0' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.entourage-title-wrap { position: relative; z-index: 1; }
+
+.entourage-body { padding: 60px 24px 80px; max-width: 720px; margin: 0 auto; }
+
+.ent-block { margin-bottom: 60px; }
+.ent-block-header {
+  display: flex; align-items: center; gap: 16px;
+  margin-bottom: 28px;
+}
+.ent-block-icon {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: var(--blush-soft);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.ent-block-title {
+  font-family: 'Playfair Display', serif; font-style: italic;
+  font-size: 22px; color: var(--ink);
+}
+.ent-block-subtitle {
+  font-size: 13px; color: var(--ink-soft); font-style: italic; margin-top: 2px;
+}
+
+.ent-parents-wrap {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+}
+@media (max-width: 500px) { .ent-parents-wrap { grid-template-columns: 1fr; } }
+.ent-family-card {
+  border: 1px solid var(--ivory-deep); border-radius: 4px;
+  padding: 24px 20px; text-align: center;
+  background: var(--ivory-warm);
+}
+.ent-family-role {
+  font-family: 'Cinzel', serif; font-size: 8px;
+  letter-spacing: 0.4em; text-transform: uppercase;
+  color: var(--merlot-soft); margin-bottom: 12px; display: block;
+}
+.ent-family-name {
+  font-family: 'Cormorant Garamond', serif; font-style: italic;
+  font-size: 17px; line-height: 1.6; color: var(--ink);
+}
+
+.ent-honoree-pair {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px;
+}
+.ent-honoree {
+  background: var(--merlot); border-radius: 4px;
+  padding: 24px 20px; text-align: center;
+  color: var(--ivory);
+}
+.ent-honoree-role {
+  font-family: 'Cinzel', serif; font-size: 8px;
+  letter-spacing: 0.4em; color: var(--rose-gold);
+  text-transform: uppercase; margin-bottom: 10px; display: block;
+}
+.ent-honoree-name {
+  font-family: 'Playfair Display', serif; font-style: italic;
+  font-size: 18px; color: var(--ivory); line-height: 1.3;
+}
+
+.ent-cols {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+}
+@media (max-width: 500px) { .ent-cols { grid-template-columns: 1fr; } }
+.ent-col-title {
+  font-family: 'Cinzel', serif; font-size: 9px;
+  letter-spacing: 0.4em; text-transform: uppercase;
+  color: var(--merlot-soft); margin-bottom: 16px;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.ent-name {
+  font-family: 'Cormorant Garamond', serif; font-style: italic;
+  font-size: 15px; color: var(--ink); line-height: 2.1;
+  text-align: center;
+}
+.sponsor-name {
+  font-family: 'Cormorant Garamond', serif; font-style: italic;
+  font-size: 14px; color: var(--ink-soft); line-height: 2;
+}
+
+.secondary-sponsors-grid {
+  display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px;
+}
+@media (max-width: 540px) { .secondary-sponsors-grid { grid-template-columns: 1fr; } }
+.sec-sponsor-card {
+  background: var(--ivory-warm); border-radius: 4px;
+  padding: 20px 16px; text-align: center;
+  border: 1px solid var(--ivory-deep);
+}
+.sec-sponsor-role {
+  font-family: 'Cinzel', serif; font-size: 8px;
+  letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--merlot-soft); margin-bottom: 6px; display: block;
+}
+.sec-sponsor-note {
+  font-size: 11px; color: var(--ink-soft);
+  font-style: italic; margin-bottom: 12px; display: block;
+}
+.sec-sponsor-names { font-family: 'Cormorant Garamond', serif;
+  font-size: 14px; line-height: 1.9; color: var(--ink);
+}
+
+.little-ones-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
+}
+.little-one-card {
+  background: var(--blush-soft); border-radius: 4px;
+  padding: 18px 14px; text-align: center;
+}
+.little-one-role {
+  font-family: 'Cinzel', serif; font-size: 7.5px;
+  letter-spacing: 0.35em; color: var(--merlot-soft);
+  text-transform: uppercase; margin-bottom: 8px; display: block;
+}
+.little-one-name {
+  font-family: 'Cormorant Garamond', serif; font-style: italic;
+  font-size: 14.5px; color: var(--ink); line-height: 1.3;
+}
+
+/* ════════════════════════════════════════
+   SECTION 7: DETAILS — Bento v2 Dark
+════════════════════════════════════════ */
+#s-details {
+  background: var(--merlot-dark); padding: 80px 0;
+}
+.details-inner { max-width: 720px; margin: 0 auto; padding: 0 24px; }
+.details-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 52px;
+}
+@media (max-width: 620px) { .details-grid { grid-template-columns: 1fr; } }
+
+.detail-card {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(196,133,106,0.15);
+  border-radius: 4px; padding: 32px 26px;
+  backdrop-filter: blur(8px);
+}
+.detail-card.span2 { grid-column: 1 / -1; }
+.detail-card-icon {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: rgba(196,133,106,0.15);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 16px;
+}
+.detail-card-title {
+  font-family: 'Playfair Display', serif; font-style: italic;
+  font-size: 20px; color: var(--ivory); margin-bottom: 8px;
+}
+.detail-card-body {
+  font-size: 14px; line-height: 1.9;
+  color: rgba(250,246,240,0.6);
+}
+.detail-card-body strong { color: var(--blush); font-weight: 500; }
+
+.dress-swatches { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
+.swatch {
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+}
+.sw-circle {
+  width: 40px; height: 40px; border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.15);
+  cursor: pointer; transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.sw-circle:hover { transform: scale(1.15); box-shadow: 0 4px 16px rgba(0,0,0,0.3); }
+.sw-name {
+  font-family: 'Jost', sans-serif; font-size: 9px;
+  letter-spacing: 0.15em; color: rgba(250,246,240,0.45);
+  text-align: center;
+}
+
+.qr-wrap { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; margin-top: 24px; }
+.qr-item { text-align: center; }
+.qr-box {
+  width: 90px; height: 90px; border-radius: 4px;
+  border: 1.5px solid rgba(196,133,106,0.25);
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden; margin: 0 auto;
+}
+.qr-box img { width: 100%; height: 100%; object-fit: contain; }
+.qr-label {
+  font-family: 'Jost', sans-serif; font-size: 9px;
+  letter-spacing: 0.2em; color: rgba(250,246,240,0.4);
+  text-transform: uppercase; margin-top: 8px; display: block;
+}
+
+/* ════════════════════════════════════════
+   SECTION 8: TIMELINE
+════════════════════════════════════════ */
+#s-timeline {
+  background: var(--ivory-warm); padding: 80px 0;
+}
+.timeline-inner { max-width: 600px; margin: 0 auto; padding: 0 28px; }
+.evt-list { margin-top: 52px; }
+.evt-item {
+  display: grid; grid-template-columns: 100px 1fr;
+  gap: 0 24px; padding: 20px 0;
+  border-bottom: 1px solid var(--ivory-deep);
+  align-items: center; opacity: 0; transform: translateX(-30px);
+}
+.evt-item:last-child { border-bottom: none; }
+.evt-item.in { animation: evtIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+@keyframes evtIn { to { opacity: 1; transform: translateX(0); } }
+.evt-time {
+  font-family: 'Cinzel', serif; font-size: 12px;
+  letter-spacing: 0.1em; color: var(--merlot);
+  text-align: right; padding-right: 24px;
+  border-right: 1.5px solid var(--merlot-glass);
+}
+.evt-name {
+  font-family: 'Cormorant Garamond', serif; font-style: italic;
+  font-size: 19px; color: var(--ink); margin-bottom: 4px;
+  display: flex; align-items: center; gap: 10px;
+}
+.evt-note {
+  font-size: 13px; color: var(--ink-soft); line-height: 1.6;
+}
+
+/* ════════════════════════════════════════
+   SECTION 9: CLOSING
+════════════════════════════════════════ */
+#s-closing {
+  position: relative; min-height: 100svh;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--merlot-dark); overflow: hidden;
+}
+#s-closing img.closing-bg {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover; opacity: 0.2;
+}
+.closing-overlay {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at center, rgba(74,26,39,0.4) 0%, rgba(74,26,39,0.85) 100%);
+}
+.closing-inner {
+  position: relative; z-index: 2;
+  text-align: center; padding: 60px 32px;
+  max-width: 680px;
+}
+.closing-names {
+  font-family: 'Playfair Display', serif; font-style: italic;
+  font-size: clamp(44px, 10vw, 84px);
+  color: var(--ivory); line-height: 0.95;
+  letter-spacing: -0.01em;
+  opacity: 0;
+}
+.closing-names .amp { display: block; color: var(--rose-gold); font-size: 0.55em; font-style: normal; margin: 10px 0; }
+.closing-tagline {
+  font-family: 'Cinzel', serif; font-size: 9px;
+  letter-spacing: 0.55em; text-transform: uppercase;
+  color: var(--rose-gold); margin-top: 28px; margin-bottom: 40px;
+  opacity: 0;
+}
+.closing-message {
+  font-family: 'Cormorant Garamond', serif; font-style: italic;
+  font-size: 17px; line-height: 1.95;
+  color: rgba(250,246,240,0.75);
+  max-width: 520px; margin: 0 auto 40px;
+  text-align: center; opacity: 0;
+}
+.closing-sig {
+  font-family: 'Playfair Display', serif; font-style: italic;
+  font-size: 26px; color: var(--ivory); opacity: 0;
+}
+.closing-date-line {
+  font-family: 'Cinzel', serif; font-size: 10px;
+  letter-spacing: 0.5em; color: rgba(250,246,240,0.3);
+  margin-top: 40px; opacity: 0;
+}
+
+/* ── PETALS ── */
+#petal-container {
+  position: fixed; inset: 0;
+  pointer-events: none; z-index: 9990;
+  overflow: hidden;
+}
+.petal {
+  position: absolute; top: -30px;
+  animation: petalFall linear infinite both;
+}
+@keyframes petalFall {
+  0%   { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0; }
+  10%  { opacity: 0.8; }
+  90%  { opacity: 0.5; }
+  100% { transform: translateY(110vh) translateX(var(--drift)) rotate(var(--spin)); opacity: 0; }
+}
+
+/* ── GOLD PARTICLES ── */
+.gold-particle {
+  position: fixed; border-radius: 50%;
+  pointer-events: none; z-index: 9995;
+  background: radial-gradient(circle, var(--rose-gold), transparent);
+  opacity: 0;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 600px) {
+  .ent-honoree-pair { grid-template-columns: 1fr; }
+  .secondary-sponsors-grid { grid-template-columns: 1fr 1fr; }
+  .little-ones-grid { grid-template-columns: 1fr 1fr; }
+  #nav { display: none; }
+  .hero-right { display: none; }
+}
+
+/* ── HOVER GLOW on interactive elements ── */
+a, button, .polaroid, .bento-photo, .sw-circle {
+  cursor: none;
+}
+</style>
+</head>
+
+<body class="loading">
+
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+<div id="scroll-progress"></div>
+
+<div id="loader">
+  <div class="l-monogram">
+    Nikko <span class="l-amp">&amp;</span> Karrell
+    <div class="l-bar"></div>
+  </div>
+  <div class="l-date-line">DECEMBER 12, 2026</div>
+  <div class="l-tadhana">TADHANA</div>
+</div>
+
+<section id="s-hero" class="sec">
+  <video autoplay loop muted playsinline class="hero-video">
+    <source src="sunset.mp4" type="video/mp4">
+  </video>
+  <div class="hero-grain"></div>
+  <div class="hero-line"></div>
+
+  <div class="hero-left">
+    <span class="hero-eyebrow">Save the Date</span>
+    <h1 class="hero-names">
+      Nikko
+      <span class="amp">&amp;</span>
+      Karrell
+    </h1>
+    <div class="hero-date">Saturday · December 12, 2026</div>
+    <div class="hero-location">Tagaytay City, Cavite</div>
+    <div class="hero-music">
+      <button class="mbtn" onclick="toggleMusic()" aria-label="Play music" id="mbtn-hero">
+        <svg class="play-icon" width="15" height="15" viewBox="0 0 16 16" fill="currentColor"><polygon points="4,2 14,8 4,14"/></svg>
+        <div class="eq-bars" style="display:none">
+          <div class="eq-bar"></div><div class="eq-bar"></div><div class="eq-bar"></div>
+          <div class="eq-bar"></div><div class="eq-bar"></div>
+        </div>
+      </button>
+      <span class="mbtn-label">Tap to play our song</span>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <span class="hero-vertical-text">Tagaytay City · Cavite · Philippines</span>
+    <div class="hero-countdown">
+      <div class="hero-cd-unit">
+        <span class="hero-cd-num" id="cd-d">—</span>
+        <span class="hero-cd-lbl">Days</span>
+      </div>
+      <div class="hero-cd-unit">
+        <span class="hero-cd-num" id="cd-h">—</span>
+        <span class="hero-cd-lbl">Hours</span>
+      </div>
+      <div class="hero-cd-unit">
+        <span class="hero-cd-num" id="cd-m">—</span>
+        <span class="hero-cd-lbl">Min</span>
+      </div>
+      <div class="hero-cd-unit">
+        <span class="hero-cd-num" id="cd-s">—</span>
+        <span class="hero-cd-lbl">Sec</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-scroll">
+    <span class="hero-scroll-text">Scroll</span>
+    <div class="hero-scroll-line"></div>
+  </div>
+</section>
+
+<section id="s-savedate" class="sec">
+  <div class="bento-grid">
+    <div class="bento-header reveal">
+      <span class="eyebrow">You Are Cordially Invited</span>
+      <h2 class="sec-title" style="font-size:clamp(28px,5vw,44px)">Nikko &amp; Karrell</h2>
+      <p class="sec-subtitle" style="font-size:15px; margin-top:6px;">are getting married</p>
+      <div class="div-ornament" style="justify-content:center; max-width:260px; margin:24px auto 0;">
+        <div class="line"></div><div class="gem"></div><div class="line"></div>
+      </div>
+    </div>
+
+    <div class="bento-card bento-photo reveal" style="animation-delay:0.1s">
+      <img src="church.jpg" alt="Madre de Dios Chapel">
+      <div class="bento-photo-overlay">
+        <div>
+          <div class="bento-photo-label">Madre de Dios Chapel</div>
+          <span class="bento-photo-sub">Tagaytay Highlands, Cavite</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="bento-card bento-info reveal" style="animation-delay:0.2s">
+      <span class="bento-info-label">Ceremony</span>
+      <div class="bento-info-main">Wedding<br>Ceremony</div>
+      <div class="bento-info-sub">Tagaytay Highlands<br>Cavite</div>
+    </div>
+
+    <div class="bento-card bento-time reveal" style="animation-delay:0.25s">
+      <span class="bento-info-label" style="color:var(--merlot-soft)">Starts at</span>
+      <div class="bento-time-big">2:00 PM</div>
+      <div class="bento-time-label">Saturday Afternoon</div>
+    </div>
+
+    <div class="bento-card bento-photo reveal" style="animation-delay:0.3s; aspect-ratio: 16/7;">
+      <img src="pat.jpg" alt="Antonio's Restaurant">
+      <div class="bento-photo-overlay">
+        <div>
+          <div class="bento-photo-label">Antonio's Restaurant</div>
+          <span class="bento-photo-sub">Purok 138, Brgy. Neogan, Tagaytay</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="bento-card bento-date-banner reveal" style="animation-delay:0.35s">
+      <div class="bento-date-text">Saturday</div>
+      <div class="bento-date-sep"></div>
+      <div class="bento-date-text">December 12, 2026</div>
+      <div class="bento-date-sep"></div>
+      <div class="bento-date-text">Tagaytay City</div>
+    </div>
+  </div>
+</section>
+
+<section id="s-story" class="sec">
+  <img src="story2.jpg" class="story-bg-img" alt="">
+  <div class="story-inner">
+    <div style="text-align:center" class="reveal">
+      <span class="eyebrow eyebrow-light">Our Story</span>
+      <h2 class="sec-title sec-title-light">Our Serendipitous<br>Love Story</h2>
+      <div class="div-ornament" style="justify-content:center; max-width:260px; margin:24px auto 0;">
+        <div class="line" style="background:linear-gradient(to right,transparent,rgba(196,133,106,0.3),transparent)"></div>
+        <div class="gem" style="background:var(--rose-gold)"></div>
+        <div class="line" style="background:linear-gradient(to right,transparent,rgba(196,133,106,0.3),transparent)"></div>
+      </div>
+    </div>
+
+    <div class="story-grid">
+      <div class="story-text-col reveal" style="animation-delay:0.1s">
+        <p class="body-text">Nikko and Karrell first crossed paths during their early college days. While studying for the same major, they often ended up in the same study groups. Back then, they were nothing more than acquaintances who shared class notes and the occasional joke about their demanding professors.</p>
+        <p class="body-text">Fast forward a few years to 2021. A mutual friend's weekend beach trip to La Union brought them back together. Away from the pressure of exams and deadlines, they finally had the chance to really talk. Over late-night bonfires and surfing wipeouts, they discovered a shared love for spontaneous adventures and iced coffee.</p>
+        <p class="body-text">What started as casual hangouts quickly turned into intentional dates. Nikko admired Karrell's unwavering optimism and drive, while Karrell found a steady, comforting presence in Nikko's quiet confidence. Through career changes, personal milestones, and countless road trips, they became each other's greatest supporters.</p>
+        <p class="body-text">On a chilly morning hike up Mt. Pulag, just as the sun crested over the sea of clouds, Nikko asked the easiest question of Karrell's life. With zero hesitation, she said yes.</p>
+        <p class="body-text" style="color:var(--rose-light); font-style:italic; font-size:16px;">Five beautiful years later, they are ready to embark on their greatest adventure yet.</p>
+      </div>
+
+      <div class="story-countdown reveal" style="animation-delay:0.2s">
+        <span class="story-cd-header">Counting Down to</span>
+        <div class="story-cd-date">December 12, 2026</div>
+        <div class="story-cd-wrap">
+          <div class="story-cd-unit">
+            <span class="story-cd-num" id="cd-d2">—</span>
+            <span class="story-cd-lbl">Days</span>
+          </div>
+          <div class="story-cd-unit">
+            <span class="story-cd-num" id="cd-h2">—</span>
+            <span class="story-cd-lbl">Hours</span>
+          </div>
+          <div class="story-cd-unit">
+            <span class="story-cd-num" id="cd-m2">—</span>
+            <span class="story-cd-lbl">Min</span>
+          </div>
+          <div class="story-cd-unit">
+            <span class="story-cd-num" id="cd-s2">—</span>
+            <span class="story-cd-lbl">Sec</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="s-trail" class="sec">
+  <div class="trail-inner">
+    <div class="trail-header reveal">
+      <span class="eyebrow">The Memory Trail</span>
+      <h2 class="sec-title">Milestones</h2>
+      <p class="sec-subtitle" style="font-size:15px; margin-top:8px">A map of the moments that made us.</p>
+    </div>
+
+    <div class="trail">
+      <div class="trail-spine"></div>
+
+      <div class="trail-item reveal">
+        <div class="trail-text-odd">
+          <div class="trail-date">2019</div>
+          <div class="trail-title">THE COLLEGE DAYS</div>
+          <div class="trail-desc">Where it all began. Shared notes, group studies, and quick coffee runs between classes.</div>
+        </div>
+        <div class="trail-dot"><div class="trail-dot-inner"></div></div>
+        <div class="trail-photo-odd">
+          <div class="polaroid">
+            <img src="1.jpg" alt="First meet">
+            <div class="pol-cap">August 2019</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="trail-item reveal">
+        <div class="trail-photo-even">
+          <div class="polaroid">
+            <img src="2.jpg" alt="La Union Beach">
+            <div class="pol-cap">Summer 2021</div>
+          </div>
+        </div>
+        <div class="trail-dot"><div class="trail-dot-inner"></div></div>
+        <div class="trail-text-even">
+          <div class="trail-date">SUMMER 2021</div>
+          <div class="trail-title">RECONNECTING IN LA UNION</div>
+          <div class="trail-desc">A spontaneous weekend trip that changed everything. The spark was finally lit.</div>
+        </div>
+      </div>
+
+      <div class="trail-item reveal">
+        <div class="trail-text-odd">
+          <div class="trail-date">2022</div>
+          <div class="trail-title">THE OFFICIAL "US"</div>
+          <div class="trail-desc">After months of dates and late-night talks, we finally made it official.</div>
+        </div>
+        <div class="trail-dot"><div class="trail-dot-inner"></div></div>
+        <div class="trail-photo-odd">
+          <div class="polaroid">
+            <img src="3.jpg" alt="Official">
+            <div class="pol-cap">February 2022</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="trail-item reveal">
+        <div class="trail-photo-even">
+          <div class="polaroid">
+            <img src="4.jpg" alt="Mt. Pulag">
+            <div class="pol-cap">November 2023</div>
+          </div>
+        </div>
+        <div class="trail-dot"><div class="trail-dot-inner"></div></div>
+        <div class="trail-text-even">
+          <div class="trail-date">NOVEMBER 2023</div>
+          <div class="trail-title">CONQUERING MT. PULAG</div>
+          <div class="trail-desc">Freezing temperatures, exhausted legs, but reaching the summit together made it all worth it.</div>
+        </div>
+      </div>
+
+      <div class="trail-item reveal">
+        <div class="trail-text-odd">
+          <div class="trail-date">MAY 2025</div>
+          <div class="trail-title">THE PROPOSAL</div>
+          <div class="trail-desc">Above the clouds in Baguio, Nikko asked the most important question. Karrell said "Finally!"</div>
+        </div>
+        <div class="trail-dot"><div class="trail-dot-inner"></div></div>
+        <div class="trail-photo-odd">
+          <div class="polaroid">
+            <img src="11.jpg" alt="The Proposal">
+            <div class="pol-cap">May 15, 2025</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="trail-item reveal">
+        <div class="trail-photo-even">
+          <div class="polaroid" style="background:#fffaf5">
+            <img src="13.jpg" alt="Pamamanhikan">
+            <div class="pol-cap" style="color:var(--merlot-soft); font-weight:500;">January 2026</div>
+          </div>
+        </div>
+        <div class="trail-dot" style="position:relative">
+          <div class="trail-dot-inner" style="background:var(--merlot-soft); box-shadow: 0 0 0 2px var(--merlot), 0 0 0 5px rgba(107,45,62,0.2); width:15px; height:15px;"></div>
+        </div>
+        <div class="trail-text-even">
+          <div class="trail-date">JANUARY 2026</div>
+          <div class="trail-title">PAMAMANHIKAN</div>
+          <div class="trail-desc">Our two families coming together to officially bless our union over a massive feast.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="s-entourage" class="sec">
+  <div class="entourage-hero-strip">
+    <div class="entourage-title-wrap">
+      <span class="eyebrow eyebrow-light">The Wedding Party</span>
+      <h2 class="sec-title sec-title-light" style="font-size:clamp(28px,5.5vw,46px)">Our Pillars in This Union</h2>
+      <p style="font-family:'Cormorant Garamond',serif; font-style:italic; font-size:16px; color:rgba(250,246,240,0.7); margin-top:12px; line-height:1.85;">
+        Held by God's grace and the love of our parents and families,<br>we joyfully choose to tie the knot.
+      </p>
+    </div>
+  </div>
+
+  <div class="entourage-body">
+
+    <div class="ent-block reveal">
+      <div class="ent-block-header">
+        <div class="ent-block-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--merlot-soft)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 9c2.5 0 4.5 2 4.5 4.5S17 18 14.5 18c-2.3 0-3.6-2.1-4.5-3.5C9.1 13.1 7.8 11 5.5 11 3 11 1 13 1 15.5S3 20 5.5 20c2.3 0 3.6-2.1 4.5-3.5.9-1.4 2.2-3.5 4.5-3.5 2.5 0 4.5 2 4.5 4.5"/></svg>
+        </div>
+        <div>
+          <div class="ent-block-title">The Parents</div>
+        </div>
+      </div>
+      <div class="ent-parents-wrap">
+        <div class="ent-family-card">
+          <span class="ent-family-role">Parents of the Groom</span>
+          <div class="ent-family-name">Mr. Ricardo Villanueva<br>&amp; Mrs. Elena Villanueva</div>
+        </div>
+        <div class="ent-family-card">
+          <span class="ent-family-role">Parents of the Bride</span>
+          <div class="ent-family-name">Mr. Fernando Cruz<br>&amp; Mrs. Josephine Cruz</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ent-block reveal" style="animation-delay:0.1s">
+      <div class="ent-block-header">
+        <div class="ent-block-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--merlot-soft)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div>
+          <div class="ent-block-title">Principal Sponsors</div>
+          <div class="ent-block-subtitle">to witness our exchange of vows &amp; be our guide in marriage</div>
+        </div>
+      </div>
+      <div class="ent-cols">
+        <div>
+          <div class="ent-col-title">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 3h12l4 6-10 13L2 9z"/></svg>
+            Ninong
+          </div>
+          <div class="ent-name">Mr. Roberto Mendoza</div>
+          <div class="ent-name">Arch. Danilo Santos</div>
+          <div class="ent-name">Mr. Eduardo Bautista</div>
+          <div class="ent-name">Engr. Antonio Reyes</div>
+          <div class="ent-name">Mr. Manuel Garcia</div>
+          <div class="ent-name">Dr. Jose Valderama</div>
+          <div class="ent-name">Mr. Luisito Tolentino</div>
+          <div class="ent-name">Atty. Raymond Alonzo</div>
+        </div>
+        <div>
+          <div class="ent-col-title">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 3h12l4 6-10 13L2 9z"/></svg>
+            Ninang
+          </div>
+          <div class="ent-name">Mrs. Teresita Mendoza</div>
+          <div class="ent-name">Dra. Carmelita Santos</div>
+          <div class="ent-name">Mrs. Rosalinda Bautista</div>
+          <div class="ent-name">Mrs. Gloria Reyes</div>
+          <div class="ent-name">Mrs. Imelda Garcia</div>
+          <div class="ent-name">Dr. Marilou Valderama</div>
+          <div class="ent-name">Mrs. Susan Tolentino</div>
+          <div class="ent-name">Atty. Maria Alonzo</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ent-block reveal" style="animation-delay:0.15s">
+      <div class="ent-block-header">
+        <div class="ent-block-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--merlot-soft)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 22h8"/><path d="M12 12v10"/><path d="M17 3v4a5 5 0 0 1-10 0V3h10z"/><path d="M7 8h10"/></svg>
+        </div>
+        <div>
+          <div class="ent-block-title">Our Chosen Circle</div>
+          <div class="ent-block-subtitle">the persons closest to our hearts</div>
+        </div>
+      </div>
+
+      <div class="ent-honoree-pair" style="margin-bottom:28px">
+        <div class="ent-honoree">
+          <span class="ent-honoree-role">Best Man</span>
+          <div class="ent-honoree-name">Angelo Villanueva</div>
+        </div>
+        <div class="ent-honoree">
+          <span class="ent-honoree-role">Maid of Honor</span>
+          <div class="ent-honoree-name">Bianca Cruz</div>
+        </div>
+      </div>
+
+      <div class="ent-cols">
+        <div>
+          <div class="ent-col-title">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"/></svg>
+            Groomsmen
+          </div>
+          <div class="ent-name">Rafael Santos</div>
+          <div class="ent-name">Dominic Reyes</div>
+          <div class="ent-name">Gabriel Mendoza</div>
+          <div class="ent-name">Paolo Ocampo</div>
+          <div class="ent-name">Vince Navarro</div>
+          <div class="ent-name">Mark Javier</div>
+        </div>
+        <div>
+          <div class="ent-col-title">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"/></svg>
+            Bridesmaids
+          </div>
+          <div class="ent-name">Chloe Mendoza</div>
+          <div class="ent-name">Sofia Bautista</div>
+          <div class="ent-name">Isabella Reyes</div>
+          <div class="ent-name">Camille Santos</div>
+          <div class="ent-name">Patricia Gonzales</div>
+          <div class="ent-name">Julia De Leon</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ent-block reveal" style="animation-delay:0.2s">
+      <div class="ent-block-header">
+        <div class="ent-block-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--merlot-soft)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L15 9L22 12L15 15L12 22L9 15L2 12L9 9L12 2Z"/></svg>
+        </div>
+        <div>
+          <div class="ent-block-title">Secondary Sponsors</div>
+          <div class="ent-block-subtitle">to lay our love to each other</div>
+        </div>
+      </div>
+      <div class="secondary-sponsors-grid">
+        <div class="sec-sponsor-card">
+          <span class="sec-sponsor-role">Candle</span>
+          <span class="sec-sponsor-note">to light up our path</span>
+          <div class="sec-sponsor-names">Miguel Soriano<br>Andrea Soriano</div>
+        </div>
+        <div class="sec-sponsor-card">
+          <span class="sec-sponsor-role">Veil</span>
+          <span class="sec-sponsor-note">to clothe us as one</span>
+          <div class="sec-sponsor-names">Joshua Pineda<br>Samantha Pineda</div>
+        </div>
+        <div class="sec-sponsor-card">
+          <span class="sec-sponsor-role">Cord</span>
+          <span class="sec-sponsor-note">to bind us together</span>
+          <div class="sec-sponsor-names">Kevin Rivera<br>Alyssa Rivera</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ent-block reveal" style="animation-delay:0.25s">
+      <div class="ent-block-header">
+        <div class="ent-block-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--merlot-soft)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 12c-2-2-5-4-8-4v8c3 0 6-2 8-4z"/><path d="M12 12c2-2 5-4 8-4v8c-3 0-6-2-8-4z"/><circle cx="12" cy="12" r="2"/></svg>
+        </div>
+        <div>
+          <div class="ent-block-title">The Little Ones</div>
+          <div class="ent-block-subtitle">to carry our symbols of love, faith, and treasures</div>
+        </div>
+      </div>
+      <div class="little-ones-grid">
+        <div class="little-one-card">
+          <span class="little-one-role">Ring Bearer</span>
+          <div class="little-one-name">Lucas Mateo Cruz</div>
+        </div>
+        <div class="little-one-card">
+          <span class="little-one-role">Bible Bearer</span>
+          <div class="little-one-name">Liam Santos</div>
+        </div>
+        <div class="little-one-card">
+          <span class="little-one-role">Coin Bearer</span>
+          <div class="little-one-name">Enzo Villanueva</div>
+        </div>
+        <div class="little-one-card">
+          <span class="little-one-role">Flower Girl</span>
+          <div class="little-one-name">Amelia Grace Reyes</div>
+        </div>
+        <div class="little-one-card" style="grid-column: 1 / -1; max-width: 260px; margin: 0 auto; width: 100%;">
+          <span class="little-one-role">Flower Girl</span>
+          <div class="little-one-name">Zoe Isabella Mendoza</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section id="s-details" class="sec">
+  <div class="details-inner">
+    <div style="text-align:center" class="reveal">
+      <span class="eyebrow eyebrow-light">The Details</span>
+      <h2 class="sec-title sec-title-light">Everything You Need to Know</h2>
+    </div>
+
+    <div class="details-grid">
+
+      <div class="detail-card span2 reveal" style="animation-delay:0.1s">
+        <div class="detail-card-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--rose-gold)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2 5h5l-4 4 2 6-5-4-5 4 2-6-4-4h5z"/></svg>
+        </div>
+        <div class="detail-card-title">Dress Code</div>
+        <div style="margin: 16px 0 8px;">
+          <img src="dresscode.png" alt="Dress Code" style="max-width:300px; width:100%; display:block; margin:0 auto 16px; opacity:0.9; border-radius:4px;">
+        </div>
+        <div class="dress-swatches" style="justify-content:center">
+          <div class="swatch"><div class="sw-circle" style="background:#023020"></div><div class="sw-name">Emerald</div></div>
+          <div class="swatch"><div class="sw-circle" style="background:#50C878"></div><div class="sw-name">Sage</div></div>
+          <div class="swatch"><div class="sw-circle" style="background:#FFD700"></div><div class="sw-name">Gold</div></div>
+          <div class="swatch"><div class="sw-circle" style="background:#F5F5DC"></div><div class="sw-name">Champagne</div></div>
+          <div class="swatch"><div class="sw-circle" style="background:#111111"></div><div class="sw-name">Black</div></div>
+        </div>
+        <div class="detail-card-body" style="margin-top:20px; text-align:left; max-width:480px; margin-left:auto; margin-right:auto;">
+          <strong>ENTOURAGE &amp; SPONSORS</strong><br>
+          Gentlemen: Black suits or classic Barong Tagalog.<br>
+          Ladies: Solid-colored long dresses in emerald green or gold.<br><br>
+          <strong>GENERAL GUESTS</strong><br>
+          Formal attire requested. If you'd like to match our December theme, feel free to wear any of the shades above.
+        </div>
+      </div>
+
+      <div class="detail-card reveal" style="animation-delay:0.2s">
+        <div class="detail-card-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--rose-gold)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5A4.8 8 0 0 1 12 8a4.8 8 0 0 1 4.5-5 2.5 2.5 0 0 1 0 5"/></svg>
+        </div>
+        <div class="detail-card-title">Gift Wishes</div>
+        <div class="detail-card-body" style="margin-top:12px">
+          <strong>Your Presence is the Present</strong><br><br>
+          Truly, your prayers and presence mean the world to us. But if you'd like to bless us with something more, monetary gifts are warmly appreciated — to help us begin our new chapter together.
+        </div>
+      </div>
+
+      <div class="detail-card reveal" style="animation-delay:0.25s">
+        <div class="detail-card-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--rose-gold)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <div class="detail-card-title">Getting There &amp; Sharing Memories</div>
+        <div class="qr-wrap">
+          <div class="qr-item">
+            <div class="qr-box"><img src="church-qr.png" alt="Church QR"></div>
+            <span class="qr-label">Madre de Dios</span>
+          </div>
+          <div class="qr-item">
+            <div class="qr-box"><img src="pat-qr.png" alt="Reception QR"></div>
+            <span class="qr-label">Antonio's</span>
+          </div>
+          <div class="qr-item">
+            <div class="qr-box"><img src="snap-qr.png" alt="Snap QR"></div>
+            <span class="qr-label">Snap &amp; Share</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="s-timeline" class="sec">
+  <div class="timeline-inner">
+    <div style="text-align:center" class="reveal">
+      <span class="eyebrow">The Day's Journey</span>
+      <h2 class="sec-title">A Timeline</h2>
+      <p class="sec-subtitle" style="font-size:15px; margin-top:8px;">A guide through our most cherished day</p>
+      <div class="div-ornament" style="justify-content:center; max-width:200px; margin:24px auto 0">
+        <div class="line"></div><div class="gem"></div><div class="line"></div>
+      </div>
+    </div>
+
+    <div class="evt-list">
+      <div class="evt-item">
+        <div class="evt-time">2:00 PM</div>
+        <div>
+          <div class="evt-name">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--merlot-soft)" stroke-width="1.5" stroke-linecap="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            Wedding Ceremony
+          </div>
+          <div class="evt-note">Madre de Dios Chapel · Tagaytay Highlands</div>
+        </div>
+      </div>
+      <div class="evt-item">
+        <div class="evt-time">3:30 PM</div>
+        <div>
+          <div class="evt-name">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--merlot-soft)" stroke-width="1.5" stroke-linecap="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+            Post-Nuptial
+          </div>
+          <div class="evt-note">Newlywed portraits &amp; family photos after the ceremony</div>
+        </div>
+      </div>
+      <div class="evt-item">
+        <div class="evt-time">4:30 PM</div>
+        <div>
+          <div class="evt-name">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--merlot-soft)" stroke-width="1.5" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Reception Cocktails
+          </div>
+          <div class="evt-note">Antonio's Restaurant · Enjoy the sunset views and drinks</div>
+        </div>
+      </div>
+      <div class="evt-item">
+        <div class="evt-time">6:00 PM</div>
+        <div>
+          <div class="evt-name">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--merlot-soft)" stroke-width="1.5" stroke-linecap="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></svg>
+            Dinner Reception
+          </div>
+          <div class="evt-note">A feast of celebration opens</div>
+        </div>
+      </div>
+      <div class="evt-item">
+        <div class="evt-time">8:00 PM</div>
+        <div>
+          <div class="evt-name">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--merlot-soft)" stroke-width="1.5" stroke-linecap="round"><path d="M22 3l-8 9v7h-4v-7L2 3h20"/><path d="M16 22H8"/></svg>
+            After Party
+          </div>
+          <div class="evt-note">The real party. Hit the dancefloor and stay as long as you'd like!</div>
+        </div>
+      </div>
+      <div class="evt-item">
+        <div class="evt-time" style="color:var(--merlot-soft)">Anytime</div>
+        <div>
+          <div class="evt-name">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--merlot-soft)" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            Snap &amp; Share
+          </div>
+          <div class="evt-note">Capture the moment and tag us in your photos!</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="s-closing" class="sec">
+  <img src="last.gif" class="closing-bg" alt="">
+  <div class="closing-overlay"></div>
+  <div class="closing-inner">
+    <div class="closing-names">
+      Nikko
+      <span class="amp">&amp;</span>
+      Karrell
+    </div>
+    <div class="closing-tagline">December 12, 2026 · Tagaytay City, Cavite</div>
+    <div class="closing-message">
+      Throughout our journey, we've felt love and support not just from each other, but also from the people around us. Everyone has made us feel seen, valued, and included. So for our wedding, we want to keep that same vibe — something simple, warm, and open to the people we love most. Your presence is what matters most to us.<br><br>
+      See you on our big day!<br><br>
+      With love,
+    </div>
+    <div class="closing-sig">Nikko and Karrell</div>
+    <div class="closing-date-line">Saturday · December 12, 2026</div>
+  </div>
+</section>
+
+<audio id="waudio" loop preload="none">
+  <source src="theme-song.mp3" type="audio/mpeg">
+</audio>
+
+<div id="music-player">
+  <button class="mbtn" onclick="toggleMusic()" aria-label="Play music" id="mbtn-float">
+    <svg class="play-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><polygon points="4,2 14,8 4,14"/></svg>
+    <div class="eq-bars" style="display:none">
+      <div class="eq-bar"></div><div class="eq-bar"></div><div class="eq-bar"></div>
+      <div class="eq-bar"></div><div class="eq-bar"></div>
+    </div>
+  </button>
+  <div class="mlabel" id="mlabel">♪ Our Song</div>
+</div>
+
+<nav id="nav" aria-label="Sections">
+  <div class="ndot a" onclick="scrollTo({top:0,behavior:'smooth'})" title="Top"></div>
+  <div class="ndot" onclick="sid('s-savedate')" title="Save the Date"></div>
+  <div class="ndot" onclick="sid('s-story')" title="Love Story"></div>
+  <div class="ndot" onclick="sid('s-trail')" title="Memory Trail"></div>
+  <div class="ndot" onclick="sid('s-entourage')" title="Entourage"></div>
+  <div class="ndot" onclick="sid('s-details')" title="Details"></div>
+  <div class="ndot" onclick="sid('s-timeline')" title="Timeline"></div>
+  <div class="ndot" onclick="sid('s-closing')" title="Closing"></div>
+</nav>
+
+<script>
+/* ═══════════════════════════════════════
+   CORE SCRIPTS
+═══════════════════════════════════════ */
+
+// ── CUSTOM CURSOR ──
+const cursor = document.getElementById('cursor');
+const cursorRing = document.getElementById('cursor-ring');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+function animateCursor() {
+  cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
+  rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+  cursorRing.style.left = rx + 'px'; cursorRing.style.top = ry + 'px';
+  requestAnimationFrame(animateCursor);
+}
+animateCursor();
+document.querySelectorAll('a,button,.polaroid,.bento-photo,.sw-circle').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    cursor.style.width = '20px'; cursor.style.height = '20px';
+    cursorRing.style.width = '52px'; cursorRing.style.height = '52px';
+  });
+  el.addEventListener('mouseleave', () => {
+    cursor.style.width = '12px'; cursor.style.height = '12px';
+    cursorRing.style.width = '36px'; cursorRing.style.height = '36px';
+  });
+});
+
+// ── LOADER ──
+document.body.classList.add('loading');
+const loader = document.getElementById('loader');
+const loaderMono = document.querySelector('.l-monogram');
+const loaderDate = document.querySelector('.l-date-line');
+const loaderBar  = document.querySelector('.l-bar');
+const loaderTadh = document.querySelector('.l-tadhana');
+
+// Animate loader elements in sequence using GSAP
+const ltl = gsap.timeline({ delay: 0.2 });
+ltl
+  .to(loaderMono, { opacity: 1, y: 0, duration: 1, ease: 'expo.out', from: { opacity: 0, y: 30 } })
+  .to(loaderBar,  { width: '100%', duration: 1.2, ease: 'power3.inOut' }, 0.4)
+  .to(loaderDate, { opacity: 1, duration: 0.8, ease: 'power2.out' }, 0.9)
+  .to(loaderTadh, { opacity: 1, duration: 0.8, ease: 'power2.out' }, 1.1);
+
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    loader.classList.add('out');
+    document.body.classList.remove('loading');
+    setTimeout(() => { loader.style.display = 'none'; }, 1000);
+    startHeroAnimations();
+  }, 3200);
+});
+
+// ── HERO ANIMATIONS ──
+function startHeroAnimations() {
+  const htl = gsap.timeline({ defaults: { ease: 'expo.out' } });
+  htl
+    .to('.hero-line', { scaleY: 1, duration: 1.5 }, 0)
+    .to('.hero-eyebrow', { opacity: 1, y: 0, duration: 1 }, 0.3)
+    .to('.hero-names', { opacity: 1, y: 0, duration: 1.2, from: { opacity: 0, y: 60 } }, 0.5)
+    .to('.hero-date', { opacity: 1, duration: 0.8 }, 0.9)
+    .to('.hero-location', { opacity: 1, duration: 0.8 }, 1.0)
+    .to('.hero-music', { opacity: 1, duration: 0.8 }, 1.1)
+    .to('.hero-vertical-text', { opacity: 1, duration: 0.8 }, 0.6)
+    .to('.hero-countdown', { opacity: 1, y: 0, duration: 1, from: { opacity: 0, y: 30 } }, 0.7)
+    .to('.hero-scroll', { opacity: 1, duration: 0.8 }, 1.3);
+}
+
+// ── SCROLL PROGRESS ──
+window.addEventListener('scroll', () => {
+  const p = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight) * 100;
+  document.getElementById('scroll-progress').style.width = p + '%';
+});
+
+// ── SCROLL REVEALS ──
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('in');
+      io.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => io.observe(el));
+
+// ── TRAIL ITEMS ──
+const trailIO = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('in');
+      trailIO.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.15 });
+document.querySelectorAll('.trail-item').forEach((el, i) => {
+  el.style.animationDelay = (i * 0.05) + 's';
+  el.classList.add('reveal');
+  io.observe(el);
+});
+
+// ── TIMELINE EVENTS ──
+const evtIO = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const items = e.target.querySelectorAll('.evt-item');
+      items.forEach((item, i) => setTimeout(() => item.classList.add('in'), i * 90));
+      evtIO.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.08 });
+const evtList = document.querySelector('.evt-list');
+if (evtList) evtIO.observe(evtList);
+
+// ── COUNTDOWN ──
+function tick() {
+  const t = new Date('2026-12-12T14:00:00+08:00') - new Date();
+  const d = Math.max(0, Math.floor(t / 86400000));
+  const h = Math.max(0, Math.floor(t % 86400000 / 3600000));
+  const m = Math.max(0, Math.floor(t % 3600000 / 60000));
+  const s = Math.max(0, Math.floor(t % 60000 / 1000));
+  ['cd-d','cd-h','cd-m','cd-s','cd-d2','cd-h2','cd-m2','cd-s2'].forEach((id, i) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = [d, h, m, s, d, h, m, s][i];
+  });
+}
+tick(); setInterval(tick, 1000);
+
+// ── NAV DOTS ──
+const secIds = ['s-hero','s-savedate','s-story','s-trail','s-entourage','s-details','s-timeline','s-closing'];
+const dots = document.querySelectorAll('.ndot');
+function sid(id) { document.getElementById(id).scrollIntoView({ behavior: 'smooth' }); }
+const sio = new IntersectionObserver(es => {
+  es.forEach(e => {
+    if (e.isIntersecting) {
+      const i = secIds.indexOf(e.target.id);
+      if (i >= 0) { dots.forEach(d => d.classList.remove('a')); if (dots[i]) dots[i].classList.add('a'); }
+    }
+  });
+}, { rootMargin: '-40% 0px -40% 0px' });
+secIds.forEach(id => { const el = document.getElementById(id); if (el) sio.observe(el); });
+
+// ── MUSIC ──
+const audio = document.getElementById('waudio');
+let playing = false;
+function toggleMusic() {
+  const allBtns = document.querySelectorAll('.mbtn');
+  if (!playing) {
+    if (audio.currentTime === 0) audio.currentTime = 19;
+    audio.play().then(() => {
+      playing = true;
+      allBtns.forEach(btn => {
+        btn.querySelector('.play-icon').style.display = 'none';
+        btn.querySelector('.eq-bars').style.display = 'flex';
+      });
+      const lbl = document.getElementById('mlabel');
+      if (lbl) { lbl.textContent = '♪ Our Song'; lbl.classList.add('show'); }
+    });
+  } else {
+    audio.pause(); playing = false;
+    allBtns.forEach(btn => {
+      btn.querySelector('.play-icon').style.display = 'block';
+      btn.querySelector('.eq-bars').style.display = 'none';
+    });
+    const lbl = document.getElementById('mlabel');
+    if (lbl) lbl.classList.remove('show');
+  }
+}
+
+// ── GSAP SCROLL ANIMATIONS ──
+gsap.registerPlugin(ScrollTrigger);
+
+// Closing section reveal
+ScrollTrigger.create({
+  trigger: '#s-closing',
+  start: 'top 60%',
+  onEnter: () => {
+    const tl = gsap.timeline();
+    tl.to('.closing-names', { opacity: 1, scale: 1, filter: 'blur(0px)', duration: 1.4, ease: 'expo.out',
+        from: { opacity: 0, scale: 0.5, filter: 'blur(20px)' } })
+      .to('.closing-tagline', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', from: { opacity: 0, y: 20 } }, '-=0.6')
+      .to('.closing-message', { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out', from: { opacity: 0, y: 30 } }, '-=0.4')
+      .to('.closing-sig', { opacity: 1, duration: 0.8, ease: 'power2.out' }, '-=0.3')
+      .to('.closing-date-line', { opacity: 1, duration: 0.8 }, '-=0.2');
+
+    // Gold particles burst
+    for (let k = 0; k < 25; k++) {
+      const p = document.createElement('div');
+      p.className = 'gold-particle';
+      const size = 3 + Math.random() * 7;
+      p.style.cssText = `width:${size}px;height:${size}px;left:50%;top:50%;`;
+      document.body.appendChild(p);
+      gsap.to(p, {
+        x: (Math.random() - 0.5) * window.innerWidth * 1.4,
+        y: (Math.random() - 0.5) * window.innerHeight * 1.4,
+        opacity: Math.random() * 0.8 + 0.2, scale: Math.random() * 3 + 1,
+        duration: 1.8 + Math.random() * 2, delay: Math.random() * 0.5, ease: 'power2.out',
+        onComplete: () => gsap.to(p, { opacity: 0, duration: 1, onComplete: () => p.remove() })
+      });
+    }
+  }
+});
+
+// Continuous swatch spin hover
+document.querySelectorAll('.sw-circle').forEach(sw => {
+  sw.addEventListener('mouseenter', () => gsap.to(sw, { rotation: 360, duration: 0.6, ease: 'power2.inOut' }));
+  sw.addEventListener('mouseleave', () => gsap.to(sw, { rotation: 0, duration: 0.4 }));
+});
+
+// Polaroid tilt interaction
+document.querySelectorAll('.polaroid').forEach(pol => {
+  pol.addEventListener('mousemove', e => {
+    const r = pol.getBoundingClientRect();
+    const cx = (e.clientX - r.left) / r.width - 0.5;
+    const cy = (e.clientY - r.top) / r.height - 0.5;
+    gsap.to(pol, { rotateY: cx * 12, rotateX: -cy * 12, scale: 1.06, duration: 0.3, ease: 'power2.out', transformPerspective: 500 });
+  });
+  pol.addEventListener('mouseleave', () => {
+    gsap.to(pol, { rotateY: 0, rotateX: 0, scale: 1, duration: 0.6, ease: 'elastic.out(1, 0.4)' });
+  });
+});
+
+// Eyebrow letter-spacing on hover
+document.querySelectorAll('.eyebrow').forEach(el => {
+  el.addEventListener('mouseenter', () => gsap.to(el, { letterSpacing: '0.85em', duration: 0.4, ease: 'power2.out' }));
+  el.addEventListener('mouseleave', () => gsap.to(el, { letterSpacing: '0.6em', duration: 0.4 }));
+});
+
+// Music player entrance
+setTimeout(() => {
+  gsap.to('#music-player', { x: 0, opacity: 1, duration: 1, ease: 'elastic.out(1, 0.5)' });
+}, 4000);
+
+// Parallax on hero video
+gsap.to('.hero-video', {
+  y: '20%', ease: 'none',
+  scrollTrigger: { trigger: '#s-hero', start: 'top top', end: 'bottom top', scrub: true }
+});
+
+// Bento card stagger on enter
+ScrollTrigger.create({
+  trigger: '#s-savedate',
+  start: 'top 70%',
+  onEnter: () => {
+    gsap.fromTo('.bento-card',
+      { opacity: 0, y: 30 },
+      { opacity: 1, y: 0, duration: 0.7, stagger: 0.1, ease: 'power3.out' }
+    );
+  }
+});
+
+// ── FALLING PETALS ──
+window.addEventListener('load', () => {
+  const container = document.getElementById('petal-container') || (() => {
+    const c = document.createElement('div');
+    c.id = 'petal-container';
+    document.body.appendChild(c);
+    return c;
+  })();
+  const petalCount = 30;
+  const colors = ['#C4856A', '#EDD5CC', '#8B3A50', '#D9A090'];
+  for (let i = 0; i < petalCount; i++) {
+    const petal = document.createElement('div');
+    petal.classList.add('petal');
+    const startX = Math.random() * 100;
+    const duration = Math.random() * 7 + 7;
+    const delay = Math.random() * 12;
+    const drift = (Math.random() - 0.5) * 180;
+    const spin = Math.random() * 360 + 360;
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    const scale = Math.random() * 0.5 + 0.6;
+    petal.innerHTML = `<svg viewBox="0 0 24 24" fill="${color}" style="width:${14*scale}px;height:${14*scale}px;opacity:0.65;"><ellipse cx="12" cy="12" rx="6" ry="10" transform="rotate(-30 12 12)"/></svg>`;
+    petal.style.left = `${startX}vw`;
+    petal.style.animationDuration = `${duration}s`;
+    petal.style.animationDelay = `${delay}s`;
+    petal.style.setProperty('--drift', `${drift}px`);
+    petal.style.setProperty('--spin', `${spin}deg`);
+    container.appendChild(petal);
+  }
+});
+
+// ── AMBIENT FLOATING MOTES ──
+for (let f = 0; f < 6; f++) {
+  const mote = document.createElement('div');
+  mote.style.cssText = `position:fixed;width:${2+Math.random()*3}px;height:${2+Math.random()*3}px;border-radius:50%;background:var(--rose-gold);pointer-events:none;z-index:9995;opacity:0;left:${Math.random()*100}vw;top:${Math.random()*100}vh`;
+  document.body.appendChild(mote);
+  gsap.to(mote, {
+    y: `${-60 - Math.random()*80}px`, x: `${(Math.random()-0.5)*50}px`,
+    opacity: 0.25 + Math.random()*0.3, duration: 4 + Math.random()*4,
+    ease: 'power1.inOut', yoyo: true, repeat: -1, delay: Math.random()*5
+  });
+}
+
+console.log('💍 Tadhana — Nikko & Karrell, Dec 12 2026');
+</script>
+</body>
+</html>
